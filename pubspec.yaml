@@ -1,0 +1,14 @@
+name: rules
+description: rules is validation utilities for dart
+version: 1.0.0
+homepage: https://github.com/ganeshrvel/pub-rules
+
+environment:
+  sdk: '>=2.7.0 <3.0.0'
+
+dependencies:
+  meta: ^1.1.8
+
+dev_dependencies:
+  # Linting
+  lint: ^1.1.1
