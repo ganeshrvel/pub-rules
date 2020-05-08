@@ -14,8 +14,6 @@ class MultiRules {
 
   List<String> get errorList => _rulesModel.errorList;
 
-  String get error => _rulesModel.error;
-
   void _run() {
     for (final rule in _ruleList ?? []) {
       final _ruleErrorList = rule.errorList;
