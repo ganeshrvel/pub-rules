@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/array.dart';
 import 'package:rules/src/helpers/functs.dart';
+import 'package:rules/src/models/rules_models.dart';
 
 class Rules<T> {
   final T value;
@@ -22,7 +23,7 @@ class Rules<T> {
   ];
 
   final Map<String, String> _errorTexts = {
-    'required': '{name} is required',
+    'isRequired': '{name} is required',
   };
 
   Rules(
@@ -39,23 +40,33 @@ class Rules<T> {
     if (isNullOrEmpty(name)) {
       throw "'name' parameter is required";
     }
+
+    _run();
   }
 
-  _RulesModel run() {
+  RulesModel get _rulesModel => RulesModel(errorList: _errorList);
+
+  List<String> get errorList => _rulesModel.errorList;
+
+  String get error => _rulesModel.error;
+
+  void _run() {
     switch (T) {
       case String:
-        return _checkString();
+        _checkString();
+
+        break;
 
       default:
-        return null;
+        break;
     }
   }
 
-  _RulesModel _checkString() {
+  RulesModel _checkString() {
     var _allowedRulesList = <String, dynamic>{};
 
     _allowedRulesList = {
-      'required': required,
+      'isRequired': isRequired,
     };
 
     final _checkAllowedRulesList = getNullValues(_allowedRulesList);
@@ -66,7 +77,7 @@ class Rules<T> {
 
     _beginValidation(_allowedRulesList);
 
-    return _RulesModel(
+    return RulesModel(
       errorList: _errorList,
     );
   }
@@ -74,7 +85,7 @@ class Rules<T> {
   void _beginValidation(Map<String, dynamic> _allowedRulesList) {
     for (final key in _allowedRulesList.keys) {
       switch (key) {
-        case 'required':
+        case 'isRequired':
           _checkRequired();
           break;
 
@@ -87,8 +98,8 @@ class Rules<T> {
   }
 
   void _checkRequired() {
-    if (isNullOrEmpty(value)) {
-      _errorItemList.add('required');
+    if (isRequired && isNullOrEmpty(value)) {
+      _errorItemList.add('isRequired');
     }
   }
 
@@ -139,22 +150,5 @@ class Rules<T> {
     }
 
     _errorList.add(_replacedErrorText);
-  }
-}
-
-class _RulesModel {
-  String error;
-  final List<String> errorList;
-
-  _RulesModel({
-    @required this.errorList,
-  }) {
-    if (isNullOrEmpty(errorList) || !isArrayIndexExists(0, errorList)) {
-      error = null;
-
-      return;
-    }
-
-    error = errorList[0];
   }
 }

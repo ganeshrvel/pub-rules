@@ -1,15 +1,18 @@
 import 'package:rules/rules.dart';
 
 void main() {
-  const _name = 'd';
+  const _name = '';
 
   final _nameRule =
-      Rules(_name, name: 'Name', isRequired: true, customErrorTexts: {});
+      Rules(_name, name: 'Name', isRequired: false, customErrorTexts: {});
 
-  print(_nameRule.run().errorList);
+  final _emailRule =
+      Rules('', name: 'Email', isRequired: true, customErrorTexts: {});
 
-  //final _validareObj = ValidateRules([_nameRule]);
+  print(_nameRule.errorList);
+  print(_emailRule.errorList);
 
-  /*print(_validareObj.run());
-  print(_validareObj.gerErrors());*/
+  final _multiRules = MultiRules([_nameRule, _emailRule]);
+
+  print(_multiRules.errorList);
 }
