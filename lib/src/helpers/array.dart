@@ -9,7 +9,7 @@ bool isTypesEqual(Type type, List<Type> typeList) {
 }
 
 bool isArrayIndexExists(int x, List<dynamic> array) {
-  return x >= array.length;
+  return array.isNotEmpty && x >= array.length - 1;
 }
 
 bool isValuesNull(List<dynamic> valueList) {

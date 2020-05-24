@@ -9,13 +9,13 @@ class RulesModel {
   RulesModel({
     @required this.errorList,
   }) {
-    if (isNullOrEmpty(errorList) || !isArrayIndexExists(0, errorList)) {
-      error = null;
-      errorList = errorList ?? [];
+    if (isNotNullOrEmpty(errorList) && isArrayIndexExists(0, errorList)) {
+      error = errorList[0];
 
       return;
     }
 
-    error = errorList[0];
+    error = null;
+    errorList = errorList ?? [];
   }
 }

@@ -46,8 +46,6 @@ class Rules<T> {
 
   RulesModel get _rulesModel => RulesModel(errorList: _errorList);
 
-  List<String> get errorList => _rulesModel.errorList;
-
   String get error => _rulesModel.error;
 
   void _run() {
@@ -62,7 +60,7 @@ class Rules<T> {
     }
   }
 
-  RulesModel _checkString() {
+  void _checkString() {
     var _allowedRulesList = <String, dynamic>{};
 
     _allowedRulesList = {
@@ -76,21 +74,13 @@ class Rules<T> {
     }
 
     _beginValidation(_allowedRulesList);
-
-    return RulesModel(
-      errorList: _errorList,
-    );
   }
 
   void _beginValidation(Map<String, dynamic> _allowedRulesList) {
     for (final key in _allowedRulesList.keys) {
-      switch (key) {
-        case 'isRequired':
-          _checkRequired();
-          break;
-
-        default:
-          break;
+      if (key == 'isRequired') {
+        _checkRequired();
+        break;
       }
     }
 

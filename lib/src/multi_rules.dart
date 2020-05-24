@@ -16,10 +16,10 @@ class MultiRules {
 
   void _run() {
     for (final rule in _ruleList ?? []) {
-      final _ruleErrorList = rule.errorList;
+      final _ruleError = rule.error as String;
 
-      if (isNotNullOrEmpty(_ruleErrorList)) {
-        _errorList = [..._errorList, ..._ruleErrorList];
+      if (isNotNullOrEmpty(_ruleError)) {
+        _errorList = [..._errorList, _ruleError];
       }
     }
   }
