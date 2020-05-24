@@ -12,3 +12,6 @@ dependencies:
 dev_dependencies:
   # Linting
   lint: ^1.1.1
+
+  # test
+  test: ^1.14.5

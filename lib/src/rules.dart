@@ -29,8 +29,8 @@ class Rules<T> {
   Rules(
     this.value, {
     @required this.name,
-    this.isRequired,
-    this.isNumeric,
+    this.isRequired = false,
+    this.isNumeric = false,
     this.customErrorTexts,
   }) {
     if (!isTypesEqual(T, _allowedValueDataTypes)) {
@@ -63,17 +63,9 @@ class Rules<T> {
   }
 
   void _checkString() {
-    var _allowedRulesList = <String, dynamic>{};
-
-    _allowedRulesList = {
+    final _allowedRulesList = {
       'isRequired': isRequired,
     };
-
-    final _checkAllowedRulesList = getNullValues(_allowedRulesList);
-
-    if (isNotNullOrEmpty(_checkAllowedRulesList)) {
-      throw "These rules aren't supported for '$T' value input => '${_checkAllowedRulesList.join()}'";
-    }
 
     _beginValidation(_allowedRulesList);
   }
