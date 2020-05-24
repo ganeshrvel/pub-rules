@@ -48,6 +48,8 @@ class Rules<T> {
 
   String get error => _rulesModel.error;
 
+  bool get hasError => isNotNullOrEmpty(error);
+
   void _run() {
     switch (T) {
       case String:
