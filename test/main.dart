@@ -123,6 +123,30 @@ void main() {
       expect(rule.hasError, equals(true));
     });
 
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('..', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.0.0', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', isNumericDecimal: true);
 
@@ -305,6 +329,7 @@ void main() {
     test('should throw an error', () {
       final rule = Rules('qwerty123', name: 'value', length: 3);
 
+      expect(rule.error, contains('should be 3 characters long'));
       expect(rule.hasError, equals(true));
     });
 
@@ -331,6 +356,7 @@ void main() {
     test('should throw an error', () {
       final rule = Rules('13', name: 'value', minLength: 3);
 
+      expect(rule.error, contains('should contain at least 3 characters'));
       expect(rule.hasError, equals(true));
     });
 
@@ -357,6 +383,7 @@ void main() {
     test('should throw an error', () {
       final rule = Rules('abc', name: 'value', maxLength: 1);
 
+      expect(rule.error, contains('should not exceed more than 1 characters'));
       expect(rule.hasError, equals(true));
     });
 
@@ -400,6 +427,54 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value');
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
+  group('greaterThan', () {
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', greaterThan: 8);
+
+      expect(rule.error, contains('not a valid decimal number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.0', name: 'value', greaterThan: 8);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0', name: 'value', greaterThan: 8);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.0', name: 'value', greaterThan: 8, isNumeric: true);
+
+      expect(rule.error, contains('not a valid number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0', name: 'value', greaterThan: 1, isNumeric: true);
+
+      expect(rule.error, contains('should be greater than 1'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('1', name: 'value', greaterThan: 1, isNumeric: true);
+
+      expect(rule.error, contains('should be greater than 1'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('2', name: 'value', greaterThan: 1, isNumeric: true);
 
       expect(rule.hasError, equals(false));
     });

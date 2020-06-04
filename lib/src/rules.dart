@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/array.dart';
+import 'package:rules/src/helpers/types.dart';
 import 'package:rules/src/helpers/functs.dart';
+import 'package:rules/src/helpers/numbers.dart';
 import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
 
@@ -13,7 +15,7 @@ class Rules<T> {
 
   final bool isNumeric;
 
-  final bool isNumericDecimal;
+  bool isNumericDecimal;
 
   final bool isEmail;
 
@@ -31,6 +33,8 @@ class Rules<T> {
 
   final int maxLength;
 
+  final double greaterThan;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -39,24 +43,26 @@ class Rules<T> {
 
   final _allowedValueDataTypes = [String];
 
-  final Map<String, String> _errorTexts = {
-    'isRequired': '{name} is required',
-    'isNumeric': '{name} is not a valid number',
-    'isNumericDecimal': '{name} is not a valid number',
-    'isEmail': '{name} is not a valid email address',
-    'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
-    'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
-    'isAlphaNumericSpace':
-        'Only alphabets, numbers and spaces are allowed in {name}',
-    'length': '{name} should be {value} characters long',
-    'minLength': '{name} should be minimum {value} characters long',
-    'maxLength': '{name} should not exceed more than {value} characters',
-    'regex': '{name} should match the pattern: {value}',
-  };
+  Map<String, String> get _errorTextsDict => {
+        'isRequired': '{name} is required',
+        'isNumeric': '{name} is not a valid number',
+        'isNumericDecimal': '{name} is not a valid decimal number',
+        'isEmail': '{name} is not a valid email address',
+        'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
+        'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
+        'isAlphaNumericSpace':
+            'Only alphabets, numbers and spaces are allowed in {name}',
+        'regex': '{name} should match the pattern: {value}',
+        'length': '{name} should be $length characters long',
+        'minLength': '{name} should contain at least $minLength characters',
+        'maxLength': '{name} should not exceed more than $maxLength characters',
+        'greaterThan': '{name} should be greater than $greaterThan',
+      };
 
   Rules(
     this.value, {
     @required this.name,
+    this.customErrorTexts,
     this.isRequired = false,
     this.isNumeric = false,
     this.isNumericDecimal = false,
@@ -64,11 +70,11 @@ class Rules<T> {
     this.isAlphaSpace = false,
     this.isAlphaNumeric = false,
     this.isAlphaNumericSpace = false,
+    this.regex,
     this.length,
     this.minLength,
     this.maxLength,
-    this.customErrorTexts,
-    this.regex,
+    this.greaterThan,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -114,11 +120,16 @@ class Rules<T> {
       'isAlphaSpace': isAlphaSpace,
       'isAlphaNumeric': isAlphaNumeric,
       'isAlphaNumericSpace': isAlphaNumericSpace,
+      'regex': regex,
       'length': length,
       'minLength': minLength,
       'maxLength': maxLength,
-      'regex': regex,
+      'greaterThan': greaterThan,
     };
+
+    if (!inArray([greaterThan], null) && isNumeric != true) {
+      isNumericDecimal = true;
+    }
 
     _beginValidation(_allowedRulesList);
   }
@@ -137,7 +148,7 @@ class Rules<T> {
         continue;
       }
 
-      final _errorText = _errorTexts[item];
+      final _errorText = _errorTextsDict[item];
 
       _assignErrorValues(_errorText);
     }
@@ -212,6 +223,10 @@ class Rules<T> {
         break;
       }
 
+      if (key == 'regex' && regex != null && _isRegexCheckFailed()) {
+        break;
+      }
+
       if (key == 'length' && length != null && _isLengthCheckFailed()) {
         break;
       }
@@ -228,7 +243,9 @@ class Rules<T> {
         break;
       }
 
-      if (key == 'regex' && regex != null && _isRegexCheckFailed()) {
+      if (key == 'greaterThan' &&
+          greaterThan != null &&
+          _isGreaterThanCheckFailed()) {
         break;
       }
     }
@@ -333,6 +350,17 @@ class Rules<T> {
     if (isNotNullOrEmpty(value) &&
         !isStringMaxLength(value as String, maxLength)) {
       _errorItemList.add('maxLength');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isGreaterThanCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        !isValueGreaterThan(double.tryParse(value as String), greaterThan)) {
+      _errorItemList.add('greaterThan');
 
       return true;
     }

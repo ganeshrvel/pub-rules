@@ -21,7 +21,7 @@ bool isStringNumeric(String input, {bool allowDecimal = false}) {
   RegExp regExp;
 
   const regexWithoutDecimal = r'^[0-9]+$';
-  const regexWithDecimal = r'^[0-9\.]+$';
+  const regexWithDecimal = r'^[0-9]+(\.[0-9]+)?$';
 
   if (allowDecimal) {
     regExp = RegExp(regexWithDecimal);
