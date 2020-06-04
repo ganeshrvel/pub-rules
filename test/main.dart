@@ -898,7 +898,8 @@ void main() {
     });
 
     test('should throw an error', () {
-      final rule = Rules('-10.001', name: 'value', notEqualToInList: [0, -10.001]);
+      final rule =
+          Rules('-10.001', name: 'value', notEqualToInList: [0, -10.001]);
 
       expect(rule.hasError, equals(true));
     });
@@ -953,49 +954,48 @@ void main() {
     });
   });
 
-  group('isInList', () {
+  group('inList', () {
     test('should throw an error', () {
-      final rule = Rules('qwerty123', name: 'value', isInList: ['123']);
+      final rule = Rules('qwerty123', name: 'value', inList: ['123']);
 
       expect(rule.hasError, equals(true));
     });
 
     test('should throw an error', () {
-      final rule = Rules('1', name: 'value', isInList: ['123', 'xyz']);
+      final rule = Rules('1', name: 'value', inList: ['123', 'xyz']);
 
       expect(rule.error, contains('should be any of these values 123, xyz'));
       expect(rule.hasError, equals(true));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('', name: 'value', isInList: ['123']);
+      final rule = Rules('', name: 'value', inList: ['123']);
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('123', name: 'value', isInList: ['123', 'xyz']);
+      final rule = Rules('123', name: 'value', inList: ['123', 'xyz']);
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('abc', name: 'value', isInList: ['123', 'abc']);
+      final rule = Rules('abc', name: 'value', inList: ['123', 'abc']);
 
       expect(rule.hasError, equals(false));
     });
   });
 
-  group('isNotInList', () {
+  group('notInList', () {
     test('should throw an error', () {
-      final rule =
-          Rules('qwerty123', name: 'value', isNotInList: ['qwerty123']);
+      final rule = Rules('qwerty123', name: 'value', notInList: ['qwerty123']);
 
       expect(rule.hasError, equals(true));
     });
 
     test('should throw an error', () {
-      final rule = Rules('xyz', name: 'value', isNotInList: ['123', 'xyz']);
+      final rule = Rules('xyz', name: 'value', notInList: ['123', 'xyz']);
 
       expect(
           rule.error, contains('should not be any of these values 123, xyz'));
@@ -1003,19 +1003,19 @@ void main() {
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('', name: 'value', isNotInList: ['123']);
+      final rule = Rules('', name: 'value', notInList: ['123']);
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('abc', name: 'value', isNotInList: ['123', 'xyz']);
+      final rule = Rules('abc', name: 'value', notInList: ['123', 'xyz']);
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('xyz', name: 'value', isNotInList: ['123', 'abc']);
+      final rule = Rules('xyz', name: 'value', notInList: ['123', 'abc']);
 
       expect(rule.hasError, equals(false));
     });

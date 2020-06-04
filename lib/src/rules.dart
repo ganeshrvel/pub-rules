@@ -49,9 +49,9 @@ class Rules<T> {
 
   final List<double> notEqualToInList;
 
-  final List<String> isInList;
+  final List<String> inList;
 
-  final List<String> isNotInList;
+  final List<String> notInList;
 
   final _errorItemList = <dynamic>[];
 
@@ -86,10 +86,10 @@ class Rules<T> {
             '{name} should be equal to any of these values ${(equalToInList ?? []).join(', ')}',
         'notEqualToInList':
             '{name} should not be equal to any of these values ${(notEqualToInList ?? []).join(', ')}',
-        'isInList':
-            '{name} should be any of these values ${(isInList ?? []).join(', ')}',
-        'isNotInList':
-            '{name} should not be any of these values ${(isNotInList ?? []).join(', ')}',
+        'inList':
+            '{name} should be any of these values ${(inList ?? []).join(', ')}',
+        'notInList':
+            '{name} should not be any of these values ${(notInList ?? []).join(', ')}',
       };
 
   Rules(
@@ -115,8 +115,8 @@ class Rules<T> {
     this.notEqualTo,
     this.equalToInList,
     this.notEqualToInList,
-    this.isInList,
-    this.isNotInList,
+    this.inList,
+    this.notInList,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -172,8 +172,8 @@ class Rules<T> {
       'lessThanEqualTo': lessThanEqualTo,
       'equalTo': equalTo,
       'notEqualTo': notEqualTo,
-      'isInList': isInList,
-      'isNotInList': isNotInList,
+      'inList': inList,
+      'notInList': notInList,
       'equalToInList': equalToInList,
       'notEqualToInList': notEqualToInList,
     };
@@ -350,12 +350,12 @@ class Rules<T> {
         break;
       }
 
-      if (key == 'isInList' && isInList != null && _isInListCheckFailed()) {
+      if (key == 'inList' && inList != null && _isInListCheckFailed()) {
         break;
       }
 
-      if (key == 'isNotInList' &&
-          isNotInList != null &&
+      if (key == 'notInList' &&
+          notInList != null &&
           _isNotInListCheckFailed()) {
         break;
       }
@@ -576,8 +576,8 @@ class Rules<T> {
   }
 
   bool _isInListCheckFailed() {
-    if (isNotNullOrEmpty(value) && !inArray(isInList, value)) {
-      _errorItemList.add('isInList');
+    if (isNotNullOrEmpty(value) && !inArray(inList, value)) {
+      _errorItemList.add('inList');
 
       return true;
     }
@@ -586,8 +586,8 @@ class Rules<T> {
   }
 
   bool _isNotInListCheckFailed() {
-    if (isNotNullOrEmpty(value) && inArray(isNotInList, value)) {
-      _errorItemList.add('isNotInList');
+    if (isNotNullOrEmpty(value) && inArray(notInList, value)) {
+      _errorItemList.add('notInList');
 
       return true;
     }
