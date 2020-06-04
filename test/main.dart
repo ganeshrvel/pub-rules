@@ -96,7 +96,52 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules('0', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('0', name: 'value', isNumeric: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
+  group('isEmail', () {
+    test('should throw an error', () {
+      final rule = Rules('0', name: 'value', isNumeric: true, isEmail: true);
+
+      expect(rule.error, contains('is not a valid email address'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('qwerty123.', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('abc@xyz', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc@xyz.com', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc@xyz', name: 'value', isEmail: false);
 
       expect(rule.hasError, equals(false));
     });

@@ -14,10 +14,24 @@ bool isStringBlank(String input) {
   return input.trim().isEmpty;
 }
 
+///
+/// Checks whether the given string [s] is numeric
+///
 bool isStringNumeric(String input) {
-  final regex = RegExp(r'^[0-9]+$');
+  final regExp = RegExp(r'^[0-9]+$');
 
-  return regex.hasMatch(input);
+  return regExp.hasMatch(input);
+}
+
+///
+/// Checks whether the given string [s] is a valid email address
+///
+bool isStringEmail(String input) {
+  const regex =
+      '^([\\w\\d\\-\\+]+)(\\.+[\\w\\d\\-\\+%]+)*@([\\w\\-]+\\.){1,5}(([A-Za-z]){2,30}|xn--[A-Za-z0-9]{1,26})\$';
+  final regExp = RegExp(regex);
+
+  return regExp.hasMatch(input);
 }
 
 String capitalize(String input) {

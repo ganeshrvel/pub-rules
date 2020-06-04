@@ -13,6 +13,8 @@ class Rules<T> {
 
   final bool isNumeric;
 
+  final bool isEmail;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -26,6 +28,7 @@ class Rules<T> {
   final Map<String, String> _errorTexts = {
     'isRequired': '{name} is required',
     'isNumeric': '{name} is not numeric',
+    'isEmail': '{name} is not a valid email address',
   };
 
   Rules(
@@ -33,6 +36,7 @@ class Rules<T> {
     @required this.name,
     this.isRequired = false,
     this.isNumeric = false,
+    this.isEmail = false,
     this.customErrorTexts,
   }) {
     if (!isTypesEqual(T, _allowedValueDataTypes)) {
@@ -68,6 +72,7 @@ class Rules<T> {
     final _allowedRulesList = {
       'isRequired': isRequired,
       'isNumeric': isNumeric,
+      'isEmail': isEmail,
     };
 
     _beginValidation(_allowedRulesList);
@@ -124,13 +129,15 @@ class Rules<T> {
 
   void _beginValidation(Map<String, dynamic> _allowedRulesList) {
     for (final key in _allowedRulesList.keys) {
-      if (key == 'isRequired' && isRequired == true) {
-        _checkRequired();
+      if (key == 'isRequired' && isRequired == true && _checkRequired()) {
         break;
       }
 
-      if (key == 'isNumeric' && isNumeric == true) {
-        _checkNumeric();
+      if (key == 'isNumeric' && isNumeric == true && _checkNumeric()) {
+        break;
+      }
+
+      if (key == 'isEmail' && isEmail == true && _checkEmail()) {
         break;
       }
     }
@@ -138,15 +145,33 @@ class Rules<T> {
     _processErrors();
   }
 
-  void _checkRequired() {
+  bool _checkRequired() {
     if (isRequired && isNullOrEmpty(value)) {
       _errorItemList.add('isRequired');
+
+      return true;
     }
+
+    return false;
   }
 
-  void _checkNumeric() {
+  bool _checkNumeric() {
     if (!isStringNumeric(value as String)) {
       _errorItemList.add('isNumeric');
+
+      return true;
     }
+
+    return false;
+  }
+
+  bool _checkEmail() {
+    if (!isStringEmail(value as String)) {
+      _errorItemList.add('isEmail');
+
+      return true;
+    }
+
+    return false;
   }
 }
