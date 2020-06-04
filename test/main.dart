@@ -225,6 +225,44 @@ void main() {
     });
   });
 
+  group('isAlphaNumeric', () {
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', isAlphaNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('qwerty 123', name: 'value', isAlphaNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', isAlphaNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abcxyz', name: 'value', isAlphaNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc123', name: 'value', isAlphaNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc.xyz', name: 'value', isAlphaNumeric: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('length', () {
     test('should throw an error', () {
       final rule = Rules('', name: 'value', length: 1);

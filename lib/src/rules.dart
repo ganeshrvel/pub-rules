@@ -19,6 +19,11 @@ class Rules<T> {
 
   final bool isAlphaSpace;
 
+  final bool isAlphaNumeric;
+
+  final bool isAlphaNumericSpace; //todo
+  // final bool patternMatch; //todo
+
   final int length;
 
   final int minLength;
@@ -39,6 +44,7 @@ class Rules<T> {
     'isNumericDecimal': '{name} is not a valid number',
     'isEmail': '{name} is not a valid email address',
     'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
+    'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
     'length': '{name} should be {value} characters long',
     'minLength': '{name} should be minimum {value} characters long',
     'maxLength': '{name} should not exceed more than {value} characters',
@@ -52,6 +58,8 @@ class Rules<T> {
     this.isNumericDecimal = false,
     this.isEmail = false,
     this.isAlphaSpace = false,
+    this.isAlphaNumeric = false,
+    this.isAlphaNumericSpace = false,
     this.length,
     this.minLength,
     this.maxLength,
@@ -99,6 +107,8 @@ class Rules<T> {
       'isNumericDecimal': isNumericDecimal,
       'isEmail': isEmail,
       'isAlphaSpace': isAlphaSpace,
+      'isAlphaNumeric': isAlphaNumeric,
+      'isAlphaNumericSpace': isAlphaNumericSpace,
       'length': length,
       'minLength': minLength,
       'maxLength': maxLength,
@@ -184,6 +194,12 @@ class Rules<T> {
         break;
       }
 
+      if (key == 'isAlphaNumeric' &&
+          isAlphaNumeric == true &&
+          _isAlphaNumericCheckFailed()) {
+        break;
+      }
+
       if (key == 'length' && length != null && _isLengthCheckFailed()) {
         break;
       }
@@ -247,6 +263,16 @@ class Rules<T> {
   bool _isAlphaSpaceCheckFailed() {
     if (!isStringAlphaSpace(value as String)) {
       _errorItemList.add('isAlphaSpace');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isAlphaNumericCheckFailed() {
+    if (!isStringAlphaNumeric(value as String)) {
+      _errorItemList.add('isAlphaNumeric');
 
       return true;
     }

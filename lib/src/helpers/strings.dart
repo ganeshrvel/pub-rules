@@ -15,13 +15,13 @@ bool isStringBlank(String input) {
 }
 
 ///
-/// Checks whether the given string [s] is a decimal number
+/// Checks whether the given string [input] is a decimal number
 ///
 bool isStringNumeric(String input, {bool allowDecimal = false}) {
+  RegExp regExp;
+
   const regexWithoutDecimal = r'^[0-9]+$';
   const regexWithDecimal = r'^[0-9\.]+$';
-
-  RegExp regExp;
 
   if (allowDecimal) {
     regExp = RegExp(regexWithDecimal);
@@ -33,7 +33,18 @@ bool isStringNumeric(String input, {bool allowDecimal = false}) {
 }
 
 ///
-/// Checks whether the given string [s] contains only alphabets and space
+/// Checks whether the given string [input] is a valid email address
+///
+bool isStringEmail(String input) {
+  const regex =
+      '^([\\w\\d\\-\\+]+)(\\.+[\\w\\d\\-\\+%]+)*@([\\w\\-]+\\.){1,5}(([A-Za-z]){2,30}|xn--[A-Za-z0-9]{1,26})\$';
+  final regExp = RegExp(regex);
+
+  return regExp.hasMatch(input);
+}
+
+///
+/// Checks whether the given string [input] contains only alphabets and spaces
 ///
 bool isStringAlphaSpace(String input) {
   final regExp = RegExp(r'^[a-zA-Z\s]+$');
@@ -42,12 +53,28 @@ bool isStringAlphaSpace(String input) {
 }
 
 ///
-/// Checks whether the given string [s] is a valid email address
+/// Checks whether the given string [input] contains only alphabets and numbers
 ///
-bool isStringEmail(String input) {
-  const regex =
-      '^([\\w\\d\\-\\+]+)(\\.+[\\w\\d\\-\\+%]+)*@([\\w\\-]+\\.){1,5}(([A-Za-z]){2,30}|xn--[A-Za-z0-9]{1,26})\$';
-  final regExp = RegExp(regex);
+bool isStringAlphaNumeric(String input) {
+  final regExp = RegExp(r'^[a-zA-Z0-9]+$');
+
+  return regExp.hasMatch(input);
+}
+
+///
+/// Checks whether the given string [input] contains only alphabets, numbers and spaces
+///
+bool isStringAlphaNumericSpace(String input) {
+  final regExp = RegExp(r'^[a-zA-Z0-9\s]+$');
+
+  return regExp.hasMatch(input);
+}
+
+///
+/// Checks whether the given string [input] matches the regex
+///
+bool isStringRegexMatch(String input) {
+  final regExp = RegExp(input);
 
   return regExp.hasMatch(input);
 }
