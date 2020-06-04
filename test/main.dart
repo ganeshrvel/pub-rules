@@ -86,12 +86,6 @@ void main() {
 
   group('isNumeric', () {
     test('should throw an error', () {
-      final rule = Rules('', name: 'value', isNumeric: true);
-
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should throw an error', () {
       final rule = Rules('qwerty123.', name: 'value', isNumeric: true);
 
       expect(rule.hasError, equals(true));
@@ -101,6 +95,12 @@ void main() {
       final rule = Rules('0.0', name: 'value', isNumeric: true);
 
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -118,15 +118,15 @@ void main() {
 
   group('isNumericDecimal', () {
     test('should throw an error', () {
-      final rule = Rules('', name: 'value', isNumericDecimal: true);
+      final rule = Rules('qwerty123.', name: 'value', isNumericDecimal: true);
 
       expect(rule.hasError, equals(true));
     });
 
-    test('should throw an error', () {
-      final rule = Rules('qwerty123.', name: 'value', isNumericDecimal: true);
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isNumericDecimal: true);
 
-      expect(rule.hasError, equals(true));
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -157,12 +157,6 @@ void main() {
     });
 
     test('should throw an error', () {
-      final rule = Rules('', name: 'value', isEmail: true);
-
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should throw an error', () {
       final rule = Rules('qwerty123.', name: 'value', isEmail: true);
 
       expect(rule.hasError, equals(true));
@@ -172,6 +166,12 @@ void main() {
       final rule = Rules('abc@xyz', name: 'value', isEmail: true);
 
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -189,12 +189,6 @@ void main() {
 
   group('isAlphaSpace', () {
     test('should throw an error', () {
-      final rule = Rules('', name: 'value', isAlphaSpace: true);
-
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should throw an error', () {
       final rule = Rules('qwerty123', name: 'value', isAlphaSpace: true);
 
       expect(rule.hasError, equals(true));
@@ -204,6 +198,12 @@ void main() {
       final rule = Rules('1234', name: 'value', isAlphaSpace: true);
 
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -227,12 +227,6 @@ void main() {
 
   group('isAlphaNumeric', () {
     test('should throw an error', () {
-      final rule = Rules('', name: 'value', isAlphaNumeric: true);
-
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should throw an error', () {
       final rule = Rules('qwerty 123', name: 'value', isAlphaNumeric: true);
 
       expect(rule.hasError, equals(true));
@@ -242,6 +236,12 @@ void main() {
       final rule = Rules('.', name: 'value', isAlphaNumeric: true);
 
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isAlphaNumeric: true);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -265,15 +265,15 @@ void main() {
 
   group('length', () {
     test('should throw an error', () {
-      final rule = Rules('', name: 'value', length: 1);
+      final rule = Rules('qwerty123', name: 'value', length: 3);
 
       expect(rule.hasError, equals(true));
     });
 
-    test('should throw an error', () {
-      final rule = Rules('qwerty123', name: 'value', length: 3);
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', length: 1);
 
-      expect(rule.hasError, equals(true));
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -291,12 +291,6 @@ void main() {
 
   group('minLength', () {
     test('should throw an error', () {
-      final rule = Rules('', name: 'value', minLength: 1);
-
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should throw an error', () {
       final rule = Rules('13', name: 'value', minLength: 3);
 
       expect(rule.hasError, equals(true));
@@ -304,6 +298,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('abc xyz', name: 'value', minLength: 7);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', minLength: 1);
 
       expect(rule.hasError, equals(false));
     });

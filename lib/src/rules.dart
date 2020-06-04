@@ -231,7 +231,7 @@ class Rules<T> {
   }
 
   bool _isNumericCheckFailed() {
-    if (!isStringNumeric(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringNumeric(value as String)) {
       _errorItemList.add('isNumeric');
 
       return true;
@@ -241,7 +241,8 @@ class Rules<T> {
   }
 
   bool _isNumericDecimalCheckFailed() {
-    if (!isStringNumeric(value as String, allowDecimal: true)) {
+    if (isNotNullOrEmpty(value) &&
+        !isStringNumeric(value as String, allowDecimal: true)) {
       _errorItemList.add('isNumericDecimal');
 
       return true;
@@ -251,7 +252,7 @@ class Rules<T> {
   }
 
   bool _isEmailCheckFailed() {
-    if (!isStringEmail(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringEmail(value as String)) {
       _errorItemList.add('isEmail');
 
       return true;
@@ -261,7 +262,7 @@ class Rules<T> {
   }
 
   bool _isAlphaSpaceCheckFailed() {
-    if (!isStringAlphaSpace(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaSpace(value as String)) {
       _errorItemList.add('isAlphaSpace');
 
       return true;
@@ -271,7 +272,7 @@ class Rules<T> {
   }
 
   bool _isAlphaNumericCheckFailed() {
-    if (!isStringAlphaNumeric(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaNumeric(value as String)) {
       _errorItemList.add('isAlphaNumeric');
 
       return true;
@@ -281,7 +282,7 @@ class Rules<T> {
   }
 
   bool _isLengthCheckFailed() {
-    if (!isStringLength(value as String, length)) {
+    if (isNotNullOrEmpty(value) && !isStringLength(value as String, length)) {
       _errorItemList.add('length');
 
       return true;
@@ -291,7 +292,8 @@ class Rules<T> {
   }
 
   bool _isMinLengthCheckFailed() {
-    if (!isStringMinLength(value as String, minLength)) {
+    if (isNotNullOrEmpty(value) &&
+        !isStringMinLength(value as String, minLength)) {
       _errorItemList.add('minLength');
 
       return true;
@@ -301,7 +303,8 @@ class Rules<T> {
   }
 
   bool _isMaxLengthCheckFailed() {
-    if (!isStringMaxLength(value as String, maxLength)) {
+    if (isNotNullOrEmpty(value) &&
+        !isStringMaxLength(value as String, maxLength)) {
       _errorItemList.add('maxLength');
 
       return true;
