@@ -378,4 +378,30 @@ void main() {
       expect(rule.hasError, equals(false));
     });
   });
+
+  group('regex', () {
+    test('should throw an error', () {
+      final rule = Rules('123.', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc123', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc xyz', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value');
+
+      expect(rule.hasError, equals(false));
+    });
+  });
 }

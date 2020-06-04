@@ -21,8 +21,9 @@ class Rules<T> {
 
   final bool isAlphaNumeric;
 
-  final bool isAlphaNumericSpace; //todo
-  // final bool patternMatch; //todo
+  final bool isAlphaNumericSpace;
+
+  final String regex;
 
   final int length;
 
@@ -50,6 +51,7 @@ class Rules<T> {
     'length': '{name} should be {value} characters long',
     'minLength': '{name} should be minimum {value} characters long',
     'maxLength': '{name} should not exceed more than {value} characters',
+    'regex': '{name} should match the pattern: {value}',
   };
 
   Rules(
@@ -66,6 +68,7 @@ class Rules<T> {
     this.minLength,
     this.maxLength,
     this.customErrorTexts,
+    this.regex,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -114,6 +117,7 @@ class Rules<T> {
       'length': length,
       'minLength': minLength,
       'maxLength': maxLength,
+      'regex': regex,
     };
 
     _beginValidation(_allowedRulesList);
@@ -223,6 +227,10 @@ class Rules<T> {
           _isMaxLengthCheckFailed()) {
         break;
       }
+
+      if (key == 'regex' && regex != null && _isRegexCheckFailed()) {
+        break;
+      }
     }
 
     _processErrors();
@@ -325,6 +333,17 @@ class Rules<T> {
     if (isNotNullOrEmpty(value) &&
         !isStringMaxLength(value as String, maxLength)) {
       _errorItemList.add('maxLength');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isRegexCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        !isStringRegexMatch(value as String, regex)) {
+      _errorItemList.add('regex');
 
       return true;
     }
