@@ -710,4 +710,30 @@ void main() {
       expect(rule.hasError, equals(false));
     });
   });
+
+  group('inList', () {
+    test('should throw an error', () {
+      final rule = Rules('qwerty123', name: 'value', inList: ['123']);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', inList: ['123']);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('123', name: 'value', inList: ['123', 'xyz']);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc', name: 'value', inList: ['123', 'abc']);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
 }

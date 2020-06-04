@@ -39,7 +39,9 @@ class Rules<T> {
 
   final double lessThan;
 
-  final double lessThanEqualTo; //todo
+  final double lessThanEqualTo;
+
+  final List<String> inList;
 
   final _errorItemList = <dynamic>[];
 
@@ -68,6 +70,8 @@ class Rules<T> {
         'lessThan': '{name} should be less than $lessThan',
         'lessThanEqualTo':
             '{name} should be less than or equal to $lessThanEqualTo',
+        'inList':
+            '{name} should be any of these values ${(inList ?? []).join(' ,')}',
       };
 
   Rules(
@@ -89,6 +93,7 @@ class Rules<T> {
     this.greaterThanEqualTo,
     this.lessThan,
     this.lessThanEqualTo,
+    this.inList,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -142,6 +147,7 @@ class Rules<T> {
       'greaterThanEqualTo': greaterThanEqualTo,
       'lessThan': lessThan,
       'lessThanEqualTo': lessThanEqualTo,
+      'inList': inList,
     };
 
     if (isValuesNotNull(
@@ -289,6 +295,10 @@ class Rules<T> {
           _isLessThanEqualToCheckFailed()) {
         break;
       }
+
+      if (key == 'inList' && inList != null && _isInListCheckFailed()) {
+        break;
+      }
     }
 
     _processErrors();
@@ -359,6 +369,17 @@ class Rules<T> {
     if (isNotNullOrEmpty(value) &&
         !isStringAlphaNumericSpace(value as String)) {
       _errorItemList.add('isAlphaNumericSpace');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isRegexCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        !isStringRegexMatch(value as String, regex)) {
+      _errorItemList.add('regex');
 
       return true;
     }
@@ -444,10 +465,9 @@ class Rules<T> {
     return false;
   }
 
-  bool _isRegexCheckFailed() {
-    if (isNotNullOrEmpty(value) &&
-        !isStringRegexMatch(value as String, regex)) {
-      _errorItemList.add('regex');
+  bool _isInListCheckFailed() {
+    if (isNotNullOrEmpty(value) && !inArray(inList, value)) {
+      _errorItemList.add('inList');
 
       return true;
     }
