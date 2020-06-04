@@ -1053,4 +1053,38 @@ void main() {
       expect(rule.hasError, equals(false));
     });
   });
+
+  group('shouldNotMatch', () {
+    test('should throw an error', () {
+      final rule =
+          Rules('qwerty123', name: 'value', shouldNotMatch: 'qwerty123');
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('xyz', name: 'value', shouldNotMatch: 'xyz');
+
+      expect(rule.error, contains('should not same as xyz'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', shouldNotMatch: '');
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc ', name: 'value', shouldNotMatch: 'abc');
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('xyz', name: 'value', shouldNotMatch: ' xyz');
+
+      expect(rule.hasError, equals(false));
+    });
+  });
 }
