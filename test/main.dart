@@ -771,6 +771,60 @@ void main() {
     });
   });
 
+  group('notEqualTo', () {
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', notEqualTo: 8);
+
+      expect(rule.error, contains('not a valid decimal number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0', name: 'value', notEqualTo: 0);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.0', name: 'value', notEqualTo: 0, isNumeric: true);
+
+      expect(rule.error, contains('not a valid number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('10.0', name: 'value', notEqualTo: 10.000);
+
+      expect(rule.error, contains('should not be equal to 10.0'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('0', name: 'value', notEqualTo: 1, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('0.0', name: 'value', notEqualTo: 1.0);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('-10', name: 'value', notEqualTo: -10.01, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-20.0', name: 'value', notEqualTo: -20.001);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('isInList', () {
     test('should throw an error', () {
       final rule = Rules('qwerty123', name: 'value', isInList: ['123']);
