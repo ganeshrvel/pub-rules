@@ -229,13 +229,15 @@ void main() {
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('http://www.google.co.in/404', name: 'value', isUrl: true);
+      final rule =
+          Rules('http://www.google.co.in/404', name: 'value', isUrl: true);
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rules('http://www.google.co.in/404.html', name: 'value', isUrl: true);
+      final rule =
+          Rules('http://www.google.co.in/404.html', name: 'value', isUrl: true);
 
       expect(rule.hasError, equals(false));
     });
@@ -260,6 +262,95 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('+', name: 'value', isUrl: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
+  group('isIp', () {
+    test('should throw an error', () {
+      final rule = Rules('qwerty123', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('255.255.255.256', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('30.168.1.255.1', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('192.168.1.256', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('1.1.1.1.', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('192.168.1.255', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('192.168.1.255', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('21DA:D3:0:2F3B:2AA:FF:FE28:9C5A', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('1200:0000:AB00:1234:0000:2552:7777:1313',
+          name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('255.255.255.255', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('127.0.0.1', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('0.0.0.0', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('2001:db8::a:74e6:b5f3:fe92:830e', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('+', name: 'value', isIp: false);
 
       expect(rule.hasError, equals(false));
     });
