@@ -41,7 +41,9 @@ class Rules<T> {
 
   final double lessThanEqualTo;
 
-  final List<String> inList;
+  final List<String> isInList;
+
+  final List<String> isNotInList;
 
   final _errorItemList = <dynamic>[];
 
@@ -70,8 +72,10 @@ class Rules<T> {
         'lessThan': '{name} should be less than $lessThan',
         'lessThanEqualTo':
             '{name} should be less than or equal to $lessThanEqualTo',
-        'inList':
-            '{name} should be any of these values ${(inList ?? []).join(', ')}',
+        'isInList':
+            '{name} should be any of these values ${(isInList ?? []).join(', ')}',
+        'isNotInList':
+            '{name} should not be any of these values ${(isNotInList ?? []).join(', ')}',
       };
 
   Rules(
@@ -93,7 +97,8 @@ class Rules<T> {
     this.greaterThanEqualTo,
     this.lessThan,
     this.lessThanEqualTo,
-    this.inList,
+    this.isInList,
+    this.isNotInList,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -147,7 +152,8 @@ class Rules<T> {
       'greaterThanEqualTo': greaterThanEqualTo,
       'lessThan': lessThan,
       'lessThanEqualTo': lessThanEqualTo,
-      'inList': inList,
+      'isInList': isInList,
+      'isNotInList': isNotInList,
     };
 
     if (isValuesNotNull(
@@ -296,7 +302,13 @@ class Rules<T> {
         break;
       }
 
-      if (key == 'inList' && inList != null && _isInListCheckFailed()) {
+      if (key == 'isInList' && isInList != null && _isInListCheckFailed()) {
+        break;
+      }
+
+      if (key == 'isNotInList' &&
+          isNotInList != null &&
+          _isNotInListCheckFailed()) {
         break;
       }
     }
@@ -466,8 +478,18 @@ class Rules<T> {
   }
 
   bool _isInListCheckFailed() {
-    if (isNotNullOrEmpty(value) && !inArray(inList, value)) {
-      _errorItemList.add('inList');
+    if (isNotNullOrEmpty(value) && !inArray(isInList, value)) {
+      _errorItemList.add('isInList');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isNotInListCheckFailed() {
+    if (isNotNullOrEmpty(value) && inArray(isNotInList, value)) {
+      _errorItemList.add('isNotInList');
 
       return true;
     }
