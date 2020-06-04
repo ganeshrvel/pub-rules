@@ -108,6 +108,38 @@ void main() {
     });
   });
 
+  group('isNumericDecimal', () {
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('qwerty123.', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('0.0', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('0', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('0', name: 'value', isNumericDecimal: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('isEmail', () {
     test('should throw an error', () {
       final rule = Rules('0', name: 'value', isNumeric: true, isEmail: true);

@@ -13,6 +13,8 @@ class Rules<T> {
 
   final bool isNumeric;
 
+  final bool isNumericDecimal;
+
   final bool isEmail;
 
   final bool isAlphaSpace;
@@ -29,7 +31,8 @@ class Rules<T> {
 
   final Map<String, String> _errorTexts = {
     'isRequired': '{name} is required',
-    'isNumeric': '{name} is not numeric',
+    'isNumeric': '{name} is not a valid number',
+    'isNumericDecimal': '{name} is not a valid number',
     'isEmail': '{name} is not a valid email address',
     'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
   };
@@ -39,6 +42,7 @@ class Rules<T> {
     @required this.name,
     this.isRequired = false,
     this.isNumeric = false,
+    this.isNumericDecimal = false,
     this.isEmail = false,
     this.isAlphaSpace = false,
     this.customErrorTexts,
@@ -76,6 +80,7 @@ class Rules<T> {
     final _allowedRulesList = {
       'isRequired': isRequired,
       'isNumeric': isNumeric,
+      'isNumericDecimal': isNumericDecimal,
       'isEmail': isEmail,
       'isAlphaSpace': isAlphaSpace,
     };
@@ -142,6 +147,12 @@ class Rules<T> {
         break;
       }
 
+      if (key == 'isNumericDecimal' &&
+          isNumericDecimal == true &&
+          _checkNumericDecimal()) {
+        break;
+      }
+
       if (key == 'isEmail' && isEmail == true && _checkEmail()) {
         break;
       }
@@ -157,6 +168,16 @@ class Rules<T> {
   bool _checkRequired() {
     if (isRequired && isNullOrEmpty(value)) {
       _errorItemList.add('isRequired');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _checkNumericDecimal() {
+    if (!isStringNumeric(value as String, allowDecimal: true)) {
+      _errorItemList.add('isNumericDecimal');
 
       return true;
     }

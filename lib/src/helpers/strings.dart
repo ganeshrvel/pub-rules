@@ -15,10 +15,19 @@ bool isStringBlank(String input) {
 }
 
 ///
-/// Checks whether the given string [s] is numeric
+/// Checks whether the given string [s] is a decimal number
 ///
-bool isStringNumeric(String input) {
-  final regExp = RegExp(r'^[0-9]+$');
+bool isStringNumeric(String input, {bool allowDecimal = false}) {
+  const regexWithoutDecimal = r'^[0-9]+$';
+  const regexWithDecimal = r'^[0-9\.]+$';
+
+  RegExp regExp;
+
+  if (allowDecimal) {
+    regExp = RegExp(regexWithDecimal);
+  } else {
+    regExp = RegExp(regexWithoutDecimal);
+  }
 
   return regExp.hasMatch(input);
 }
