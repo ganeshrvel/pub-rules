@@ -97,6 +97,18 @@ void main() {
       expect(rule.hasError, equals(true));
     });
 
+    test('should throw an error', () {
+      final rule = Rules('--1', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('1-1', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', isNumeric: true);
 
@@ -105,6 +117,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('0', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-1', name: 'value', isNumeric: true);
 
       expect(rule.hasError, equals(false));
     });
@@ -147,6 +165,18 @@ void main() {
       expect(rule.hasError, equals(true));
     });
 
+    test('should throw an error', () {
+      final rule = Rules('--1', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('1-1', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', isNumericDecimal: true);
 
@@ -161,6 +191,18 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('0', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-1.0', name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-1', name: 'value', isNumericDecimal: true);
 
       expect(rule.hasError, equals(false));
     });
@@ -478,6 +520,12 @@ void main() {
 
       expect(rule.hasError, equals(false));
     });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-0.9', name: 'value', greaterThan: -1);
+
+      expect(rule.hasError, equals(false));
+    });
   });
 
   group('greaterThanEqualTo', () {
@@ -529,6 +577,13 @@ void main() {
 
       expect(rule.hasError, equals(false));
     });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('-2', name: 'value', greaterThanEqualTo: -2, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
   });
 
   group('lessThan', () {
@@ -574,6 +629,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('1', name: 'value', lessThan: 2, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-2', name: 'value', lessThan: -1, isNumeric: true);
 
       expect(rule.hasError, equals(false));
     });
@@ -625,6 +686,26 @@ void main() {
     test('should NOT throw an error', () {
       final rule =
           Rules('1', name: 'value', lessThanEqualTo: 2.0, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('-10', name: 'value', lessThanEqualTo: -2.0, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-2.0', name: 'value', lessThanEqualTo: -2.0);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('-1', name: 'value', lessThanEqualTo: 2.0, isNumeric: true);
 
       expect(rule.hasError, equals(false));
     });

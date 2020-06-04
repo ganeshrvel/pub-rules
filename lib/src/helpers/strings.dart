@@ -20,8 +20,8 @@ bool isStringBlank(String input) {
 bool isStringNumeric(String input, {bool allowDecimal = false}) {
   RegExp regExp;
 
-  const regexWithoutDecimal = r'^[0-9]+$';
-  const regexWithDecimal = r'^[0-9]+(\.[0-9]+)?$';
+  const regexWithoutDecimal = r'^-?\d+$';
+  const regexWithDecimal = r'^-?\d*\.{0,1}\d+$';
 
   if (allowDecimal) {
     regExp = RegExp(regexWithDecimal);
