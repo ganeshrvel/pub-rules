@@ -889,6 +889,70 @@ void main() {
     });
   });
 
+  group('notEqualToInList', () {
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', notEqualToInList: [8]);
+
+      expect(rule.error, contains('not a valid decimal number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('-10.001', name: 'value', notEqualToInList: [0, -10.001]);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule =
+          Rules('0.0', name: 'value', notEqualToInList: [0], isNumeric: true);
+
+      expect(rule.error, contains('not a valid number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('1',
+          name: 'value', notEqualToInList: [0, 1, 2], isNumeric: true);
+
+      expect(rule.error,
+          contains('should not be equal to any of these values 0.0, 1.0, 2.0'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('8', name: 'value', notEqualToInList: []);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('3', name: 'value', notEqualToInList: [1.0], isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('3.0', name: 'value', notEqualToInList: [1, 2.0]);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-1',
+          name: 'value', notEqualToInList: [-10.00], isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-20.0', name: 'value', notEqualToInList: [20.000]);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('isInList', () {
     test('should throw an error', () {
       final rule = Rules('qwerty123', name: 'value', isInList: ['123']);
