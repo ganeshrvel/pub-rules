@@ -10,8 +10,14 @@ T stringToEnum<T>(String input, List<T> values) {
   return values.firstWhere((e) => input == enumToString(e), orElse: () => null);
 }
 
-bool isBlank(String input) {
+bool isStringBlank(String input) {
   return input.trim().isEmpty;
+}
+
+bool isStringNumeric(String input) {
+  final regex = RegExp(r'^[0-9]+$');
+
+  return regex.hasMatch(input);
 }
 
 String capitalize(String input) {

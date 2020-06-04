@@ -2,21 +2,6 @@ import 'package:rules/rules.dart';
 import 'package:test/test.dart';
 
 void main() {
-  /* const _name = '';
-
-  final _nameRule =
-      Rules('_name', name: 'Name', isRequired: false, customErrorTexts: {});
-
-  final _emailRule =
-      Rules('', name: 'Email', isRequired: true, customErrorTexts: {});
-
-  print(_nameRule.error);
-  print(_emailRule.error);
-
-  final _multiRules = MultiRules([_nameRule, _emailRule]);
-
-  print(_multiRules.errorList);*/
-
   group("'name' should not be left empty", () {
     test('should throw an error', () {
       try {
@@ -86,6 +71,32 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'name');
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
+  group('isNumeric', () {
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('qwerty123.', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.0', name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('0', name: 'value', isNumeric: false);
 
       expect(rule.hasError, equals(false));
     });

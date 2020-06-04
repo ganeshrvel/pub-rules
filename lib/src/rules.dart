@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/array.dart';
 import 'package:rules/src/helpers/functs.dart';
+import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
 
 class Rules<T> {
@@ -24,6 +25,7 @@ class Rules<T> {
 
   final Map<String, String> _errorTexts = {
     'isRequired': '{name} is required',
+    'isNumeric': '{name} is not numeric',
   };
 
   Rules(
@@ -53,7 +55,7 @@ class Rules<T> {
   void _run() {
     switch (T) {
       case String:
-        _checkString();
+        _initStringValidation();
 
         break;
 
@@ -62,29 +64,13 @@ class Rules<T> {
     }
   }
 
-  void _checkString() {
+  void _initStringValidation() {
     final _allowedRulesList = {
       'isRequired': isRequired,
+      'isNumeric': isNumeric,
     };
 
     _beginValidation(_allowedRulesList);
-  }
-
-  void _beginValidation(Map<String, dynamic> _allowedRulesList) {
-    for (final key in _allowedRulesList.keys) {
-      if (key == 'isRequired') {
-        _checkRequired();
-        break;
-      }
-    }
-
-    _processErrors();
-  }
-
-  void _checkRequired() {
-    if (isRequired && isNullOrEmpty(value)) {
-      _errorItemList.add('isRequired');
-    }
   }
 
   void _processErrors() {
@@ -134,5 +120,33 @@ class Rules<T> {
     }
 
     _errorList.add(_replacedErrorText);
+  }
+
+  void _beginValidation(Map<String, dynamic> _allowedRulesList) {
+    for (final key in _allowedRulesList.keys) {
+      if (key == 'isRequired' && isRequired == true) {
+        _checkRequired();
+        break;
+      }
+
+      if (key == 'isNumeric' && isNumeric == true) {
+        _checkNumeric();
+        break;
+      }
+    }
+
+    _processErrors();
+  }
+
+  void _checkRequired() {
+    if (isRequired && isNullOrEmpty(value)) {
+      _errorItemList.add('isRequired');
+    }
+  }
+
+  void _checkNumeric() {
+    if (!isStringNumeric(value as String)) {
+      _errorItemList.add('isNumeric');
+    }
   }
 }
