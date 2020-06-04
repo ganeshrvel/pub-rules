@@ -216,4 +216,30 @@ void main() {
       expect(rule.hasError, equals(false));
     });
   });
+
+  group('length', () {
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', length: 1);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('qwerty123', name: 'value', length: 3);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc xyz', name: 'value', length: 7);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', length: 0);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
 }

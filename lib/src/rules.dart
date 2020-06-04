@@ -19,6 +19,8 @@ class Rules<T> {
 
   final bool isAlphaSpace;
 
+  final int length;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -35,6 +37,7 @@ class Rules<T> {
     'isNumericDecimal': '{name} is not a valid number',
     'isEmail': '{name} is not a valid email address',
     'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
+    'length': '{name} should be {value} characters long',
   };
 
   Rules(
@@ -45,6 +48,7 @@ class Rules<T> {
     this.isNumericDecimal = false,
     this.isEmail = false,
     this.isAlphaSpace = false,
+    this.length,
     this.customErrorTexts,
   }) {
     if (!isTypesEqual(T, _allowedValueDataTypes)) {
@@ -82,6 +86,7 @@ class Rules<T> {
       'isNumeric': isNumeric,
       'isNumericDecimal': isNumericDecimal,
       'isEmail': isEmail,
+      'length': length,
       'isAlphaSpace': isAlphaSpace,
     };
 
@@ -157,6 +162,10 @@ class Rules<T> {
         break;
       }
 
+      if (key == 'length' && length != null && _checkLength()) {
+        break;
+      }
+
       if (key == 'isAlphaSpace' && isAlphaSpace == true && _checkAlphaSpace()) {
         break;
       }
@@ -198,6 +207,16 @@ class Rules<T> {
   bool _checkEmail() {
     if (!isStringEmail(value as String)) {
       _errorItemList.add('isEmail');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _checkLength() {
+    if (!isStringLength(value as String, length)) {
+      _errorItemList.add('length');
 
       return true;
     }
