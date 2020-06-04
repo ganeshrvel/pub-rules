@@ -13,11 +13,17 @@ class Rules<T> {
 
   final bool isRequired;
 
+  final bool isEmail;
+
+  final bool isUrl;
+
+  final bool isPhone;
+
+  final bool isIp;
+
   final bool isNumeric;
 
   bool isNumericDecimal;
-
-  final bool isEmail;
 
   final bool isAlphaSpace;
 
@@ -67,9 +73,12 @@ class Rules<T> {
 
   Map<String, String> get _errorTextsDict => {
         'isRequired': '{name} is required',
+        'isEmail': '{name} is not a valid email address',
+        'isPhone': '{name} is not a valid phone number',
+        'isUrl': '{name} is not a valid URL',
+        'isIp': '{name} is not a valid IP address',
         'isNumeric': '{name} is not a valid number',
         'isNumericDecimal': '{name} is not a valid decimal number',
-        'isEmail': '{name} is not a valid email address',
         'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
         'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
         'isAlphaNumericSpace':
@@ -102,10 +111,13 @@ class Rules<T> {
     this.value, {
     @required this.name,
     this.customErrorTexts,
+    this.isEmail = false,
+    this.isPhone = false,
+    this.isIp = false,
+    this.isUrl = false,
     this.isRequired = false,
     this.isNumeric = false,
     this.isNumericDecimal = false,
-    this.isEmail = false,
     this.isAlphaSpace = false,
     this.isAlphaNumeric = false,
     this.isAlphaNumericSpace = false,
@@ -167,6 +179,9 @@ class Rules<T> {
       'isNumeric': isNumeric,
       'isNumericDecimal': isNumericDecimal,
       'isEmail': isEmail,
+      'isPhone': isPhone,
+      'isUrl': isUrl,
+      'isIp': isIp,
       'isAlphaSpace': isAlphaSpace,
       'isAlphaNumeric': isAlphaNumeric,
       'isAlphaNumericSpace': isAlphaNumericSpace,
@@ -264,6 +279,22 @@ class Rules<T> {
         break;
       }
 
+      if (key == 'isEmail' && isEmail == true && _isEmailCheckFailed()) {
+        break;
+      }
+
+      if (key == 'isUrl' && isUrl == true && _isUrlCheckFailed()) {
+        break;
+      }
+
+      if (key == 'isPhone' && isPhone == true && _isPhoneCheckFailed()) {
+        break;
+      }
+
+      if (key == 'isIp' && isIp == true && _isIpCheckFailed()) {
+        break;
+      }
+
       if (key == 'isNumeric' && isNumeric == true && _isNumericCheckFailed()) {
         break;
       }
@@ -271,10 +302,6 @@ class Rules<T> {
       if (key == 'isNumericDecimal' &&
           isNumericDecimal == true &&
           _isNumericDecimalCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isEmail' && isEmail == true && _isEmailCheckFailed()) {
         break;
       }
 
@@ -420,6 +447,36 @@ class Rules<T> {
   bool _isEmailCheckFailed() {
     if (isNotNullOrEmpty(value) && !isStringEmail(value as String)) {
       _errorItemList.add('isEmail');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isPhoneCheckFailed() {
+    if (isNotNullOrEmpty(value) && !isStringPhone(value as String)) {
+      _errorItemList.add('isPhone');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isUrlCheckFailed() {
+    if (isNotNullOrEmpty(value) && !isStringUrl(value as String)) {
+      _errorItemList.add('isUrl');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isIpCheckFailed() {
+    if (isNotNullOrEmpty(value) && !isStringIp(value as String)) {
+      _errorItemList.add('isIp');
 
       return true;
     }

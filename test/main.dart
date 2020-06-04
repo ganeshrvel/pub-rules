@@ -84,6 +84,101 @@ void main() {
     });
   });
 
+  group('isEmail', () {
+    test('should throw an error', () {
+      final rule = Rules('0', name: 'value', isNumeric: true, isEmail: true);
+
+      expect(rule.error, contains('is not a valid email address'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('qwerty123.', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('abc@xyz', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc@xyz.com', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc@xyz', name: 'value', isEmail: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
+  group('isPhone', () {
+    test('should throw an error', () {
+      final rule = Rules('qwerty123', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('+1234', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('+918989797891', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('08989797891', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('+65898979789', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('+1 (234) 56-89 901', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('+65 (898) 979 789', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('+', name: 'value', isPhone: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('isNumeric', () {
     test('should throw an error', () {
       final rule = Rules('qwerty123.', name: 'value', isNumeric: true);
@@ -209,45 +304,6 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('0', name: 'value', isNumericDecimal: false);
-
-      expect(rule.hasError, equals(false));
-    });
-  });
-
-  group('isEmail', () {
-    test('should throw an error', () {
-      final rule = Rules('0', name: 'value', isNumeric: true, isEmail: true);
-
-      expect(rule.error, contains('is not a valid email address'));
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should throw an error', () {
-      final rule = Rules('qwerty123.', name: 'value', isEmail: true);
-
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should throw an error', () {
-      final rule = Rules('abc@xyz', name: 'value', isEmail: true);
-
-      expect(rule.hasError, equals(true));
-    });
-
-    test('should NOT throw an error', () {
-      final rule = Rules('', name: 'value', isEmail: true);
-
-      expect(rule.hasError, equals(false));
-    });
-
-    test('should NOT throw an error', () {
-      final rule = Rules('abc@xyz.com', name: 'value', isEmail: true);
-
-      expect(rule.hasError, equals(false));
-    });
-
-    test('should NOT throw an error', () {
-      final rule = Rules('abc@xyz', name: 'value', isEmail: false);
 
       expect(rule.hasError, equals(false));
     });
