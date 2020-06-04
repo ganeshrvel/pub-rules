@@ -24,6 +24,15 @@ bool isStringNumeric(String input) {
 }
 
 ///
+/// Checks whether the given string [s] contains only alphabets and space
+///
+bool isStringAlphaSpace(String input) {
+  final regExp = RegExp(r'^[a-zA-Z\s]+$');
+
+  return regExp.hasMatch(input);
+}
+
+///
 /// Checks whether the given string [s] is a valid email address
 ///
 bool isStringEmail(String input) {

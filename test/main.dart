@@ -146,4 +146,42 @@ void main() {
       expect(rule.hasError, equals(false));
     });
   });
+
+  group('isAlphaSpace', () {
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('qwerty123', name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('1234', name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc xyz', name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc', name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc.xyz', name: 'value', isAlphaSpace: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
 }

@@ -15,6 +15,8 @@ class Rules<T> {
 
   final bool isEmail;
 
+  final bool isAlphaSpace;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -29,6 +31,7 @@ class Rules<T> {
     'isRequired': '{name} is required',
     'isNumeric': '{name} is not numeric',
     'isEmail': '{name} is not a valid email address',
+    'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
   };
 
   Rules(
@@ -37,6 +40,7 @@ class Rules<T> {
     this.isRequired = false,
     this.isNumeric = false,
     this.isEmail = false,
+    this.isAlphaSpace = false,
     this.customErrorTexts,
   }) {
     if (!isTypesEqual(T, _allowedValueDataTypes)) {
@@ -73,6 +77,7 @@ class Rules<T> {
       'isRequired': isRequired,
       'isNumeric': isNumeric,
       'isEmail': isEmail,
+      'isAlphaSpace': isAlphaSpace,
     };
 
     _beginValidation(_allowedRulesList);
@@ -140,6 +145,10 @@ class Rules<T> {
       if (key == 'isEmail' && isEmail == true && _checkEmail()) {
         break;
       }
+
+      if (key == 'isAlphaSpace' && isAlphaSpace == true && _checkAlphaSpace()) {
+        break;
+      }
     }
 
     _processErrors();
@@ -168,6 +177,16 @@ class Rules<T> {
   bool _checkEmail() {
     if (!isStringEmail(value as String)) {
       _errorItemList.add('isEmail');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _checkAlphaSpace() {
+    if (!isStringAlphaSpace(value as String)) {
+      _errorItemList.add('isAlphaSpace');
 
       return true;
     }
