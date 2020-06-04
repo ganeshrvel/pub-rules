@@ -41,6 +41,10 @@ class Rules<T> {
 
   final double lessThanEqualTo;
 
+  final double equalTo;
+
+  final double notEqualTo;
+
   final List<String> isInList;
 
   final List<String> isNotInList;
@@ -72,6 +76,8 @@ class Rules<T> {
         'lessThan': '{name} should be less than $lessThan',
         'lessThanEqualTo':
             '{name} should be less than or equal to $lessThanEqualTo',
+        'equalTo': '{name} should be equal to $equalTo',
+        'notEqualTo': '{name} should not be equal to $notEqualTo',
         'isInList':
             '{name} should be any of these values ${(isInList ?? []).join(', ')}',
         'isNotInList':
@@ -97,6 +103,8 @@ class Rules<T> {
     this.greaterThanEqualTo,
     this.lessThan,
     this.lessThanEqualTo,
+    this.equalTo,
+    this.notEqualTo,
     this.isInList,
     this.isNotInList,
   }) {
@@ -152,6 +160,8 @@ class Rules<T> {
       'greaterThanEqualTo': greaterThanEqualTo,
       'lessThan': lessThan,
       'lessThanEqualTo': lessThanEqualTo,
+      'equalTo': equalTo,
+      'notEqualTo': notEqualTo,
       'isInList': isInList,
       'isNotInList': isNotInList,
     };
@@ -162,6 +172,8 @@ class Rules<T> {
             greaterThanEqualTo,
             lessThan,
             lessThanEqualTo,
+            equalTo,
+            notEqualTo,
           ],
         ) &&
         isNumeric != true) {
@@ -299,6 +311,16 @@ class Rules<T> {
       if (key == 'lessThanEqualTo' &&
           lessThanEqualTo != null &&
           _isLessThanEqualToCheckFailed()) {
+        break;
+      }
+
+      if (key == 'equalTo' && equalTo != null && _isEqualToCheckFailed()) {
+        break;
+      }
+
+      if (key == 'notEqualTo' &&
+          notEqualTo != null &&
+          _isNotEqualToCheckFailed()) {
         break;
       }
 
@@ -470,6 +492,28 @@ class Rules<T> {
         !isValueLessThanEqualTo(
             double.tryParse(value as String), lessThanEqualTo)) {
       _errorItemList.add('lessThanEqualTo');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isEqualToCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        double.tryParse(value as String) != equalTo) {
+      _errorItemList.add('equalTo');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isNotEqualToCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        double.tryParse(value as String) == notEqualTo) {
+      _errorItemList.add('notEqualTo');
 
       return true;
     }

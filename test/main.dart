@@ -640,7 +640,7 @@ void main() {
     });
   });
 
-  group('greaterThanEqualTo', () {
+  group('lessThanEqualTo', () {
     test('should throw an error', () {
       final rule = Rules('.', name: 'value', lessThanEqualTo: 8);
 
@@ -711,6 +711,66 @@ void main() {
     });
   });
 
+  group('equalTo', () {
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', equalTo: 8);
+
+      expect(rule.error, contains('not a valid decimal number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('8.0', name: 'value', equalTo: 0);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('8', name: 'value', equalTo: 0);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('8.0', name: 'value', equalTo: 0, isNumeric: true);
+
+      expect(rule.error, contains('not a valid number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('1', name: 'value', equalTo: 0, isNumeric: true);
+
+      expect(rule.error, contains('should be equal to 0'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('1', name: 'value', equalTo: 1, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('1.0', name: 'value', equalTo: 1.0);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rules('-10', name: 'value', equalTo: -10.00, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('-20.0', name: 'value', equalTo: -20.000);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('isInList', () {
     test('should throw an error', () {
       final rule = Rules('qwerty123', name: 'value', isInList: ['123']);
@@ -746,7 +806,8 @@ void main() {
 
   group('isNotInList', () {
     test('should throw an error', () {
-      final rule = Rules('qwerty123', name: 'value', isNotInList: ['qwerty123']);
+      final rule =
+          Rules('qwerty123', name: 'value', isNotInList: ['qwerty123']);
 
       expect(rule.hasError, equals(true));
     });
@@ -754,7 +815,8 @@ void main() {
     test('should throw an error', () {
       final rule = Rules('xyz', name: 'value', isNotInList: ['123', 'xyz']);
 
-      expect(rule.error, contains('should not be any of these values 123, xyz'));
+      expect(
+          rule.error, contains('should not be any of these values 123, xyz'));
       expect(rule.hasError, equals(true));
     });
 
