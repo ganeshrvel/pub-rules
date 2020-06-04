@@ -29,7 +29,7 @@ class Rules<T> {
 
   final Map<String, String> customErrorTexts;
 
-  final _allowedValueDataTypes = [String, Null];
+  final _allowedValueDataTypes = [String];
 
   final Map<String, String> _errorTexts = {
     'isRequired': '{name} is required',
@@ -53,6 +53,12 @@ class Rules<T> {
     this.minLength,
     this.customErrorTexts,
   }) {
+    if (isNull(value)) {
+      throw "The 'value' cannot be null.\n"
+          "Use null-aware operator '??' if required.\n"
+          'Example: `final rule = Rules(value ?? null)`.';
+    }
+
     if (!isTypesEqual(T, _allowedValueDataTypes)) {
       throw "'$T' data type isn't supported yet.";
     }
@@ -72,7 +78,6 @@ class Rules<T> {
 
   void _run() {
     switch (T) {
-      case Null:
       case String:
         _initStringValidation();
 
@@ -199,7 +204,7 @@ class Rules<T> {
   }
 
   bool _isNumericCheckFailed() {
-    if (!isStringNumeric((value ?? '') as String)) {
+    if (!isStringNumeric(value as String)) {
       _errorItemList.add('isNumeric');
 
       return true;
@@ -209,7 +214,7 @@ class Rules<T> {
   }
 
   bool _isNumericDecimalCheckFailed() {
-    if (!isStringNumeric((value ?? '') as String, allowDecimal: true)) {
+    if (!isStringNumeric(value as String, allowDecimal: true)) {
       _errorItemList.add('isNumericDecimal');
 
       return true;
@@ -219,7 +224,7 @@ class Rules<T> {
   }
 
   bool _isEmailCheckFailed() {
-    if (!isStringEmail((value ?? '') as String)) {
+    if (!isStringEmail(value as String)) {
       _errorItemList.add('isEmail');
 
       return true;
@@ -229,7 +234,7 @@ class Rules<T> {
   }
 
   bool _isAlphaSpaceCheckFailed() {
-    if (!isStringAlphaSpace((value ?? '') as String)) {
+    if (!isStringAlphaSpace(value as String)) {
       _errorItemList.add('isAlphaSpace');
 
       return true;
@@ -239,7 +244,7 @@ class Rules<T> {
   }
 
   bool _isLengthCheckFailed() {
-    if (!isStringLength((value ?? '') as String, length)) {
+    if (!isStringLength(value as String, length)) {
       _errorItemList.add('length');
 
       return true;
@@ -249,7 +254,7 @@ class Rules<T> {
   }
 
   bool _isMinLengthCheckFailed() {
-    if (!isStringMinLength((value ?? '') as String, minLength)) {
+    if (!isStringMinLength(value as String, minLength)) {
       _errorItemList.add('minLength');
 
       return true;
