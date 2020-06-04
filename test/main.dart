@@ -179,6 +179,92 @@ void main() {
     });
   });
 
+  group('isUrl', () {
+    test('should throw an error', () {
+      final rule = Rules('qwerty123', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('www.com', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('www.x.co', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('www.x.co/', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('www.google.com', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('https://www.google.com', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('http://google.uk', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('http://www.google.co.in/404', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('http://www.google.co.in/404.html', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('http://google.jp', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('https://www.google.gr', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('http://www.google.fr', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('+', name: 'value', isUrl: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('isNumeric', () {
     test('should throw an error', () {
       final rule = Rules('qwerty123.', name: 'value', isNumeric: true);
