@@ -263,6 +263,44 @@ void main() {
     });
   });
 
+  group('isAlphaNumericSpace', () {
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', isAlphaNumericSpace: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isAlphaNumericSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc xyz', name: 'value', isAlphaNumericSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc123', name: 'value', isAlphaNumericSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc 123', name: 'value', isAlphaNumericSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc.xyz', name: 'value', isAlphaNumericSpace: false);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('length', () {
     test('should throw an error', () {
       final rule = Rules('qwerty123', name: 'value', length: 3);

@@ -45,6 +45,8 @@ class Rules<T> {
     'isEmail': '{name} is not a valid email address',
     'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
     'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
+    'isAlphaNumericSpace':
+        'Only alphabets, numbers and spaces are allowed in {name}',
     'length': '{name} should be {value} characters long',
     'minLength': '{name} should be minimum {value} characters long',
     'maxLength': '{name} should not exceed more than {value} characters',
@@ -200,6 +202,12 @@ class Rules<T> {
         break;
       }
 
+      if (key == 'isAlphaNumericSpace' &&
+          isAlphaNumericSpace == true &&
+          _isAlphaNumericSpaceCheckFailed()) {
+        break;
+      }
+
       if (key == 'length' && length != null && _isLengthCheckFailed()) {
         break;
       }
@@ -274,6 +282,17 @@ class Rules<T> {
   bool _isAlphaNumericCheckFailed() {
     if (isNotNullOrEmpty(value) && !isStringAlphaNumeric(value as String)) {
       _errorItemList.add('isAlphaNumeric');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isAlphaNumericSpaceCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        !isStringAlphaNumericSpace(value as String)) {
+      _errorItemList.add('isAlphaNumericSpace');
 
       return true;
     }
