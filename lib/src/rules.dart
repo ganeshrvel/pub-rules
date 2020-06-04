@@ -21,6 +21,8 @@ class Rules<T> {
 
   final int length;
 
+  final int minLength;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -38,6 +40,7 @@ class Rules<T> {
     'isEmail': '{name} is not a valid email address',
     'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
     'length': '{name} should be {value} characters long',
+    'minLength': '{name} should be minimum {value} characters long',
   };
 
   Rules(
@@ -49,6 +52,7 @@ class Rules<T> {
     this.isEmail = false,
     this.isAlphaSpace = false,
     this.length,
+    this.minLength,
     this.customErrorTexts,
   }) {
     if (!isTypesEqual(T, _allowedValueDataTypes)) {
@@ -87,6 +91,7 @@ class Rules<T> {
       'isNumericDecimal': isNumericDecimal,
       'isEmail': isEmail,
       'length': length,
+      'minLength': minLength,
       'isAlphaSpace': isAlphaSpace,
     };
 
@@ -166,6 +171,10 @@ class Rules<T> {
         break;
       }
 
+      if (key == 'minLength' && minLength != null && _checkMinLength()) {
+        break;
+      }
+
       if (key == 'isAlphaSpace' && isAlphaSpace == true && _checkAlphaSpace()) {
         break;
       }
@@ -217,6 +226,16 @@ class Rules<T> {
   bool _checkLength() {
     if (!isStringLength(value as String, length)) {
       _errorItemList.add('length');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _checkMinLength() {
+    if (!isStringMinLength(value as String, minLength)) {
+      _errorItemList.add('minLength');
 
       return true;
     }

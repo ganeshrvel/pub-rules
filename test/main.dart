@@ -242,4 +242,30 @@ void main() {
       expect(rule.hasError, equals(false));
     });
   });
+
+  group('minLength', () {
+    test('should throw an error', () {
+      final rule = Rules('', name: 'value', minLength: 1);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('13', name: 'value', minLength: 3);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc xyz', name: 'value', minLength: 7);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', minLength: 0);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
 }

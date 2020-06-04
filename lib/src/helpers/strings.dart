@@ -59,6 +59,13 @@ bool isStringLength(String input, int length) {
   return input.length == length;
 }
 
+///
+/// Match the minimum string length
+///
+bool isStringMinLength(String input, int length) {
+  return input.length >= length;
+}
+
 String capitalize(String input) {
   return input[0].toUpperCase() + input.substring(1);
 }
