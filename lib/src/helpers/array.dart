@@ -37,3 +37,7 @@ List<String> getNullValues(Map<String, dynamic> valueList) {
 
   return _returnList;
 }
+
+List<double> getParsedDoubleArray(List<String> valueList) {
+  return valueList.map((value) => double.tryParse(value)).toList();
+}

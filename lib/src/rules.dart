@@ -45,6 +45,10 @@ class Rules<T> {
 
   final double notEqualTo;
 
+  final List<double> equalToInList;
+
+  final List<double> notEqualToInList;
+
   final List<String> isInList;
 
   final List<String> isNotInList;
@@ -78,6 +82,10 @@ class Rules<T> {
             '{name} should be less than or equal to $lessThanEqualTo',
         'equalTo': '{name} should be equal to $equalTo',
         'notEqualTo': '{name} should not be equal to $notEqualTo',
+        'equalToInList':
+            '{name} should be equal to any of these values ${(equalToInList ?? []).join(', ')}',
+        'notEqualToInList':
+            '{name} should not be equal to any of these values ${(notEqualToInList ?? []).join(', ')}',
         'isInList':
             '{name} should be any of these values ${(isInList ?? []).join(', ')}',
         'isNotInList':
@@ -105,6 +113,8 @@ class Rules<T> {
     this.lessThanEqualTo,
     this.equalTo,
     this.notEqualTo,
+    this.equalToInList,
+    this.notEqualToInList,
     this.isInList,
     this.isNotInList,
   }) {
@@ -164,6 +174,8 @@ class Rules<T> {
       'notEqualTo': notEqualTo,
       'isInList': isInList,
       'isNotInList': isNotInList,
+      'equalToInList': equalToInList,
+      'notEqualToInList': notEqualToInList,
     };
 
     if (isValuesNotNull(
@@ -174,6 +186,8 @@ class Rules<T> {
             lessThanEqualTo,
             equalTo,
             notEqualTo,
+            equalToInList,
+            notEqualToInList,
           ],
         ) &&
         isNumeric != true) {
@@ -321,6 +335,18 @@ class Rules<T> {
       if (key == 'notEqualTo' &&
           notEqualTo != null &&
           _isNotEqualToCheckFailed()) {
+        break;
+      }
+
+      if (key == 'equalToInList' &&
+          equalToInList != null &&
+          _isEqualToInListCheckFailed()) {
+        break;
+      }
+
+      if (key == 'notEqualToInList' &&
+          notEqualToInList != null &&
+          _isNotEqualToInListCheckFailed()) {
         break;
       }
 
@@ -516,6 +542,34 @@ class Rules<T> {
       _errorItemList.add('notEqualTo');
 
       return true;
+    }
+
+    return false;
+  }
+
+  bool _isEqualToInListCheckFailed() {
+    if (isNotNullOrEmpty(value)) {
+      final _value = double.tryParse(value as String);
+
+      if (!inArray(equalToInList, _value)) {
+        _errorItemList.add('equalToInList');
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  bool _isNotEqualToInListCheckFailed() {
+    if (isNotNullOrEmpty(value)) {
+      final _value = double.tryParse(value as String);
+
+      if (inArray(notEqualToInList, _value)) {
+        _errorItemList.add('notEqualToInList');
+
+        return true;
+      }
     }
 
     return false;
