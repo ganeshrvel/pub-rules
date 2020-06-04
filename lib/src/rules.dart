@@ -37,6 +37,10 @@ class Rules<T> {
 
   final double greaterThanEqualTo;
 
+  final double lessThan;
+
+  final double lessThanEqualTo; //todo
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -61,6 +65,9 @@ class Rules<T> {
         'greaterThan': '{name} should be greater than $greaterThan',
         'greaterThanEqualTo':
             '{name} should be greater than or equal to $greaterThanEqualTo',
+        'lessThan': '{name} should be less than $lessThan',
+        'lessThanEqualTo':
+            '{name} should be less than or equal to $lessThanEqualTo',
       };
 
   Rules(
@@ -80,6 +87,8 @@ class Rules<T> {
     this.maxLength,
     this.greaterThan,
     this.greaterThanEqualTo,
+    this.lessThan,
+    this.lessThanEqualTo,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -131,9 +140,18 @@ class Rules<T> {
       'maxLength': maxLength,
       'greaterThan': greaterThan,
       'greaterThanEqualTo': greaterThanEqualTo,
+      'lessThan': lessThan,
+      'lessThanEqualTo': lessThanEqualTo,
     };
 
-    if (isValuesNotNull([greaterThan, greaterThanEqualTo]) &&
+    if (isValuesNotNull(
+          [
+            greaterThan,
+            greaterThanEqualTo,
+            lessThan,
+            lessThanEqualTo,
+          ],
+        ) &&
         isNumeric != true) {
       isNumericDecimal = true;
     }
@@ -261,6 +279,16 @@ class Rules<T> {
           _isGreaterThanEqualToCheckFailed()) {
         break;
       }
+
+      if (key == 'lessThan' && lessThan != null && _isLessThanCheckFailed()) {
+        break;
+      }
+
+      if (key == 'lessThanEqualTo' &&
+          lessThanEqualTo != null &&
+          _isLessThanEqualToCheckFailed()) {
+        break;
+      }
     }
 
     _processErrors();
@@ -386,6 +414,29 @@ class Rules<T> {
         !isValueGreaterThanEqualTo(
             double.tryParse(value as String), greaterThanEqualTo)) {
       _errorItemList.add('greaterThanEqualTo');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isLessThanCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        !isValueLessThan(double.tryParse(value as String), lessThan)) {
+      _errorItemList.add('lessThan');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isLessThanEqualToCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        !isValueLessThanEqualTo(
+            double.tryParse(value as String), lessThanEqualTo)) {
+      _errorItemList.add('lessThanEqualTo');
 
       return true;
     }
