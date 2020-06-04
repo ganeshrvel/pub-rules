@@ -58,17 +58,17 @@ class Rules<T> {
     this.customErrorTexts,
   }) {
     if (isNull(value)) {
-      throw "The 'value' cannot be null.\n"
+      throw "Rules => \nThe 'value' cannot be null.\n"
           "Use null-aware operator '??' if required.\n"
           'Example: `final rule = Rules(value ?? null)`.';
     }
 
     if (!isTypesEqual(T, _allowedValueDataTypes)) {
-      throw "'$T' data type isn't supported yet.";
+      throw "Rules => \n'$T' data type isn't supported yet.";
     }
 
     if (isNullOrEmpty(name)) {
-      throw "'name' parameter is required";
+      throw "Rules => \n'name' parameter is required";
     }
 
     _run();

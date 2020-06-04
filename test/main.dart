@@ -7,9 +7,9 @@ void main() {
       try {
         final rule = Rules('', name: '');
 
-        expect(rule, equals("'name' parameter is required"));
+        expect(rule, contains("'name' parameter is required"));
       } catch (e) {
-        expect(e, equals("'name' parameter is required"));
+        expect(e, contains("'name' parameter is required"));
       }
     });
 
