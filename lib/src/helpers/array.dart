@@ -16,6 +16,16 @@ bool isValuesNull(List<dynamic> valueList) {
   return false;
 }
 
+bool isValuesNotNull(List<dynamic> valueList) {
+  for (final val in valueList) {
+    if (val != null) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 List<String> getNullValues(Map<String, dynamic> valueList) {
   final _returnList = <String>[];
 

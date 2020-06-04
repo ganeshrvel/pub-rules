@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/array.dart';
+import 'package:rules/src/helpers/math.dart';
 import 'package:rules/src/helpers/types.dart';
 import 'package:rules/src/helpers/functs.dart';
-import 'package:rules/src/helpers/numbers.dart';
 import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
 
@@ -35,6 +35,8 @@ class Rules<T> {
 
   final double greaterThan;
 
+  final double greaterThanEqualTo;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -57,6 +59,8 @@ class Rules<T> {
         'minLength': '{name} should contain at least $minLength characters',
         'maxLength': '{name} should not exceed more than $maxLength characters',
         'greaterThan': '{name} should be greater than $greaterThan',
+        'greaterThanEqualTo':
+            '{name} should be greater than or equal to $greaterThanEqualTo',
       };
 
   Rules(
@@ -75,6 +79,7 @@ class Rules<T> {
     this.minLength,
     this.maxLength,
     this.greaterThan,
+    this.greaterThanEqualTo,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -125,9 +130,11 @@ class Rules<T> {
       'minLength': minLength,
       'maxLength': maxLength,
       'greaterThan': greaterThan,
+      'greaterThanEqualTo': greaterThanEqualTo,
     };
 
-    if (!inArray([greaterThan], null) && isNumeric != true) {
+    if (isValuesNotNull([greaterThan, greaterThanEqualTo]) &&
+        isNumeric != true) {
       isNumericDecimal = true;
     }
 
@@ -248,6 +255,12 @@ class Rules<T> {
           _isGreaterThanCheckFailed()) {
         break;
       }
+
+      if (key == 'greaterThanEqualTo' &&
+          greaterThanEqualTo != null &&
+          _isGreaterThanEqualToCheckFailed()) {
+        break;
+      }
     }
 
     _processErrors();
@@ -361,6 +374,18 @@ class Rules<T> {
     if (isNotNullOrEmpty(value) &&
         !isValueGreaterThan(double.tryParse(value as String), greaterThan)) {
       _errorItemList.add('greaterThan');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isGreaterThanEqualToCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        !isValueGreaterThanEqualTo(
+            double.tryParse(value as String), greaterThanEqualTo)) {
+      _errorItemList.add('greaterThanEqualTo');
 
       return true;
     }

@@ -479,4 +479,51 @@ void main() {
       expect(rule.hasError, equals(false));
     });
   });
+
+  group('greaterThanEqualTo', () {
+    test('should throw an error', () {
+      final rule = Rules('.', name: 'value', greaterThanEqualTo: 8);
+
+      expect(rule.error, contains('not a valid decimal number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.0', name: 'value', greaterThanEqualTo: 8);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0', name: 'value', greaterThanEqualTo: 8);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0.0', name: 'value', greaterThanEqualTo: 8, isNumeric: true);
+
+      expect(rule.error, contains('not a valid number'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules('0', name: 'value', greaterThanEqualTo: 1, isNumeric: true);
+
+      expect(rule.error, contains('should be greater than or equal to 1'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('1', name: 'value', greaterThanEqualTo: 1, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('2', name: 'value', greaterThanEqualTo: 1, isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
 }
