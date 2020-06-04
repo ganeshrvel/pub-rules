@@ -29,9 +29,7 @@ class Rules<T> {
 
   final Map<String, String> customErrorTexts;
 
-  final _allowedValueDataTypes = [
-    String,
-  ];
+  final _allowedValueDataTypes = [String, Null];
 
   final Map<String, String> _errorTexts = {
     'isRequired': '{name} is required',
@@ -74,6 +72,7 @@ class Rules<T> {
 
   void _run() {
     switch (T) {
+      case Null:
       case String:
         _initStringValidation();
 
@@ -149,33 +148,39 @@ class Rules<T> {
 
   void _beginValidation(Map<String, dynamic> _allowedRulesList) {
     for (final key in _allowedRulesList.keys) {
-      if (key == 'isRequired' && isRequired == true && _checkRequired()) {
+      if (key == 'isRequired' &&
+          isRequired == true &&
+          _isRequiredCheckFailed()) {
         break;
       }
 
-      if (key == 'isNumeric' && isNumeric == true && _checkNumeric()) {
+      if (key == 'isNumeric' && isNumeric == true && _isNumericCheckFailed()) {
         break;
       }
 
       if (key == 'isNumericDecimal' &&
           isNumericDecimal == true &&
-          _checkNumericDecimal()) {
+          _isNumericDecimalCheckFailed()) {
         break;
       }
 
-      if (key == 'isEmail' && isEmail == true && _checkEmail()) {
+      if (key == 'isEmail' && isEmail == true && _isEmailCheckFailed()) {
         break;
       }
 
-      if (key == 'length' && length != null && _checkLength()) {
+      if (key == 'isAlphaSpace' &&
+          isAlphaSpace == true &&
+          _isAlphaSpaceCheckFailed()) {
         break;
       }
 
-      if (key == 'minLength' && minLength != null && _checkMinLength()) {
+      if (key == 'length' && length != null && _isLengthCheckFailed()) {
         break;
       }
 
-      if (key == 'isAlphaSpace' && isAlphaSpace == true && _checkAlphaSpace()) {
+      if (key == 'minLength' &&
+          minLength != null &&
+          _isMinLengthCheckFailed()) {
         break;
       }
     }
@@ -183,7 +188,7 @@ class Rules<T> {
     _processErrors();
   }
 
-  bool _checkRequired() {
+  bool _isRequiredCheckFailed() {
     if (isRequired && isNullOrEmpty(value)) {
       _errorItemList.add('isRequired');
 
@@ -193,18 +198,8 @@ class Rules<T> {
     return false;
   }
 
-  bool _checkNumericDecimal() {
-    if (!isStringNumeric(value as String, allowDecimal: true)) {
-      _errorItemList.add('isNumericDecimal');
-
-      return true;
-    }
-
-    return false;
-  }
-
-  bool _checkNumeric() {
-    if (!isStringNumeric(value as String)) {
+  bool _isNumericCheckFailed() {
+    if (!isStringNumeric((value ?? '') as String)) {
       _errorItemList.add('isNumeric');
 
       return true;
@@ -213,8 +208,18 @@ class Rules<T> {
     return false;
   }
 
-  bool _checkEmail() {
-    if (!isStringEmail(value as String)) {
+  bool _isNumericDecimalCheckFailed() {
+    if (!isStringNumeric((value ?? '') as String, allowDecimal: true)) {
+      _errorItemList.add('isNumericDecimal');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isEmailCheckFailed() {
+    if (!isStringEmail((value ?? '') as String)) {
       _errorItemList.add('isEmail');
 
       return true;
@@ -223,8 +228,18 @@ class Rules<T> {
     return false;
   }
 
-  bool _checkLength() {
-    if (!isStringLength(value as String, length)) {
+  bool _isAlphaSpaceCheckFailed() {
+    if (!isStringAlphaSpace((value ?? '') as String)) {
+      _errorItemList.add('isAlphaSpace');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isLengthCheckFailed() {
+    if (!isStringLength((value ?? '') as String, length)) {
       _errorItemList.add('length');
 
       return true;
@@ -233,19 +248,9 @@ class Rules<T> {
     return false;
   }
 
-  bool _checkMinLength() {
-    if (!isStringMinLength(value as String, minLength)) {
+  bool _isMinLengthCheckFailed() {
+    if (!isStringMinLength((value ?? '') as String, minLength)) {
       _errorItemList.add('minLength');
-
-      return true;
-    }
-
-    return false;
-  }
-
-  bool _checkAlphaSpace() {
-    if (!isStringAlphaSpace(value as String)) {
-      _errorItemList.add('isAlphaSpace');
 
       return true;
     }

@@ -58,6 +58,12 @@ void main() {
 
   group('isRequired', () {
     test('should throw an error', () {
+      final rule = Rules(null, name: 'name', isRequired: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
       final rule = Rules('', name: 'name', isRequired: true);
 
       expect(rule.hasError, equals(true));
@@ -77,6 +83,12 @@ void main() {
   });
 
   group('isNumeric', () {
+    test('should throw an error', () {
+      final rule = Rules(null, name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should throw an error', () {
       final rule = Rules('', name: 'value', isNumeric: true);
 
@@ -109,6 +121,12 @@ void main() {
   });
 
   group('isNumericDecimal', () {
+    test('should throw an error', () {
+      final rule = Rules(null, name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should throw an error', () {
       final rule = Rules('', name: 'value', isNumericDecimal: true);
 
@@ -149,6 +167,12 @@ void main() {
     });
 
     test('should throw an error', () {
+      final rule = Rules(null, name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
       final rule = Rules('', name: 'value', isEmail: true);
 
       expect(rule.hasError, equals(true));
@@ -180,6 +204,12 @@ void main() {
   });
 
   group('isAlphaSpace', () {
+    test('should throw an error', () {
+      final rule = Rules(null, name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should throw an error', () {
       final rule = Rules('', name: 'value', isAlphaSpace: true);
 
@@ -219,6 +249,12 @@ void main() {
 
   group('length', () {
     test('should throw an error', () {
+      final rule = Rules(null, name: 'value', length: 1);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
       final rule = Rules('', name: 'value', length: 1);
 
       expect(rule.hasError, equals(true));
@@ -244,6 +280,12 @@ void main() {
   });
 
   group('minLength', () {
+    test('should throw an error', () {
+      final rule = Rules(null, name: 'value', minLength: 1);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should throw an error', () {
       final rule = Rules('', name: 'value', minLength: 1);
 

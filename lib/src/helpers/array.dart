@@ -1,11 +1,11 @@
-bool isTypesEqual(Type type, List<Type> typeList) {
-  for (final val in typeList) {
-    if (val != type) {
-      return false;
+bool isTypesEqual(Type inputType, List<Type> typeList) {
+  for (final type in typeList) {
+    if (type == inputType) {
+      return true;
     }
   }
 
-  return true;
+  return false;
 }
 
 bool isArrayIndexExists(int x, List<dynamic> array) {
