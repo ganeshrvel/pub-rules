@@ -66,6 +66,13 @@ bool isStringMinLength(String input, int length) {
   return input.length >= length;
 }
 
+///
+/// Match the maximum string length
+///
+bool isStringMaxLength(String input, int length) {
+  return input.length <= length;
+}
+
 String capitalize(String input) {
   return input[0].toUpperCase() + input.substring(1);
 }

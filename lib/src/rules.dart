@@ -23,6 +23,8 @@ class Rules<T> {
 
   final int minLength;
 
+  final int maxLength;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -39,6 +41,7 @@ class Rules<T> {
     'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
     'length': '{name} should be {value} characters long',
     'minLength': '{name} should be minimum {value} characters long',
+    'maxLength': '{name} should not exceed more than {value} characters',
   };
 
   Rules(
@@ -51,6 +54,7 @@ class Rules<T> {
     this.isAlphaSpace = false,
     this.length,
     this.minLength,
+    this.maxLength,
     this.customErrorTexts,
   }) {
     if (isNull(value)) {
@@ -94,9 +98,10 @@ class Rules<T> {
       'isNumeric': isNumeric,
       'isNumericDecimal': isNumericDecimal,
       'isEmail': isEmail,
+      'isAlphaSpace': isAlphaSpace,
       'length': length,
       'minLength': minLength,
-      'isAlphaSpace': isAlphaSpace,
+      'maxLength': maxLength,
     };
 
     _beginValidation(_allowedRulesList);
@@ -188,6 +193,12 @@ class Rules<T> {
           _isMinLengthCheckFailed()) {
         break;
       }
+
+      if (key == 'maxLength' &&
+          maxLength != null &&
+          _isMaxLengthCheckFailed()) {
+        break;
+      }
     }
 
     _processErrors();
@@ -256,6 +267,16 @@ class Rules<T> {
   bool _isMinLengthCheckFailed() {
     if (!isStringMinLength(value as String, minLength)) {
       _errorItemList.add('minLength');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isMaxLengthCheckFailed() {
+    if (!isStringMaxLength(value as String, maxLength)) {
+      _errorItemList.add('maxLength');
 
       return true;
     }

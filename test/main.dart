@@ -23,6 +23,14 @@ void main() {
   group('Only string can be input as the value', () {
     test('should throw an error', () {
       try {
+        final rule = Rules(null, name: 'name');
+      } catch (e) {
+        expect(e, contains("The 'value' cannot be null"));
+      }
+    });
+
+    test('should throw an error', () {
+      try {
         final rule = Rules(0, name: 'name');
       } catch (e) {
         expect(e, contains("data type isn't supported yet"));
@@ -245,7 +253,7 @@ void main() {
 
   group('minLength', () {
     test('should throw an error', () {
-      final rule = Rules(null, name: 'value', minLength: 1);
+      final rule = Rules('', name: 'value', minLength: 1);
 
       expect(rule.hasError, equals(true));
     });
@@ -264,6 +272,32 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', minLength: 0);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
+  group('maxLength', () {
+    test('should throw an error', () {
+      final rule = Rules('abc', name: 'value', maxLength: 1);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc', name: 'value', maxLength: 7);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('abc xyz', name: 'value', maxLength: 7);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', maxLength: 0);
 
       expect(rule.hasError, equals(false));
     });
