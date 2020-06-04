@@ -718,6 +718,13 @@ void main() {
       expect(rule.hasError, equals(true));
     });
 
+    test('should throw an error', () {
+      final rule = Rules('1', name: 'value', inList: ['123', 'xyz']);
+
+      expect(rule.error, contains('should be any of these values 123, xyz'));
+      expect(rule.hasError, equals(true));
+    });
+
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', inList: ['123']);
 

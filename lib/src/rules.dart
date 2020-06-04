@@ -71,7 +71,7 @@ class Rules<T> {
         'lessThanEqualTo':
             '{name} should be less than or equal to $lessThanEqualTo',
         'inList':
-            '{name} should be any of these values ${(inList ?? []).join(' ,')}',
+            '{name} should be any of these values ${(inList ?? []).join(', ')}',
       };
 
   Rules(
