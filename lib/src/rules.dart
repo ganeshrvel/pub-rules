@@ -53,6 +53,10 @@ class Rules<T> {
 
   final List<String> notInList;
 
+  final String shouldMatch;
+
+  final String shouldNotMatch;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
@@ -90,6 +94,8 @@ class Rules<T> {
             '{name} should be any of these values ${(inList ?? []).join(', ')}',
         'notInList':
             '{name} should not be any of these values ${(notInList ?? []).join(', ')}',
+        'shouldMatch': '{name} should be same as $shouldMatch',
+        'shouldNotMatch': '{name} should not same as $shouldNotMatch',
       };
 
   Rules(
@@ -117,6 +123,8 @@ class Rules<T> {
     this.notEqualToInList,
     this.inList,
     this.notInList,
+    this.shouldMatch,
+    this.shouldNotMatch,
   }) {
     if (isNull(value)) {
       throw "Rules => \nThe 'value' cannot be null.\n"
@@ -172,10 +180,12 @@ class Rules<T> {
       'lessThanEqualTo': lessThanEqualTo,
       'equalTo': equalTo,
       'notEqualTo': notEqualTo,
-      'inList': inList,
-      'notInList': notInList,
       'equalToInList': equalToInList,
       'notEqualToInList': notEqualToInList,
+      'inList': inList,
+      'notInList': notInList,
+      'shouldMatch': shouldMatch,
+      'shouldNotMatch': shouldNotMatch,
     };
 
     if (isValuesNotNull(
@@ -357,6 +367,18 @@ class Rules<T> {
       if (key == 'notInList' &&
           notInList != null &&
           _isNotInListCheckFailed()) {
+        break;
+      }
+
+      if (key == 'shouldMatch' &&
+          shouldMatch != null &&
+          _isShouldMatchCheckFailed()) {
+        break;
+      }
+
+      if (key == 'shouldNotMatch' &&
+          shouldNotMatch != null &&
+          _isShouldNotMatchCheckFailed()) {
         break;
       }
     }
@@ -588,6 +610,26 @@ class Rules<T> {
   bool _isNotInListCheckFailed() {
     if (isNotNullOrEmpty(value) && inArray(notInList, value)) {
       _errorItemList.add('notInList');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isShouldMatchCheckFailed() {
+    if (isNotNullOrEmpty(value) && shouldMatch != value) {
+      _errorItemList.add('shouldMatch');
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool _isShouldNotMatchCheckFailed() {
+    if (isNotNullOrEmpty(value) && shouldNotMatch == value) {
+      _errorItemList.add('shouldNotMatch');
 
       return true;
     }
