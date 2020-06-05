@@ -21,22 +21,6 @@ void main() {
   });
 
   group('Only string can be input as the value', () {
-    test('should throw an error', () {
-      try {
-        final rule = Rules(null, name: 'name');
-      } catch (e) {
-        expect(e, contains("The 'value' cannot be null"));
-      }
-    });
-
-    test('should throw an error', () {
-      try {
-        final rule = Rules(0, name: 'name');
-      } catch (e) {
-        expect(e, contains("data type isn't supported yet"));
-      }
-    });
-
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'Name');
 
@@ -67,6 +51,12 @@ void main() {
   group('isRequired', () {
     test('should throw an error', () {
       final rule = Rules('', name: 'name', isRequired: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules(null, name: 'name', isRequired: true);
 
       expect(rule.hasError, equals(true));
     });
@@ -111,6 +101,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('abc@xyz.com', name: 'value', isEmail: true);
 
       expect(rule.hasError, equals(false));
@@ -138,6 +134,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', isPhone: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isPhone: true);
 
       expect(rule.hasError, equals(false));
     });
@@ -194,6 +196,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isUrl: true);
 
       expect(rule.hasError, equals(false));
     });
@@ -299,6 +307,18 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isIp: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('192.168.1.255', name: 'value', isIp: true);
 
       expect(rule.hasError, equals(false));
@@ -388,6 +408,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('0', name: 'value', isNumeric: true);
 
       expect(rule.hasError, equals(false));
@@ -456,6 +482,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isNumericDecimal: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('0.0', name: 'value', isNumericDecimal: true);
 
       expect(rule.hasError, equals(false));
@@ -506,6 +538,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isAlphaSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('abc xyz', name: 'value', isAlphaSpace: true);
 
       expect(rule.hasError, equals(false));
@@ -544,6 +582,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isAlphaNumeric: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('abcxyz', name: 'value', isAlphaNumeric: true);
 
       expect(rule.hasError, equals(false));
@@ -571,6 +615,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', isAlphaNumericSpace: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', isAlphaNumericSpace: true);
 
       expect(rule.hasError, equals(false));
     });
@@ -615,6 +665,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', length: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('abc xyz', name: 'value', length: 7);
 
       expect(rule.hasError, equals(false));
@@ -622,6 +678,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', length: 0);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', length: 0);
 
       expect(rule.hasError, equals(false));
     });
@@ -648,7 +710,19 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', minLength: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', minLength: 0);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', minLength: 0);
 
       expect(rule.hasError, equals(false));
     });
@@ -660,6 +734,18 @@ void main() {
 
       expect(rule.error, contains('should not exceed more than 1 characters'));
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', maxLength: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', maxLength: 1);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -679,6 +765,12 @@ void main() {
 
       expect(rule.hasError, equals(false));
     });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', maxLength: 0);
+
+      expect(rule.hasError, equals(false));
+    });
   });
 
   group('regex', () {
@@ -686,6 +778,18 @@ void main() {
       final rule = Rules('123.', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
 
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -749,6 +853,18 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', greaterThan: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', greaterThan: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('2', name: 'value', greaterThan: 1, isNumeric: true);
 
       expect(rule.hasError, equals(false));
@@ -795,6 +911,18 @@ void main() {
 
       expect(rule.error, contains('should be greater than or equal to 1'));
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', greaterThanEqualTo: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', greaterThanEqualTo: 1);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -861,6 +989,18 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', lessThan: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', lessThan: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('1', name: 'value', lessThan: 2, isNumeric: true);
 
       expect(rule.hasError, equals(false));
@@ -907,6 +1047,18 @@ void main() {
 
       expect(rule.error, contains('should be less than or equal to 0'));
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', lessThanEqualTo: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', lessThanEqualTo: 1);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -979,6 +1131,18 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', equalTo: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', equalTo: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('1', name: 'value', equalTo: 1, isNumeric: true);
 
       expect(rule.hasError, equals(false));
@@ -1030,6 +1194,18 @@ void main() {
 
       expect(rule.error, contains('should not be equal to 10.0'));
       expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', notEqualTo: 1);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', notEqualTo: 1);
+
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -1096,6 +1272,18 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', equalToInList: [0, 1, 2]);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', equalToInList: [0, 1, 2]);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule =
           Rules('1', name: 'value', equalToInList: [1.0], isNumeric: true);
 
@@ -1155,6 +1343,18 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules('', name: 'value', notEqualToInList: [0, 1, 2]);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', notEqualToInList: [0, 1, 2]);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('8', name: 'value', notEqualToInList: []);
 
       expect(rule.hasError, equals(false));
@@ -1208,6 +1408,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', inList: ['123']);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('123', name: 'value', inList: ['123', 'xyz']);
 
       expect(rule.hasError, equals(false));
@@ -1237,6 +1443,12 @@ void main() {
 
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'value', notInList: ['123']);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', notInList: ['123']);
 
       expect(rule.hasError, equals(false));
     });
@@ -1275,6 +1487,12 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      final rule = Rules(null, name: 'value', shouldMatch: '');
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
       final rule = Rules('123', name: 'value', shouldMatch: '123');
 
       expect(rule.hasError, equals(false));
@@ -1304,6 +1522,12 @@ void main() {
 
     test('should throw an error', () {
       final rule = Rules('', name: 'value', shouldNotMatch: '');
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules(null, name: 'value', shouldNotMatch: '');
 
       expect(rule.hasError, equals(false));
     });

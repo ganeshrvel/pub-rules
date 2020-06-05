@@ -1,13 +1,12 @@
 import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/array.dart';
 import 'package:rules/src/helpers/math.dart';
-import 'package:rules/src/helpers/types.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
 
-class Rules<T> {
-  final T value;
+class Rules {
+  final String value;
 
   final String name;
 
@@ -68,8 +67,6 @@ class Rules<T> {
   final _errorList = <String>[];
 
   final Map<String, String> customErrorTexts;
-
-  final _allowedValueDataTypes = [String];
 
   Map<String, String> get _errorTextsDict => {
         'isRequired': '{name} is required',
@@ -138,16 +135,6 @@ class Rules<T> {
     this.shouldMatch,
     this.shouldNotMatch,
   }) {
-    if (isNull(value)) {
-      throw "Rules => \nThe 'value' cannot be null.\n"
-          "Use null-aware operator '??' if required.\n"
-          'Example: `final rule = Rules(value ?? null)`.';
-    }
-
-    if (!isTypesEqual(T, _allowedValueDataTypes)) {
-      throw "Rules => \n'$T' data type isn't supported yet.";
-    }
-
     if (isNullOrEmpty(name)) {
       throw "Rules => \n'name' parameter is required";
     }
@@ -162,47 +149,6 @@ class Rules<T> {
   bool get hasError => isNotNullOrEmpty(error);
 
   void _run() {
-    switch (T) {
-      case String:
-        _initStringValidation();
-
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  void _initStringValidation() {
-    final _allowedRulesList = {
-      'isRequired': isRequired,
-      'isNumeric': isNumeric,
-      'isNumericDecimal': isNumericDecimal,
-      'isEmail': isEmail,
-      'isPhone': isPhone,
-      'isUrl': isUrl,
-      'isIp': isIp,
-      'isAlphaSpace': isAlphaSpace,
-      'isAlphaNumeric': isAlphaNumeric,
-      'isAlphaNumericSpace': isAlphaNumericSpace,
-      'regex': regex,
-      'length': length,
-      'minLength': minLength,
-      'maxLength': maxLength,
-      'greaterThan': greaterThan,
-      'greaterThanEqualTo': greaterThanEqualTo,
-      'lessThan': lessThan,
-      'lessThanEqualTo': lessThanEqualTo,
-      'equalTo': equalTo,
-      'notEqualTo': notEqualTo,
-      'equalToInList': equalToInList,
-      'notEqualToInList': notEqualToInList,
-      'inList': inList,
-      'notInList': notInList,
-      'shouldMatch': shouldMatch,
-      'shouldNotMatch': shouldNotMatch,
-    };
-
     if (isValuesNotNull(
           [
             greaterThan,
@@ -219,7 +165,9 @@ class Rules<T> {
       isNumericDecimal = true;
     }
 
-    _beginValidation(_allowedRulesList);
+    _beginValidation();
+
+    _processErrors();
   }
 
   void _processErrors() {
@@ -249,168 +197,116 @@ class Rules<T> {
 
     var _replacedErrorText = _errorText.replaceAll('{name}', name);
 
-    switch (T) {
-      case String:
-        _replacedErrorText =
-            _replacedErrorText.replaceAll('{value}', value as String);
-        break;
-      case int:
-        _replacedErrorText =
-            _replacedErrorText.replaceAll('{value}', (value as int).toString());
-        break;
-      case double:
-        _replacedErrorText = _replacedErrorText.replaceAll(
-            '{value}', (value as double).toString());
-        break;
-      case num:
-        _replacedErrorText =
-            _replacedErrorText.replaceAll('{value}', (value as num).toString());
-        break;
-    }
+    _replacedErrorText =
+        _replacedErrorText.replaceAll('{value}', value ?? 'null');
 
     _errorList.add(_replacedErrorText);
   }
 
-  void _beginValidation(Map<String, dynamic> _allowedRulesList) {
-    for (final key in _allowedRulesList.keys) {
-      if (key == 'isRequired' &&
-          isRequired == true &&
-          _isRequiredCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isEmail' && isEmail == true && _isEmailCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isUrl' && isUrl == true && _isUrlCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isPhone' && isPhone == true && _isPhoneCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isIp' && isIp == true && _isIpCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isNumeric' && isNumeric == true && _isNumericCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isNumericDecimal' &&
-          isNumericDecimal == true &&
-          _isNumericDecimalCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isAlphaSpace' &&
-          isAlphaSpace == true &&
-          _isAlphaSpaceCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isAlphaNumeric' &&
-          isAlphaNumeric == true &&
-          _isAlphaNumericCheckFailed()) {
-        break;
-      }
-
-      if (key == 'isAlphaNumericSpace' &&
-          isAlphaNumericSpace == true &&
-          _isAlphaNumericSpaceCheckFailed()) {
-        break;
-      }
-
-      if (key == 'regex' && regex != null && _isRegexCheckFailed()) {
-        break;
-      }
-
-      if (key == 'length' && length != null && _isLengthCheckFailed()) {
-        break;
-      }
-
-      if (key == 'minLength' &&
-          minLength != null &&
-          _isMinLengthCheckFailed()) {
-        break;
-      }
-
-      if (key == 'maxLength' &&
-          maxLength != null &&
-          _isMaxLengthCheckFailed()) {
-        break;
-      }
-
-      if (key == 'greaterThan' &&
-          greaterThan != null &&
-          _isGreaterThanCheckFailed()) {
-        break;
-      }
-
-      if (key == 'greaterThanEqualTo' &&
-          greaterThanEqualTo != null &&
-          _isGreaterThanEqualToCheckFailed()) {
-        break;
-      }
-
-      if (key == 'lessThan' && lessThan != null && _isLessThanCheckFailed()) {
-        break;
-      }
-
-      if (key == 'lessThanEqualTo' &&
-          lessThanEqualTo != null &&
-          _isLessThanEqualToCheckFailed()) {
-        break;
-      }
-
-      if (key == 'equalTo' && equalTo != null && _isEqualToCheckFailed()) {
-        break;
-      }
-
-      if (key == 'notEqualTo' &&
-          notEqualTo != null &&
-          _isNotEqualToCheckFailed()) {
-        break;
-      }
-
-      if (key == 'equalToInList' &&
-          equalToInList != null &&
-          _isEqualToInListCheckFailed()) {
-        break;
-      }
-
-      if (key == 'notEqualToInList' &&
-          notEqualToInList != null &&
-          _isNotEqualToInListCheckFailed()) {
-        break;
-      }
-
-      if (key == 'inList' && inList != null && _isInListCheckFailed()) {
-        break;
-      }
-
-      if (key == 'notInList' &&
-          notInList != null &&
-          _isNotInListCheckFailed()) {
-        break;
-      }
-
-      if (key == 'shouldMatch' &&
-          shouldMatch != null &&
-          _isShouldMatchCheckFailed()) {
-        break;
-      }
-
-      if (key == 'shouldNotMatch' &&
-          shouldNotMatch != null &&
-          _isShouldNotMatchCheckFailed()) {
-        break;
-      }
+  void _beginValidation() {
+    if (isRequired == true && _isRequiredCheckFailed()) {
+      return;
     }
 
-    _processErrors();
+    if (isEmail == true && _isEmailCheckFailed()) {
+      return;
+    }
+
+    if (isUrl == true && _isUrlCheckFailed()) {
+      return;
+    }
+
+    if (isPhone == true && _isPhoneCheckFailed()) {
+      return;
+    }
+
+    if (isIp == true && _isIpCheckFailed()) {
+      return;
+    }
+
+    if (isNumeric == true && _isNumericCheckFailed()) {
+      return;
+    }
+
+    if (isNumericDecimal == true && _isNumericDecimalCheckFailed()) {
+      return;
+    }
+
+    if (isAlphaSpace == true && _isAlphaSpaceCheckFailed()) {
+      return;
+    }
+
+    if (isAlphaNumeric == true && _isAlphaNumericCheckFailed()) {
+      return;
+    }
+
+    if (isAlphaNumericSpace == true && _isAlphaNumericSpaceCheckFailed()) {
+      return;
+    }
+
+    if (regex != null && _isRegexCheckFailed()) {
+      return;
+    }
+
+    if (length != null && _isLengthCheckFailed()) {
+      return;
+    }
+
+    if (minLength != null && _isMinLengthCheckFailed()) {
+      return;
+    }
+
+    if (maxLength != null && _isMaxLengthCheckFailed()) {
+      return;
+    }
+
+    if (greaterThan != null && _isGreaterThanCheckFailed()) {
+      return;
+    }
+
+    if (greaterThanEqualTo != null && _isGreaterThanEqualToCheckFailed()) {
+      return;
+    }
+
+    if (lessThan != null && _isLessThanCheckFailed()) {
+      return;
+    }
+
+    if (lessThanEqualTo != null && _isLessThanEqualToCheckFailed()) {
+      return;
+    }
+
+    if (equalTo != null && _isEqualToCheckFailed()) {
+      return;
+    }
+
+    if (notEqualTo != null && _isNotEqualToCheckFailed()) {
+      return;
+    }
+
+    if (equalToInList != null && _isEqualToInListCheckFailed()) {
+      return;
+    }
+
+    if (notEqualToInList != null && _isNotEqualToInListCheckFailed()) {
+      return;
+    }
+
+    if (inList != null && _isInListCheckFailed()) {
+      return;
+    }
+
+    if (notInList != null && _isNotInListCheckFailed()) {
+      return;
+    }
+
+    if (shouldMatch != null && _isShouldMatchCheckFailed()) {
+      return;
+    }
+
+    if (shouldNotMatch != null && _isShouldNotMatchCheckFailed()) {
+      return;
+    }
   }
 
   bool _isRequiredCheckFailed() {
@@ -424,7 +320,7 @@ class Rules<T> {
   }
 
   bool _isNumericCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringNumeric(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringNumeric(value)) {
       _errorItemList.add('isNumeric');
 
       return true;
@@ -435,7 +331,7 @@ class Rules<T> {
 
   bool _isNumericDecimalCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isStringNumeric(value as String, allowDecimal: true)) {
+        !isStringNumeric(value, allowDecimal: true)) {
       _errorItemList.add('isNumericDecimal');
 
       return true;
@@ -445,7 +341,7 @@ class Rules<T> {
   }
 
   bool _isEmailCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringEmail(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringEmail(value)) {
       _errorItemList.add('isEmail');
 
       return true;
@@ -455,7 +351,7 @@ class Rules<T> {
   }
 
   bool _isPhoneCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringPhone(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringPhone(value)) {
       _errorItemList.add('isPhone');
 
       return true;
@@ -465,7 +361,7 @@ class Rules<T> {
   }
 
   bool _isUrlCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringUrl(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringUrl(value)) {
       _errorItemList.add('isUrl');
 
       return true;
@@ -475,7 +371,7 @@ class Rules<T> {
   }
 
   bool _isIpCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringIp(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringIp(value)) {
       _errorItemList.add('isIp');
 
       return true;
@@ -485,7 +381,7 @@ class Rules<T> {
   }
 
   bool _isAlphaSpaceCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringAlphaSpace(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaSpace(value)) {
       _errorItemList.add('isAlphaSpace');
 
       return true;
@@ -495,7 +391,7 @@ class Rules<T> {
   }
 
   bool _isAlphaNumericCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringAlphaNumeric(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaNumeric(value)) {
       _errorItemList.add('isAlphaNumeric');
 
       return true;
@@ -505,8 +401,7 @@ class Rules<T> {
   }
 
   bool _isAlphaNumericSpaceCheckFailed() {
-    if (isNotNullOrEmpty(value) &&
-        !isStringAlphaNumericSpace(value as String)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaNumericSpace(value)) {
       _errorItemList.add('isAlphaNumericSpace');
 
       return true;
@@ -516,8 +411,7 @@ class Rules<T> {
   }
 
   bool _isRegexCheckFailed() {
-    if (isNotNullOrEmpty(value) &&
-        !isStringRegexMatch(value as String, regex)) {
+    if (isNotNullOrEmpty(value) && !isStringRegexMatch(value, regex)) {
       _errorItemList.add('regex');
 
       return true;
@@ -527,7 +421,7 @@ class Rules<T> {
   }
 
   bool _isLengthCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringLength(value as String, length)) {
+    if (isNotNullOrEmpty(value) && !isStringLength(value, length)) {
       _errorItemList.add('length');
 
       return true;
@@ -537,8 +431,7 @@ class Rules<T> {
   }
 
   bool _isMinLengthCheckFailed() {
-    if (isNotNullOrEmpty(value) &&
-        !isStringMinLength(value as String, minLength)) {
+    if (isNotNullOrEmpty(value) && !isStringMinLength(value, minLength)) {
       _errorItemList.add('minLength');
 
       return true;
@@ -548,8 +441,7 @@ class Rules<T> {
   }
 
   bool _isMaxLengthCheckFailed() {
-    if (isNotNullOrEmpty(value) &&
-        !isStringMaxLength(value as String, maxLength)) {
+    if (isNotNullOrEmpty(value) && !isStringMaxLength(value, maxLength)) {
       _errorItemList.add('maxLength');
 
       return true;
@@ -560,7 +452,7 @@ class Rules<T> {
 
   bool _isGreaterThanCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isValueGreaterThan(double.tryParse(value as String), greaterThan)) {
+        !isValueGreaterThan(double.tryParse(value), greaterThan)) {
       _errorItemList.add('greaterThan');
 
       return true;
@@ -572,7 +464,7 @@ class Rules<T> {
   bool _isGreaterThanEqualToCheckFailed() {
     if (isNotNullOrEmpty(value) &&
         !isValueGreaterThanEqualTo(
-            double.tryParse(value as String), greaterThanEqualTo)) {
+            double.tryParse(value), greaterThanEqualTo)) {
       _errorItemList.add('greaterThanEqualTo');
 
       return true;
@@ -583,7 +475,7 @@ class Rules<T> {
 
   bool _isLessThanCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isValueLessThan(double.tryParse(value as String), lessThan)) {
+        !isValueLessThan(double.tryParse(value), lessThan)) {
       _errorItemList.add('lessThan');
 
       return true;
@@ -594,8 +486,7 @@ class Rules<T> {
 
   bool _isLessThanEqualToCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isValueLessThanEqualTo(
-            double.tryParse(value as String), lessThanEqualTo)) {
+        !isValueLessThanEqualTo(double.tryParse(value), lessThanEqualTo)) {
       _errorItemList.add('lessThanEqualTo');
 
       return true;
@@ -605,8 +496,7 @@ class Rules<T> {
   }
 
   bool _isEqualToCheckFailed() {
-    if (isNotNullOrEmpty(value) &&
-        double.tryParse(value as String) != equalTo) {
+    if (isNotNullOrEmpty(value) && double.tryParse(value) != equalTo) {
       _errorItemList.add('equalTo');
 
       return true;
@@ -616,8 +506,7 @@ class Rules<T> {
   }
 
   bool _isNotEqualToCheckFailed() {
-    if (isNotNullOrEmpty(value) &&
-        double.tryParse(value as String) == notEqualTo) {
+    if (isNotNullOrEmpty(value) && double.tryParse(value) == notEqualTo) {
       _errorItemList.add('notEqualTo');
 
       return true;
@@ -628,7 +517,7 @@ class Rules<T> {
 
   bool _isEqualToInListCheckFailed() {
     if (isNotNullOrEmpty(value)) {
-      final _value = double.tryParse(value as String);
+      final _value = double.tryParse(value);
 
       if (!inArray(equalToInList, _value)) {
         _errorItemList.add('equalToInList');
@@ -642,7 +531,7 @@ class Rules<T> {
 
   bool _isNotEqualToInListCheckFailed() {
     if (isNotNullOrEmpty(value)) {
-      final _value = double.tryParse(value as String);
+      final _value = double.tryParse(value);
 
       if (inArray(notEqualToInList, _value)) {
         _errorItemList.add('notEqualToInList');
