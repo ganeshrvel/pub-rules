@@ -62,11 +62,13 @@ class Rules {
 
   final String shouldNotMatch;
 
+  final String customErrorText;
+
+  final Map<String, String> customErrors;
+
   final _errorItemList = <dynamic>[];
 
   final _errorList = <String>[];
-
-  final Map<String, String> customErrorTexts;
 
   Map<String, String> get _errorTextsDict => {
         'isRequired': '{name} is required',
@@ -107,7 +109,8 @@ class Rules {
   Rules(
     this.value, {
     @required this.name,
-    this.customErrorTexts,
+    this.customErrors,
+    this.customErrorText,
     this.isEmail = false,
     this.isPhone = false,
     this.isIp = false,
@@ -171,13 +174,19 @@ class Rules {
   }
 
   void _processErrors() {
+    if (isNotNullOrEmpty(customErrorText)) {
+      _assignErrorValues(customErrorText);
+
+      return;
+    }
+
     if (isNullOrEmpty(_errorItemList)) {
       return;
     }
 
     for (final item in _errorItemList) {
-      if (isNotNull(customErrorTexts) && customErrorTexts.containsKey(item)) {
-        final _errorText = customErrorTexts[item];
+      if (isNotNull(customErrors) && customErrors.containsKey(item)) {
+        final _errorText = customErrors[item];
 
         _assignErrorValues(_errorText);
 

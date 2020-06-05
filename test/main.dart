@@ -20,6 +20,41 @@ void main() {
     });
   });
 
+  group('Custom rrors', () {
+    test('should throw an error', () {
+      final rule = Rules('',
+          name: 'Name', isRequired: true, customErrorText: 'Name is invalid.');
+
+      expect(rule.error, equals('Name is invalid.'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules(
+        '',
+        name: 'Name',
+        isRequired: true,
+        customErrors: {'isRequired': 'Name is invalid.'},
+      );
+
+      expect(rule.error, equals('Name is invalid.'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rules(
+        '',
+        name: 'Name',
+        isRequired: true,
+        customErrorText: 'This is a master error',
+        customErrors: {'isRequired': 'Name is invalid.'},
+      );
+
+      expect(rule.error, equals('This is a master error'));
+      expect(rule.hasError, equals(true));
+    });
+  });
+
   group('Only string can be input as the value', () {
     test('should NOT throw an error', () {
       final rule = Rules('', name: 'Name');
