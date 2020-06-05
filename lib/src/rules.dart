@@ -174,13 +174,13 @@ class Rules {
   }
 
   void _processErrors() {
-    if (isNotNullOrEmpty(customErrorText)) {
-      _assignErrorValues(customErrorText);
-
+    if (isNullOrEmpty(_errorItemList)) {
       return;
     }
 
-    if (isNullOrEmpty(_errorItemList)) {
+    if (isNotNullOrEmpty(customErrorText)) {
+      _assignErrorValues(customErrorText);
+
       return;
     }
 

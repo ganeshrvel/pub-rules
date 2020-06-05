@@ -53,6 +53,18 @@ void main() {
       expect(rule.error, equals('This is a master error'));
       expect(rule.hasError, equals(true));
     });
+
+    test('should NOT throw an error', () {
+      final rule = Rules(
+        '',
+        name: 'Name',
+        isRequired: false,
+        customErrorText: 'This is a master error',
+        customErrors: {'isRequired': 'Name is invalid.'},
+      );
+
+      expect(rule.hasError, equals(false));
+    });
   });
 
   group('Only string can be input as the value', () {
