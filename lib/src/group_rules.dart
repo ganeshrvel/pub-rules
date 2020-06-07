@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/group_rules_functs.dart';
+import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
 import 'package:rules/src/rules.dart';
 
@@ -9,9 +10,11 @@ class GroupRules {
 
   final String name;
 
-  final bool isRequiredAll;
+  final bool requiredAll;
 
   final int requiredAtleast;
+
+  final int maxAllowed;
 
   final String customErrorText;
 
@@ -22,15 +25,19 @@ class GroupRules {
   final _errorList = <String>[];
 
   Map<String, String> get _errorTextsDict => {
-        'isRequiredAll': 'All values are mandatory in {name}',
-        'requiredAtleast': 'Atleast $requiredAtleast is required in {name}',
+        'requiredAll': 'All fields are mandatory in {name}',
+        'requiredAtleast':
+            'At least $requiredAtleast ${plural('field', value: requiredAtleast, verb: true)} required in {name}',
+        'maxAllowed':
+            'A maximum of $maxAllowed ${plural('field', value: maxAllowed, verb: true)} allowed in {name}',
       };
 
   GroupRules(
     this.ruleList, {
     @required this.name,
-    this.isRequiredAll,
+    this.requiredAll,
     this.requiredAtleast,
+    this.maxAllowed,
     this.customErrorText,
     this.customErrors,
   }) {
@@ -112,19 +119,23 @@ class GroupRules {
   }
 
   void _beginValidation() {
-    if (isRequiredAll == true && _isRequiredCheckFailed()) {
+    if (requiredAll == true && _isRequiredCheckFailed()) {
       return;
     }
 
     if (requiredAtleast != null && _isRequiredAtleastCheckFailed()) {
       return;
     }
+
+    if (maxAllowed != null && _isMaxAllowedCheckFailed()) {
+      return;
+    }
   }
 
   bool _isRequiredCheckFailed() {
-    if (isRequiredAll) {
+    if (requiredAll) {
       if (isEmptyRuleValueExists(ruleList)) {
-        _errorItemList.add('isRequiredAll');
+        _errorItemList.add('requiredAll');
 
         return true;
       }
@@ -142,6 +153,18 @@ class GroupRules {
 
         return true;
       }
+    }
+
+    return false;
+  }
+
+  bool _isMaxAllowedCheckFailed() {
+    final _nonEmptyValues = getAllNonEmptyRules(ruleList);
+
+    if (_nonEmptyValues.length > maxAllowed) {
+      _errorItemList.add('maxAllowed');
+
+      return true;
     }
 
     return false;

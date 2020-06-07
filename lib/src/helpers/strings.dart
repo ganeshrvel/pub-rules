@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 String enumToString(dynamic input) {
   return input.toString().split('.').last;
 }
@@ -136,10 +138,14 @@ String capitalize(String input) {
   return input[0].toUpperCase() + input.substring(1);
 }
 
-String plural({String text, int value}) {
+String plural(
+  String text, {
+  @required int value,
+  bool verb = false,
+}) {
   if (value == 1) {
-    return text;
+    return '$text${verb ? ' is' : ''}';
   } else {
-    return '$value ${text}s';
+    return '${text}s${verb ? ' are' : ''}';
   }
 }
