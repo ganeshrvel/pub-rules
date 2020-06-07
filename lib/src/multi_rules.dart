@@ -1,13 +1,19 @@
+import 'package:rules/src/group_rules.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/models/rules_models.dart';
 import 'package:rules/src/rules.dart';
 
 class MultiRules {
-  final List<Rules> _ruleList;
+  final List<Rules> rules;
+
+  final List<GroupRules> groupRules;
 
   List<String> _errorList = <String>[];
 
-  MultiRules(this._ruleList) {
+  MultiRules({
+    this.rules,
+    this.groupRules,
+  }) {
     _run();
   }
 
@@ -18,7 +24,22 @@ class MultiRules {
   bool get hasError => isNotNullOrEmpty(errorList);
 
   void _run() {
-    for (final rule in _ruleList ?? []) {
+    _processRulesErrors();
+    _processGroupRulesErrors();
+  }
+
+  void _processRulesErrors() {
+    for (final rule in rules ?? []) {
+      final _ruleError = rule.error as String;
+
+      if (isNotNullOrEmpty(_ruleError)) {
+        _errorList = [..._errorList, _ruleError];
+      }
+    }
+  }
+
+  void _processGroupRulesErrors() {
+    for (final rule in groupRules ?? []) {
       final _ruleError = rule.error as String;
 
       if (isNotNullOrEmpty(_ruleError)) {
