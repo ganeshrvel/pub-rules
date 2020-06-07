@@ -24,7 +24,7 @@ import 'package:rules/rules.dart';
 ```
 
 #### 1. Rules
-> These are the basic building blocks of the rules.
+- These are the basic building blocks of the rules.
 
 **Basic example**
 ```dart
@@ -168,7 +168,7 @@ else {
 }
 ```
 
-> IMPORTANT: If the value is empty or null and 'isRequired' is false or not set then no error will be thrown for any other constraints.
+- IMPORTANT: If the value is empty or null and 'isRequired' is false or not set then no error will be thrown for any other constraints.
 
 ```dart
 final textFieldValue = ''; // or null
@@ -221,7 +221,7 @@ else {
 ```
 
 ###### isPhone: `bool`
-> It recognizes phone numbers starting with **+** or **0**, no length limitations and handles `#, x, ext, extension` extension conventions.
+- It recognizes phone numbers starting with **+** or **0**, no length limitations and handles `#, x, ext, extension` extension conventions.
 
 ```dart
 final textFieldValue = '+1-9090909090';
@@ -241,7 +241,7 @@ else {
 ```
 
 ###### isIp: `bool`
-> It accepts both IPv4 and IPv6 addresses.
+- It accepts both IPv4 and IPv6 addresses.
 
 
 ```dart
@@ -262,7 +262,7 @@ else {
 ```
 
 ###### isNumeric: `bool`
-> It accepts both 0, positive and negative integers. Decimals are not allowed.
+- It accepts both 0, positive and negative integers. Decimals are not allowed.
 
 
 ```dart
@@ -284,7 +284,7 @@ else {
 
 
 ###### isNumericDecimal: `bool`
-> It accepts 0, postive and negative integers and decimals numbers.
+- It accepts 0, postive and negative integers and decimals numbers.
 
 
 ```dart
@@ -306,7 +306,7 @@ else {
 
 
 ###### isAlphaSpace: `bool`
-> It accepts multiple spaces and alphabets (both upper and lower case).
+- It accepts multiple spaces and alphabets (both upper and lower case).
 
 
 ```dart
@@ -328,7 +328,7 @@ else {
 
 
 ###### isAlphaNumeric: `bool`
-> It accepts alphabets (both upper and lower case) and numbers.
+- It accepts alphabets (both upper and lower case) and numbers.
 
 ```dart
 final textFieldValue = 'username123';
@@ -349,7 +349,7 @@ else {
 
 
 ###### isAlphaNumericSpace: `bool`
-> It accepts multiple spaces, alphabets (both upper and lower case) and numbers.
+- It accepts multiple spaces, alphabets (both upper and lower case) and numbers.
 
 ```dart
 final textFieldValue = 'Bread 20';
@@ -369,7 +369,7 @@ else {
 ```
 
 ###### regex: `String`
-> It accepts a custom regular expression string.
+- It accepts a custom regular expression string.
 
 ```dart
 final textFieldValue = r'^[a-zA-Z0-9\s]+$';
@@ -389,7 +389,7 @@ else {
 ```
 
 ###### length: `int`
-> Defines the length of the input string.
+- Defines the length of the input string.
 
 ```dart
 final textFieldValue = '9090909090';
@@ -409,7 +409,7 @@ else {
 ```
 
 ###### minLength: `int`
-> Defines the minimum length of the input string.
+- Defines the minimum length of the input string.
 
 
 ```dart
@@ -430,7 +430,7 @@ else {
 ```
 
 ###### maxLength: `int`
-> Defines the maximum length of the input string.
+- Defines the maximum length of the input string.
 
 ```dart
 final textFieldValue = 'username12';
@@ -450,8 +450,8 @@ else {
 ```
 
 ###### greaterThan: `double`
-> Checks if the input value is greater than the 'greaterThan' value.
-> if 'isNumeric' is not set then the 'isNumericDecimal' constraint will be applied automatically.
+- Checks if the input value is greater than the 'greaterThan' value.
+- if 'isNumeric' is not set then the 'isNumericDecimal' constraint will be applied automatically.
 
 
 ```dart
@@ -473,8 +473,8 @@ else {
 ```
 
 ###### greaterThanEqualTo: `double`
-> Checks if the input value is greater than or equal to the 'greaterThanEqualTo' value.
-> if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
+- Checks if the input value is greater than or equal to the 'greaterThanEqualTo' value.
+- if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
 final textFieldValue = '5.1';
@@ -494,8 +494,8 @@ else {
 ```
 
 ###### lessThan: `double`
-> Checks if the input value is greater than or equal to the 'lessThan' value.
-> if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
+- Checks if the input value is greater than or equal to the 'lessThan' value.
+- if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
 final textFieldValue = '1';
@@ -516,8 +516,8 @@ else {
 ```
 
 ###### lessThanEqualTo: `double`
-> Checks if the input value is greater than or equal to the 'lessThanEqualTo' value.
-> if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
+- Checks if the input value is greater than or equal to the 'lessThanEqualTo' value.
+- if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
 final textFieldValue = '2.0';
@@ -538,8 +538,8 @@ else {
 
 
 ###### equalTo: `double`
-> Checks if the input value is equal to the 'equalTo' value.
-> if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
+- Checks if the input value is equal to the 'equalTo' value.
+- if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
 final textFieldValue = '2.0';
@@ -560,9 +560,9 @@ else {
 
 
 ###### notEqualTo: `double`
-> Checks if the input value is equal to the 'notEqualTo' value. 
-> It will throw an error if the values match.
-> if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
+- Checks if the input value is equal to the 'notEqualTo' value. 
+- It will throw an error if the values match.
+- if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 
 ```dart
@@ -583,8 +583,8 @@ else {
 ```
 
 ###### equalToInList: `List<double>`
-> Checks if the input value matches with any of the 'equalToInList' values.
-> Note: This is a float comparison. 10.00 == 10 will be true.
+- Checks if the input value matches with any of the 'equalToInList' values.
+- Note: This is a float comparison. 10.00 == 10 will be true.
 
 
 ```dart
@@ -606,9 +606,9 @@ else {
 
 
 ###### notEqualToInList: `List<double>`
-> Checks if the input value matches with any of the 'notEqualToInList' values.
-> It will throw an error if there is a value match.
-> Note: This is a float comparison. 10.00 == 10 will be true.
+- Checks if the input value matches with any of the 'notEqualToInList' values.
+- It will throw an error if there is a value match.
+- Note: This is a float comparison. 10.00 == 10 will be true.
 
 
 ```dart
@@ -630,8 +630,8 @@ else {
 
 
 ###### shouldMatch: `String`
-> Checks if the input value matches with the 'shouldMatch' value.
-> Note: This is a string comparison.
+- Checks if the input value matches with the 'shouldMatch' value.
+- Note: This is a string comparison.
 
 ```dart
 final textFieldValue = 'abc';
@@ -652,9 +652,9 @@ else {
 
 
 ###### shouldNotMatch: `String`
-> Checks if the input value matches with the 'shouldNotMatch' value.
-> It will throw an error if there is a value match.
-> Note: This is a string comparison.
+- Checks if the input value matches with the 'shouldNotMatch' value.
+- It will throw an error if there is a value match.
+- Note: This is a string comparison.
 
 ```dart
 final textFieldValue = 'abc';
@@ -676,8 +676,8 @@ else {
 
 
 ###### inList: `List<String>`
-> Checks if the input value matches with any of the 'inList' values.
-> Note: This is a string comparison.
+- Checks if the input value matches with any of the 'inList' values.
+- Note: This is a string comparison.
 
 ```dart
 final textFieldValue = 'abc';
@@ -699,9 +699,9 @@ else {
 
 
 ###### notInList: `List<String>`
-> Checks if the input value matches with any of the 'notInList' values.
-> It will throw an error if the values match.
-> Note: This is a string comparison.
+- Checks if the input value matches with any of the 'notInList' values.
+- It will throw an error if the values match.
+- Note: This is a string comparison.
 
 ```dart
 final textFieldValue = 'abc';
@@ -756,11 +756,11 @@ else {
 ```
 
 ###### Override the default errors
-> To override the error text of a particular option, set 'customErrors' as {'optionName': '<Error Text>'}.
-> The 'optionName' key should match the available options for overriding the error text.
-> Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
-> To override the all error texts set 'customErrorText'.
-> 'customErrorText' will override all errors including 'customErrors'
+- To override the error text of a particular option, set 'customErrors' as {'optionName': '<Error Text>'}.
+- The 'optionName' key should match the available options for overriding the error text.
+- Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
+- To override the all error texts set 'customErrorText'.
+- 'customErrorText' will override all errors including 'customErrors'
 
 ```dart
 final textFieldValue = ''; // or textFieldValue = 'xyz';
@@ -803,7 +803,7 @@ print(rule.error);
 ```
 
 #### 2. GroupRules
-> Group together Rules using GroupRules
+- Group together Rules using GroupRules
 
 **Basic example**
 ```dart
@@ -898,8 +898,8 @@ print(groupRule.error);
 
 ```
 
-> IMPORTANT: If any of Rules that were passed to the GroupRules have validation errore then GroupRules will throw these errors first.
-> The group validation wouldn't happen until all Rules pass the validation.
+- IMPORTANT: If any of Rules that were passed to the GroupRules have validation errore then GroupRules will throw these errors first.
+- The group validation wouldn't happen until all Rules pass the validation.
 
 ```dart
 final textFieldValue1 = 'abc';  // or final textFieldValue = null;
@@ -935,7 +935,7 @@ else {
 }
 ```
 
-> IMPORTANT: If the input Rules list is an empty array or null and 'isRequiredAll' is false or not set then no error will be thrown for any other constraints.
+- IMPORTANT: If the input Rules list is an empty array or null and 'isRequiredAll' is false or not set then no error will be thrown for any other constraints.
 
 ```dart
 final groupRule = GroupRules(
