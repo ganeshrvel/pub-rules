@@ -152,7 +152,7 @@ class Rules {
   bool get hasError => isNotNullOrEmpty(error);
 
   void _run() {
-    if (isValuesNotNull(
+    if (isNotNullExists(
           [
             greaterThan,
             greaterThanEqualTo,

@@ -1,13 +1,15 @@
 import 'package:meta/meta.dart';
-import 'package:rules/src/helpers/array.dart';
 import 'package:rules/src/helpers/functs.dart';
+import 'package:rules/src/helpers/group_rules_functs.dart';
 import 'package:rules/src/models/rules_models.dart';
 import 'package:rules/src/rules.dart';
 
 class GroupRules {
+  final List<Rules> ruleList;
+
   final String name;
 
-  final List<Rules> ruleList;
+  final bool isRequiredAll;
 
   final String customErrorText;
 
@@ -18,12 +20,14 @@ class GroupRules {
   final _errorList = <String>[];
 
   Map<String, String> get _errorTextsDict => {
-        'isRequired': '{name} is required'
+        'isRequiredAll': 'All values are mandatory in {name}',
+//        'isRequiredAll': 'All values are mandatory in {name}',
       };
 
   GroupRules(
     this.ruleList, {
     @required this.name,
+    this.isRequiredAll,
     this.customErrorText,
     this.customErrors,
   }) {
@@ -50,6 +54,18 @@ class GroupRules {
     _beginValidation();
 
     _processErrors();
+  }
+
+  void _preProcessRulesErrors() {
+    for (final rule in ruleList) {
+      final error = rule.error;
+
+      if (isNotNullOrEmpty(error)) {
+        _errorList.add(error);
+
+        break;
+      }
+    }
   }
 
   void _processErrors() {
@@ -88,15 +104,21 @@ class GroupRules {
     _errorList.add(_replacedErrorText);
   }
 
-  void _beginValidation() {}
-
-  void _preProcessRulesErrors() {
-    if (isNotNullOrEmpty(ruleList) && isArrayIndexExists(ruleList, 0)) {
-      final error = ruleList[0].error;
-
-      _errorList.add(error);
-
+  void _beginValidation() {
+    if (isRequiredAll == true && _isRequiredCheckFailed()) {
       return;
     }
+  }
+
+  bool _isRequiredCheckFailed() {
+    if (isRequiredAll) {
+      if (isEmptyRuleValueExists(ruleList)) {
+        _errorItemList.add('isRequiredAll');
+
+        return true;
+      }
+    }
+
+    return false;
   }
 }

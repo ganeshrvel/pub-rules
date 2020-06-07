@@ -1,3 +1,5 @@
+import 'package:rules/src/helpers/functs.dart';
+
 bool inArray(List array, dynamic x) {
   return array.contains(x);
 }
@@ -6,9 +8,17 @@ bool isArrayIndexExists(List<dynamic> array, int x) {
   return array.isNotEmpty && x >= array.length - 1;
 }
 
-bool isValuesNull(List<dynamic> valueList) {
+// return true if any value is found null
+bool isNullExists(
+  List<dynamic> valueList, {
+  bool isEmpty = false,
+}) {
   for (final val in valueList) {
-    if (val == null) {
+    if (isEmpty) {
+      if (isNullOrEmpty(val)) {
+        return true;
+      }
+    } else if (val == null) {
       return true;
     }
   }
@@ -16,9 +26,17 @@ bool isValuesNull(List<dynamic> valueList) {
   return false;
 }
 
-bool isValuesNotNull(List<dynamic> valueList) {
+// return true if any value is found not null
+bool isNotNullExists(
+  List<dynamic> valueList, {
+  bool isEmpty = false,
+}) {
   for (final val in valueList) {
-    if (val != null) {
+    if (isEmpty) {
+      if (isNotNullOrEmpty(val)) {
+        return true;
+      }
+    } else if (val != null) {
       return true;
     }
   }

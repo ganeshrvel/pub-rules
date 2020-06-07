@@ -93,4 +93,76 @@ void main() {
       expect(groupRule.hasError, equals(false));
     });
   });
+
+  group('isRequiredAll', () {
+    test('should throw an error', () {
+      final rule = Rules('', name: 'name', isRequired: false);
+      final groupRule =
+          GroupRules([rule], name: 'group name', isRequiredAll: true);
+
+      expect(rule.hasError, equals(false));
+      expect(
+          groupRule.error, contains('All values are mandatory in group name'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rules('', name: 'name', isRequired: false);
+      final rule2 = Rules(null, name: 'name', isRequired: false);
+      final groupRule =
+          GroupRules([rule1, rule2], name: 'group name', isRequiredAll: true);
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(
+          groupRule.error, contains('All values are mandatory in group name'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rules('123', name: 'name', isRequired: false);
+      final rule2 = Rules(null, name: 'name', isRequired: false);
+      final groupRule =
+          GroupRules([rule1, rule2], name: 'group name', isRequiredAll: true);
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(
+          groupRule.error, contains('All values are mandatory in group name'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rules('', name: 'name', isRequired: false);
+      final rule2 = Rules(null, name: 'name', isRequired: true);
+      final groupRule =
+          GroupRules([rule1, rule2], name: 'group name', isRequiredAll: true);
+
+      expect(rule2.error, contains('is required'));
+      expect(rule2.hasError, equals(true));
+      expect(groupRule.error, contains('is required'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rules('', name: 'name');
+      final rule2 = Rules(null, name: 'name');
+      final groupRule =
+          GroupRules([rule1, rule2], name: 'group name', isRequiredAll: false);
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(groupRule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rules('', name: 'name');
+      final rule2 = Rules(null, name: 'name');
+      final groupRule = GroupRules([rule1, rule2], name: 'group name');
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(groupRule.hasError, equals(false));
+    });
+  });
 }
