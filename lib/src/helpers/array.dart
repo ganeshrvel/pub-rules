@@ -2,7 +2,7 @@ bool inArray(List array, dynamic x) {
   return array.contains(x);
 }
 
-bool isArrayIndexExists(int x, List<dynamic> array) {
+bool isArrayIndexExists(List<dynamic> array, int x) {
   return array.isNotEmpty && x >= array.length - 1;
 }
 

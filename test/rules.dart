@@ -20,7 +20,7 @@ void main() {
     });
   });
 
-  group('Custom rrors', () {
+  group('Custom errors', () {
     test('should throw an error', () {
       final rule = Rules('',
           name: 'Name', isRequired: true, customErrorText: 'Name is invalid.');
@@ -67,14 +67,7 @@ void main() {
     });
   });
 
-  group('Only string can be input as the value', () {
-    test('should NOT throw an error', () {
-      final rule = Rules('', name: 'Name');
-
-      expect(rule.hasError, equals(false));
-    });
-  });
-
+  // todo move it to MultiRules.dart
   group('MultiRules', () {
     test('should throw an error', () {
       final rule1 = Rules('', name: 'name', isRequired: true);

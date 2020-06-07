@@ -4,6 +4,7 @@ import 'package:rules/src/rules.dart';
 
 class MultiRules {
   final List<Rules> _ruleList;
+
   List<String> _errorList = <String>[];
 
   MultiRules(this._ruleList) {

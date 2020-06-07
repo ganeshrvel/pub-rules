@@ -66,7 +66,7 @@ class Rules {
 
   final Map<String, String> customErrors;
 
-  final _errorItemList = <dynamic>[];
+  final _errorItemList = <String>[];
 
   final _errorList = <String>[];
 
