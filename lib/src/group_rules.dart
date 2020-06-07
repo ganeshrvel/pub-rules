@@ -11,6 +11,8 @@ class GroupRules {
 
   final bool isRequiredAll;
 
+  final int requiredAtleast;
+
   final String customErrorText;
 
   final Map<String, String> customErrors;
@@ -21,18 +23,23 @@ class GroupRules {
 
   Map<String, String> get _errorTextsDict => {
         'isRequiredAll': 'All values are mandatory in {name}',
-//        'isRequiredAll': 'All values are mandatory in {name}',
+        'requiredAtleast': 'Atleast $requiredAtleast is required in {name}',
       };
 
   GroupRules(
     this.ruleList, {
     @required this.name,
     this.isRequiredAll,
+    this.requiredAtleast,
     this.customErrorText,
     this.customErrors,
   }) {
     if (isNullOrEmpty(name)) {
       throw "Group Rules => \n'name' parameter is required";
+    }
+
+    if (isNotNull(requiredAtleast) && ruleList.length < requiredAtleast) {
+      throw "Group Rules => \nA minimum of 'requiredAtleast' number of ($requiredAtleast) rules are required";
     }
 
     _run();
@@ -108,12 +115,30 @@ class GroupRules {
     if (isRequiredAll == true && _isRequiredCheckFailed()) {
       return;
     }
+
+    if (requiredAtleast != null && _isRequiredAtleastCheckFailed()) {
+      return;
+    }
   }
 
   bool _isRequiredCheckFailed() {
     if (isRequiredAll) {
       if (isEmptyRuleValueExists(ruleList)) {
         _errorItemList.add('isRequiredAll');
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  bool _isRequiredAtleastCheckFailed() {
+    if (requiredAtleast > 0) {
+      final _nonEmptyValues = getAllNonEmptyRules(ruleList);
+
+      if (_nonEmptyValues.length < requiredAtleast) {
+        _errorItemList.add('requiredAtleast');
 
         return true;
       }

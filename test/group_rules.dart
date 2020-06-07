@@ -165,4 +165,85 @@ void main() {
       expect(groupRule.hasError, equals(false));
     });
   });
+
+  group('requiredAtleast', () {
+    test('should throw an error', () {
+      try {
+        final rule1 = Rules('', name: 'value');
+        final rule2 = Rules('', name: 'value');
+        final groupRule =
+            GroupRules([rule1, rule2], name: 'group rules', requiredAtleast: 3);
+
+        expect(
+            groupRule,
+            contains(
+                "A minimum of 'requiredAtleast' number of (3) rules are required"));
+      } catch (e) {
+        expect(
+            e,
+            contains(
+                "A minimum of 'requiredAtleast' number of (3) rules are required"));
+      }
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rules('', name: 'value');
+      final rule2 = Rules('', name: 'value');
+      final groupRule =
+          GroupRules([rule1, rule2], name: 'group rules', requiredAtleast: 0);
+
+      expect(groupRule.hasError, equals(false));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rules('', name: 'name', isRequired: false);
+      final rule2 = Rules(null, name: 'name', isRequired: false);
+      final groupRule =
+          GroupRules([rule1, rule2], name: 'group name', requiredAtleast: 1);
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(groupRule.error, contains('Atleast 1 is required in group name'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rules('abc', name: 'name', isRequired: false);
+      final rule2 = Rules(null, name: 'name', isRequired: false);
+      final groupRule =
+          GroupRules([rule1, rule2], name: 'group name', requiredAtleast: 1);
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(groupRule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rules('abc', name: 'name', isRequired: false);
+      final rule2 = Rules('xyz', name: 'name', isRequired: false);
+      final rule3 = Rules('123', name: 'name', isRequired: false);
+      final groupRule = GroupRules([rule1, rule2, rule3],
+          name: 'group name', requiredAtleast: 3);
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(rule3.hasError, equals(false));
+      expect(groupRule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rules('abc', name: 'name', isRequired: false);
+      final rule2 = Rules('xyz', name: 'name', isRequired: false);
+      final rule3 = Rules('123', name: 'name', isRequired: false);
+      final groupRule1 = GroupRules([rule1, rule2, rule3],
+          name: 'group name', requiredAtleast: 0);
+      final groupRule2 = GroupRules([rule1, rule2, rule3], name: 'group name');
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.hasError, equals(false));
+      expect(rule3.hasError, equals(false));
+      expect(groupRule1.hasError, equals(false));
+      expect(groupRule2.hasError, equals(false));
+    });
+  });
 }
