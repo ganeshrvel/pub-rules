@@ -77,7 +77,10 @@ void main() {
   group("'name' should not be left empty", () {
     test('should throw an error', () {
       final rule = Rules('0', name: 'value', isEmail: true);
-      final groupRule = GroupRules([rule], name: 'group name');
+      final groupRule = GroupRules(
+        [rule],
+        name: 'group name',
+      );
 
       expect(rule.error, contains('is not a valid email address'));
       expect(rule.hasError, equals(true));
@@ -152,6 +155,12 @@ void main() {
 
       expect(rule1.hasError, equals(false));
       expect(rule2.hasError, equals(false));
+      expect(groupRule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      final groupRule = GroupRules([], name: 'group name', requiredAll: true);
+
       expect(groupRule.hasError, equals(false));
     });
 

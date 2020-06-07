@@ -54,13 +54,13 @@ class Rules {
 
   final List<double> notEqualToInList;
 
-  final List<String> inList;
-
-  final List<String> notInList;
-
   final String shouldMatch;
 
   final String shouldNotMatch;
+
+  final List<String> inList;
+
+  final List<String> notInList;
 
   final String customErrorText;
 
@@ -98,12 +98,12 @@ class Rules {
             '{name} should be equal to any of these values ${(equalToInList ?? []).join(', ')}',
         'notEqualToInList':
             '{name} should not be equal to any of these values ${(notEqualToInList ?? []).join(', ')}',
+        'shouldMatch': '{name} should be same as $shouldMatch',
+        'shouldNotMatch': '{name} should not same as $shouldNotMatch',
         'inList':
             '{name} should be any of these values ${(inList ?? []).join(', ')}',
         'notInList':
             '{name} should not be any of these values ${(notInList ?? []).join(', ')}',
-        'shouldMatch': '{name} should be same as $shouldMatch',
-        'shouldNotMatch': '{name} should not same as $shouldNotMatch',
       };
 
   Rules(
