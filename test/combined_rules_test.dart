@@ -113,6 +113,28 @@ void main() {
     });
 
     test('should NOT throw an error', () {
+      Rule rule1;
+      Rule rule3;
+      GroupRule groupRule1;
+      GroupRule groupRule2;
+
+      final rule2 =
+          Rule('1.1', name: 'name', isRequired: true, isNumericDecimal: true);
+      final groupRule3 = GroupRule([rule2],
+          name: 'name', maxAllowed: 0, customErrorText: 'Group 2 error');
+
+      final rule4 =
+          Rule('1.1', name: 'name', isRequired: true, isNumeric: true);
+
+      final combinedRule = CombinedRule(
+          rules: [rule1, rule3, rule4],
+          groupRules: [groupRule1, groupRule2, groupRule3]);
+
+      expect(combinedRule.hasError, equals(true));
+      expect(combinedRule.errorList.length, 2);
+    });
+
+    test('should NOT throw an error', () {
       final rule1 = Rule('', name: 'name');
       final rule2 = Rule('', name: 'email');
       final combinedRule = CombinedRule(rules: [rule1, rule2]);
@@ -153,6 +175,25 @@ void main() {
 
     test('should NOT throw an error', () {
       final combinedRule = CombinedRule();
+
+      expect(combinedRule.hasError, equals(false));
+      expect(combinedRule.errorList.length, 0);
+    });
+
+    test('should NOT throw an error', () {
+      Rule rule1;
+      Rule rule3;
+      GroupRule groupRule1;
+      GroupRule groupRule2;
+
+      final rule2 =
+          Rule('1.1', name: 'name', isRequired: true, isNumericDecimal: true);
+      final groupRule3 = GroupRule([rule2],
+          name: 'name', requiredAtleast: 1, customErrorText: 'Group 2 error');
+
+      final combinedRule = CombinedRule(
+          rules: [rule1, rule3],
+          groupRules: [groupRule1, groupRule2, groupRule3]);
 
       expect(combinedRule.hasError, equals(false));
       expect(combinedRule.errorList.length, 0);

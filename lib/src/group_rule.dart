@@ -72,7 +72,7 @@ class GroupRule {
 
   void _preProcessRulesErrors() {
     for (final rule in ruleList) {
-      final error = rule.error;
+      final error = rule?.error;
 
       if (isNotNullOrEmpty(error)) {
         _errorList.add(error);

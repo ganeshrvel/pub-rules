@@ -1,8 +1,8 @@
 ### Introduction
 
-##### Rule - Validation library for Dart and Flutter.
+##### Rules - Validation library for Dart and Flutter.
 
-**Rule** is a simple yet powerful and feature-rich validation library for both dart and flutter. Less boilerplate code, easy to understand and developer-friendly.
+**Rules** is a simple yet powerful and feature-rich validation library for both dart and flutter. Less boilerplate code, easy to understand and developer-friendly.
 
 ### Installation
 
@@ -10,7 +10,7 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 
 ### Concept
 
-The Rule library has three parts
+The Rules library has three parts
 - Rule: Basic rule
 - GroupRule: Group together the basic rules
 - CombinedRule: Manage basic and group rules
@@ -24,7 +24,7 @@ import 'package:rules/rules.dart';
 ```
 
 #### 1. Rule (Basic Rule)
-These are the basic building blocks of the Rule library.
+These are the basic building blocks of the Rules library.
 
 **Basic example**
 ```dart
@@ -1282,6 +1282,88 @@ print(combinedRule.hasError);
 // output: true
 ```
 
+#### Flutter
+
+```dart
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  Rule emailInputRule;
+  Rule phoneInputRule;
+
+  bool get isContinueBtnAllowed {
+    final groupRule = GroupRule(
+      [emailInputRule, phoneInputRule],
+      name: 'Continue Button',
+      requiredAll: true,
+    );
+
+    return !groupRule.hasError;
+  }
+
+  void _handleEmailTextFieldOnChange(String value) {
+    setState(() {
+      emailInputRule = Rule(
+        value,
+        name: 'Name',
+        isRequired: false,
+        isAlphaSpace: true,
+        customErrorText: 'Invalid name',
+      );
+    });
+  }
+
+  void _handlePhoneTextFieldOnChange(String value) {
+    setState(() {
+      emailInputRule = Rule(
+        value,
+        name: 'Name',
+        isRequired: false,
+        isAlphaSpace: true,
+        customErrorText: 'Invalid name',
+      );
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            TextField(
+              onChanged: (String value) {
+                _handleEmailTextFieldOnChange(value);
+              },
+              decoration: InputDecoration(
+                hintText: 'Email address',
+                errorText: emailInputRule?.error ?? null,
+              ),
+            ),
+            TextField(
+              onChanged: (String value) {
+                _handlePhoneTextFieldOnChange(value);
+              },
+              decoration: InputDecoration(
+                hintText: 'Phone',
+                errorText: phoneInputRule?.error ?? null,
+              ),
+            ),
+            if (isContinueBtnAllowed)
+              FlatButton(
+                onPressed: () {
+                  // call api
+                },
+                child: const Text('Continue'),
+              )
+            else
+              Container()
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+```
+
 
 ### Buy me a coffee
 Help me keep the app FREE and open for all.
@@ -1299,6 +1381,6 @@ Please feel free to contact me at ganeshrvel@outlook.com
 - Contacts: ganeshrvel@outlook.com
 
 ### License
-Rule | Validation library for Dart and Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
+Rules | Validation library for Dart and Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
 
 Copyright © 2018 - Present Ganesh Rathinavel

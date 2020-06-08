@@ -30,7 +30,7 @@ class CombinedRule {
 
   void _processRulesErrors() {
     for (final rule in rules ?? []) {
-      final _ruleError = rule.error as String;
+      final _ruleError = rule?.error as String;
 
       if (isNotNullOrEmpty(_ruleError)) {
         _errorList = [..._errorList, _ruleError];
@@ -40,7 +40,7 @@ class CombinedRule {
 
   void _processGroupRulesErrors() {
     for (final rule in groupRules ?? []) {
-      final _ruleError = rule.error as String;
+      final _ruleError = rule?.error as String;
 
       if (isNotNullOrEmpty(_ruleError)) {
         _errorList = [..._errorList, _ruleError];

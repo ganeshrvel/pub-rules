@@ -15,10 +15,38 @@ void main() {
       }
     });
 
+    test('should throw an error', () {
+      Rule rule1;
+      final rule2 = Rule('', name: 'name', isRequired: true);
+      final groupRule = GroupRule([rule1, rule2], name: 'group name');
+
+      expect(rule1?.hasError, equals(null));
+      expect(groupRule.hasError, equals(true));
+    });
+
     test('should NOT throw an error', () {
       final rule = Rule('', name: 'Name');
       final groupRule = GroupRule([rule], name: 'group name');
 
+      expect(groupRule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      Rule rule1;
+      Rule rule2;
+      final groupRule = GroupRule([rule1, rule2], name: 'group name');
+
+      expect(rule1?.hasError, equals(null));
+      expect(rule2?.hasError, equals(null));
+      expect(groupRule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error', () {
+      Rule rule1;
+      final rule2 = Rule('abc', name: 'name', isRequired: true);
+      final groupRule = GroupRule([rule1, rule2], name: 'group name');
+
+      expect(rule1?.hasError, equals(null));
       expect(groupRule.hasError, equals(false));
     });
   });
