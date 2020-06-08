@@ -1068,6 +1068,81 @@ print(groupRule.hasError);
 
 ```
 
+**Custom Error**
+
+###### Default errors
+- Plurality for 'requiredAtleast' and 'maxAllowed' error texts will be automatically detected.
+
+```dart
+{
+  'requiredAll': 'All fields are mandatory in {name}',
+  'requiredAtleast': 'At least $requiredAtleast field(s) is/are required in {name}',
+  'maxAllowed': 'A maximum of $maxAllowed field(s) is/are allowed in {name}',
+}
+```
+
+###### Override the default errors
+- To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
+- The 'optionName' key should match with one of the 'Available Options' for overriding the error text.
+- Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
+- To override all the error texts set 'customErrorText'.
+- 'customErrorText' will override all the errors including 'customErrors'.
+
+```dart
+final textFieldValue1 = 'abc';
+final textFieldValue2 = '';
+
+final rule1 = Rules(
+  textFieldValue1,
+  name: 'Text field value',
+  isRequired: true,
+); // Validation OK
+
+final rule2 = Rules(
+  textFieldValue2,
+  name: 'Text field value',
+); // Validation OK
+
+final groupRule = GroupRules(
+  [rule1, rule2],
+  name: 'Group name',
+  requiredAll: true,
+  customErrors: {
+                  'requiredAll': 'Input is invalid.',
+                },
+);
+
+print(groupRule.error);
+// output: Input is invalid.
+
+```
+
+```dart
+final textFieldValue1 = 'abc';
+final textFieldValue2 = '';
+
+final rule1 = Rules(
+  textFieldValue1,
+  name: 'Text field value',
+  isRequired: true,
+); // Validation OK
+
+final rule2 = Rules(
+  textFieldValue2,
+  name: 'Text field value',
+); // Validation OK
+
+final groupRule = GroupRules(
+  [rule1, rule2],
+  name: 'Group name',
+  requiredAll: true,
+  customErrorText: 'Invalid input.',
+);
+
+print(rule.error);
+// output: Invalid input.
+
+```
 
 
 
