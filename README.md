@@ -816,7 +816,7 @@ final rule = Rules(
 
 final groupRule = GroupRules(
   [rule], // value; List of Rules
-  name: 'Textbox Group', // placeholder value which will be used while displaying errors
+  name: 'Group name', // placeholder value which will be used while displaying errors
 );
 
 print(groupRule.error);
@@ -851,7 +851,7 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2], // value; List of Rules
-  name: 'Textbox Group', // placeholder value which will be used while displaying errors
+  name: 'Group name', // placeholder value which will be used while displaying errors
 );
 
 print(groupRule.error);
@@ -897,12 +897,12 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   requiredAll: true,
 );
 
 print(groupRule.error);
-// output: All fields are mandatory in Textbox Group
+// output: All fields are mandatory in Group name
 
 ```
 
@@ -927,7 +927,7 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group'
+  name: 'Group name'
 );
 
 print(groupRule.error);
@@ -948,7 +948,7 @@ else {
 ```dart
 final groupRule = GroupRules(
   [],
-  name: 'Textbox Group'
+  name: 'Group name'
 );
 
 print(groupRule.hasError);
@@ -976,12 +976,12 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   requiredAtleast: 2,
 );
 
 print(groupRule.error);
-// output: At least 2 fields are required in Textbox Group
+// output: At least 2 fields are required in Group name
 
 ```
 
@@ -1001,7 +1001,7 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   requiredAtleast: 2,
 );
 
@@ -1032,12 +1032,12 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   maxAllowed: 1,
 );
 
 print(groupRule.error);
-// output: A maximum of 1 field is allowed in Textbox Group
+// output: A maximum of 1 field is allowed in Group name
 
 ```
 
@@ -1057,7 +1057,7 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   maxAllowed: 1,
 );
 
@@ -1106,7 +1106,7 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   requiredAll: true,
   customErrors: {
                   'requiredAll': 'Input is invalid.',
@@ -1135,7 +1135,7 @@ final rule2 = Rules(
 
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   requiredAll: true,
   customErrorText: 'Invalid input.',
 );
@@ -1148,6 +1148,12 @@ print(rule.error);
 
 #### 1. CombinedRules
 Manage basic and group rules
+
+- Both 'Rules' and/or 'GroupRules' are accepted as inputs.
+- Errors of both 'Rules' and 'GroupRules', if any, are combined into a list.
+- Order of appearance of error texts in CombinedRules errorList: 
+    1. Rules
+    2. GroupRules
 
 **Basic example**
 ```dart
@@ -1165,7 +1171,7 @@ final rule2 = Rules(
 ); // Validation OK
 final groupRule = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   requiredAll: true
 ); // Validation FAILED
 
@@ -1184,7 +1190,7 @@ final combinedRule = CombinedRules(
 );
 
 print(combinedRule.errorList);
-// output: ['Text field 3 is required', 'All fields are mandatory in Textbox Group']
+// output: ['Text field 3 is required', 'All fields are mandatory in Group name']
 
 print(combinedRule.hasError);
 // output: true
@@ -1195,13 +1201,16 @@ if (combinedRule.hasError) {
 else {
 // Some action on success
 }
-```
-- Order of appearance of error texts in CombinedRules errorList: 
-    1. Rules
-    2. GroupRules
+```    
     
-**Example 1**
+**Available options**
+```dart
+final List<Rules> rules;
 
+final List<GroupRules> groupRules;
+```
+    
+###### rules: `List<Rules>`
 ```dart
 const textFieldValue1 = '';
 const textFieldValue2 = 'abc@xyz';
@@ -1220,6 +1229,7 @@ final rule3 = Rules(
   textFieldValue3, 
   name: 'Text field 3',
   isRequired: true,
+  customErrorText: 'Invalid field input',
 ); // Validation FAILED
 
 
@@ -1228,13 +1238,13 @@ final combinedRule = CombinedRules(
 );
 
 print(combinedRule.errorList);
-// output: ['Text field 2 is not a valid email address', 'Text field 3 is required']
+// output: ['Text field 2 is not a valid email address', 'Invalid field input']
 
 print(combinedRule.hasError);
 // output: true
 ```
 
-**Example 2**
+###### groupRules: `List<GroupRules>`
 ```dart
 const textFieldValue1 = '';
 const textFieldValue2 = 'abc@xyz';
@@ -1248,16 +1258,21 @@ final rule2 = Rules(
   name: 'Text field 2',
   isEmail: true,
 ); // Validation FAILED
-final groupRule = GroupRules(
+final groupRule1 = GroupRules(
   [rule1, rule2],
-  name: 'Textbox Group',
+  name: 'Group name',
   requiredAll: true,
   customErrorText: 'Invalid input',
 ); // Validation FAILED
 
+final groupRule2 = GroupRules(
+  [],
+  name: 'Group name',
+); // Validation OK
+
 
 final combinedRule = CombinedRules(
-  groupRules: [groupRule1],
+  groupRules: [groupRule1, groupRule2],
 );
 
 print(combinedRule.errorList);

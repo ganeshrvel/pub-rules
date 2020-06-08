@@ -146,5 +146,12 @@ void main() {
       expect(combinedRules.hasError, equals(false));
       expect(combinedRules.errorList.length, 0);
     });
+
+    test('should NOT throw an error', () {
+      final combinedRules = CombinedRules();
+
+      expect(combinedRules.hasError, equals(false));
+      expect(combinedRules.errorList.length, 0);
+    });
   });
 }
