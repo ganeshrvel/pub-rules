@@ -1,6 +1,6 @@
 ### Introduction
 
-##### Rules - Validation library for Dart and Flutter.
+##### Rules - Powerful and feature-rich validation library for both Dart and Flutter.
 
 **Rules** is a simple yet powerful and feature-rich validation library for both dart and flutter. Less boilerplate code, easy to understand and developer-friendly.
 
@@ -1525,6 +1525,6 @@ Please feel free to contact me at ganeshrvel@outlook.com
 - Contacts: ganeshrvel@outlook.com
 
 ### License
-Rules | Validation library for Dart and Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
+Rules | Powerful and feature-rich validation library for both Dart and Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
 
 Copyright © 2018 - Present Ganesh Rathinavel
