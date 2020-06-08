@@ -24,7 +24,7 @@ import 'package:rules/rules.dart';
 ```
 
 #### 1. Rules (Basic Rules)
-- These are the basic building blocks of the Rules library.
+These are the basic building blocks of the Rules library.
 
 **Basic example**
 ```dart
@@ -168,7 +168,7 @@ else {
 }
 ```
 
-- IMPORTANT: If the value is empty or null and 'isRequired' is false or not set then no error will be thrown for any other constraints.
+- IMPORTANT: If the value is empty or null and 'isRequired' is false or not set then no errors will be thrown for the subsequent constraints.
 
 ```dart
 final textFieldValue = ''; // or null
@@ -803,7 +803,7 @@ print(rule.error);
 ```
 
 #### 2. GroupRules
-- Group together Rules using GroupRules
+Group the Basic Rules together
 
 **Basic example**
 ```dart
@@ -879,16 +879,22 @@ final Map<String, String> customErrors;
 ###### requiredAll: `bool`
 
 ```dart
-final textFieldValue = 'abc';
+final textFieldValue1 = 'abc';
+final textFieldValue2 = '';
 
-final rule = Rules(
-  textFieldValue,
+final rule1 = Rules(
+  textFieldValue1,
   name: 'Text field value',
   isRequired: true,
-);
+); // Validation OK
+
+final rule2 = Rules(
+  textFieldValue2,
+  name: 'Text field value',
+); // Validation OK
 
 final groupRule = GroupRules(
-  [rule],
+  [rule1, rule2],
   name: 'Group name',
   requiredAll: true,
 );
@@ -898,7 +904,7 @@ print(groupRule.error);
 
 ```
 
-- IMPORTANT: If any of Basics Rules which were passed to the GroupRules have validation errors then GroupRules will throw those errors first.
+- IMPORTANT: If any of the Basics Rules which were passed to GroupRules have validation errors then GroupRules will throw those errors first.
 - The group validation wouldn't happen until all Rules pass the validation.
 
 ```dart
@@ -909,13 +915,13 @@ final rule1 = Rules(
   textFieldValue1,
   name: 'Text field value 1',
   isRequired: true,
-);
+); // Validation OK
 
 final rule2 = Rules(
   textFieldValue2,
   name: 'Text field value 2',
   isEmail: true,
-);
+); // Validation FAILED
 
 final groupRule = GroupRules(
   [rule1, rule2],
@@ -935,7 +941,7 @@ else {
 }
 ```
 
-- IMPORTANT: If the input Rules list is an empty array or null and 'isRequiredAll' is false or not set then no error will be thrown for any other constraints.
+- IMPORTANT: If the input Rules list is an empty array or null and 'isRequiredAll' is false or not set then no errors will be thrown for the subsequent constraints.
 
 ```dart
 final groupRule = GroupRules(
@@ -949,18 +955,22 @@ print(groupRule.hasError);
 
 ###### requiredAtleast: `int`
 
+- The number of input Basic Rules in a GroupRule should be greater than the 'requiredAtleast' value, else it will throw an exception.
+- If the 'requiredAtleast' is 0 then it will pass the validation.
+
 ```dart
-final textFieldValue = 'abc';
+final textFieldValue1 = 'abc';
+final textFieldValue2 = '';
 
 final rule1 = Rules(
-  textFieldValue,
-  name: 'Text field value'
-);
+  textFieldValue1,
+  name: 'Text field value',
+); // Validation OK
 
 final rule2 = Rules(
-  textFieldValue,
-  name: 'Text field value'
-);
+  textFieldValue2,
+  name: 'Text field value',
+); // Validation OK
 
 final groupRule = GroupRules(
   [rule1, rule2],
@@ -969,9 +979,38 @@ final groupRule = GroupRules(
 );
 
 print(groupRule.error);
-// output: All fields are mandatory in Group name
+// output: At least 2 fields are required in Group name
 
 ```
+
+```dart
+final textFieldValue1 = 'abc';
+final textFieldValue2 = 'xyz';
+
+final rule1 = Rules(
+  textFieldValue1,
+  name: 'Text field value',
+); // Validation OK
+
+final rule2 = Rules(
+  textFieldValue2,
+  name: 'Text field value',
+); // Validation OK
+
+final groupRule = GroupRules(
+  [rule1, rule2],
+  name: 'Group name',
+  requiredAtleast: 2,
+);
+
+print(groupRule.error);
+// output: null
+
+print(groupRule.hasError);
+// output: false
+
+```
+
 
 
 
