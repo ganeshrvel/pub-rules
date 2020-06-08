@@ -1,9 +1,11 @@
 import 'package:rules/src/helpers/functs.dart';
 
+// check if a value is present in an array
 bool inArray(List array, dynamic x) {
   return array.contains(x);
 }
 
+// check if an index is present in an array
 bool isArrayIndexExists(List<dynamic> array, int x) {
   return array.isNotEmpty && x >= array.length - 1;
 }
@@ -44,6 +46,7 @@ bool isNotNullExists(
   return false;
 }
 
+// return all the null values in the array
 List<String> getNullValues(Map<String, dynamic> valueList) {
   final _returnList = <String>[];
 
@@ -56,6 +59,7 @@ List<String> getNullValues(Map<String, dynamic> valueList) {
   return _returnList;
 }
 
+// parse [string] values in the array to [double]
 List<double> getParsedDoubleArray(List<String> valueList) {
   return valueList.map((value) => double.tryParse(value)).toList();
 }

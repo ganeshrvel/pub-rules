@@ -2,6 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/array.dart';
 import 'package:rules/src/helpers/functs.dart';
 
+// rules model
 class RulesModel {
   String error;
   List<String> errorList;
