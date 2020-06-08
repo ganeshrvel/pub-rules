@@ -50,6 +50,37 @@ void main() {
         customErrors: {'isRequired': 'Name is invalid.'},
       );
 
+      expect(rule.error, equals('Name is invalid.'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule(
+        '',
+        name: 'Email',
+        isRequired: true,
+        isEmail: true,
+        customErrorText: 'This is a master error',
+        customErrors: {
+          'isEmail': 'Email is invalid.',
+        },
+      );
+
+      expect(rule.error, equals('This is a master error'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule(
+        '',
+        name: 'Email',
+        isRequired: true,
+        customErrorText: 'This is a master error',
+        customErrors: {
+          'isEmail': 'Email is invalid.',
+        },
+      );
+
       expect(rule.error, equals('This is a master error'));
       expect(rule.hasError, equals(true));
     });

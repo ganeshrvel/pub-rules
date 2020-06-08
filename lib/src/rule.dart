@@ -582,12 +582,6 @@ class Rule {
       return;
     }
 
-    if (isNotNullOrEmpty(customErrorText)) {
-      _assignErrorValues(customErrorText);
-
-      return;
-    }
-
     for (final item in _errorItemList) {
       if (isNotNull(customErrors) && customErrors.containsKey(item)) {
         final _errorText = customErrors[item];
@@ -595,6 +589,12 @@ class Rule {
         _assignErrorValues(_errorText);
 
         continue;
+      }
+
+      if (isNotNullOrEmpty(customErrorText)) {
+        _assignErrorValues(customErrorText);
+
+        return;
       }
 
       final _errorText = _errorTextsDict[item];

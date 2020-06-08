@@ -80,11 +80,91 @@ void main() {
         name: 'Name',
         isRequired: true,
         customErrorText: 'This is a master error',
-        customErrors: {'isRequired': 'Name is invalid.'},
+        customErrors: {
+          'isRequired': 'Name is invalid.',
+        },
+      );
+      final groupRule = GroupRule([rule], name: 'group name');
+
+      expect(groupRule.error, equals('Name is invalid.'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule(
+        '',
+        name: 'Email',
+        isRequired: true,
+        isEmail: true,
+        customErrorText: 'This is a master error',
+        customErrors: {
+          'isEmail': 'Email is invalid.',
+        },
       );
       final groupRule = GroupRule([rule], name: 'group name');
 
       expect(groupRule.error, equals('This is a master error'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule(
+        '',
+        name: 'Email',
+        isRequired: true,
+        customErrorText: 'This is a master error',
+        customErrors: {
+          'isEmail': 'Email is invalid.',
+        },
+      );
+      final groupRule = GroupRule([rule], name: 'group name');
+
+      expect(groupRule.error, equals('This is a master error'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule(
+        'abc',
+        name: 'Name',
+        isRequired: true,
+        customErrorText: 'This is a master error',
+        customErrors: {
+          'isRequired': 'Name is invalid.',
+        },
+      );
+      final groupRule = GroupRule(
+        [rule],
+        name: 'group name',
+        maxAllowed: 0,
+        customErrorText: 'This is a master group error',
+      );
+
+      expect(groupRule.error, equals('This is a master group error'));
+      expect(groupRule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule(
+        'abc',
+        name: 'Name',
+        isRequired: true,
+        customErrorText: 'This is a master error',
+        customErrors: {
+          'isRequired': 'Name is invalid.',
+        },
+      );
+      final groupRule = GroupRule(
+        [rule],
+        name: 'group name',
+        maxAllowed: 0,
+        customErrorText: 'This is a master group error',
+        customErrors: {
+          'maxAllowed': 'Group input is invalid.',
+        },
+      );
+
+      expect(groupRule.error, equals('Group input is invalid.'));
       expect(groupRule.hasError, equals(true));
     });
 

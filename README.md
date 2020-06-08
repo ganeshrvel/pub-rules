@@ -769,8 +769,8 @@ else {
 - To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
 - The 'optionName' key should match with one of the 'Available Options' for overriding the error text.
 - Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
-- To override all the error texts set 'customErrorText'.
-- 'customErrorText' will override all the errors including 'customErrors'
+- To override all default error texts set 'customErrorText'.
+- Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
 
 ```dart
 const textFieldValue = ''; // or textFieldValue = 'xyz';
@@ -1096,8 +1096,8 @@ print(groupRule.hasError);
 - To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
 - The 'optionName' key should match with one of the 'Available Options' for overriding the error text.
 - Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
-- To override all the error texts set 'customErrorText'.
-- 'customErrorText' will override all the errors including 'customErrors'.
+- To override all default error texts set 'customErrorText'.
+- Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
 
 ```dart
 const textFieldValue1 = 'abc';
