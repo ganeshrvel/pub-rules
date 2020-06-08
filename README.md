@@ -1374,7 +1374,140 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
 #### Flutter Mobx
 
+Mobx Store
+```dart
+class UpdateUserStore = _UpdateUserStoreBase
+    with _$UpdateUserStore;
 
+abstract class _UpdateUserStoreBase with Store {
+  @observable
+  String profileName;
+
+  @observable
+  String profileEmail;
+
+  @computed
+  Rules get profileNameInputRule {
+    final rule = Rules(
+      profileName,
+      name: 'Name',
+      isRequired: false,
+      isAlphaSpace: true,
+      customErrorText: 'Invalid name',
+    );
+
+    return rule;
+  }
+
+  @computed
+  Rules get profileEmailInputRule {
+    final rule = Rules(
+      profileEmail,
+      name: 'Name',
+      isRequired: false,
+      isEmail: true,
+      customErrorText: 'Invalid email',
+    );
+
+    return rule;
+  }
+
+  @computed
+  bool get isContinueButtonEnabled {
+    final groupRule = GroupRules(
+      [profileEmailInputRule, profileNameInputRule],
+      name: 'Continue Button',
+      requiredAll: true,
+    );
+
+    return !groupRule.hasError;
+  }
+
+  @action
+  void setProfileName(String value) {
+    profileName = value;
+  }
+
+  @action
+  void setProfileEmail(String value) {
+    profileEmail = value;
+  }
+}
+```
+
+Widget
+```dart
+class _UpdateUserScreen extends State<UpdateUserScreen> {
+  UpdateUserStore _updateUserStore = UpdateUserStore();
+
+  void _handleProfileNameOnChange(String value) {
+    _updateUserStore.setProfileName(value);
+  }
+
+  void _handleProfileEmailOnChange(String value) {
+    _updateUserStore.setProfileEmail(value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: Display.getWidth(context),
+      height: Display.getHeight(context),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Observer(
+            builder: (_) {
+              final _errorText = _updateUserStore.profileNameInputRule?.error;
+
+              return TextField(
+                onChanged: (String value) {
+                  _handleProfileNameOnChange(value);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Name',
+                  errorText: _errorText,
+                ),
+              );
+            },
+          ),
+          Observer(
+            builder: (_) {
+              final _errorText = _updateUserStore.profileEmailInputRule?.error;
+
+              return TextField(
+                onChanged: (String value) {
+                  _handleProfileEmailOnChange(value);
+                },
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  errorText: _errorText,
+                ),
+              );
+            },
+          ),
+          Observer(
+            builder: (_) {
+              final _isContinueButtonEnabled =
+                  _updateUserStore.isContinueButtonEnabled;
+
+              if (!_isContinueButtonEnabled) {
+                return Container();
+              }
+
+              return FlatButton(
+                onPressed: () {},
+                child: const Text('Continue'),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
 
 ### Buy me a coffee
 Help me keep the app FREE and open for all.
