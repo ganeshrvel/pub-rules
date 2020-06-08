@@ -13,7 +13,7 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 The Rules library has three parts
 - Rule: Basic rule
 - GroupRule: Group the basic rules together
-- CombinedRule: Manage basic and group rules
+- CombinedRule: Manage Rules and GroupRules
 
 
 ### Usage
@@ -1147,7 +1147,7 @@ print(rule.error);
 
 
 #### 1. CombinedRule
-Manage basic and group rules
+Manage Rules and GroupRules
 
 - Both 'Rule' and/or 'GroupRule' are accepted as inputs.
 - Errors of both 'Rule' and 'GroupRule', if any, are combined into a list.
