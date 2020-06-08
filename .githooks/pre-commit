@@ -11,7 +11,7 @@ printf "\n"
 printf "\e[33;1m%s\e[0m\n" 'Running the Dart analyzer'
 /usr/local/bin/dartanalyzer --fatal-infos --fatal-warnings ./lib/
 if [ $? -ne 0 ]; then
-  printf "\e[31;1m%s\e[0m\n" 'Dart analyzer error'
+  printf "\e[31;1m%s\e[0m\n" 'Dart analyzer failed'
   exit 1
 fi
 
@@ -21,7 +21,7 @@ printf "\n"
 printf "\e[33;1m%s\e[0m\n" 'Running unit tests'
 /usr/local/opt/dart/libexec/bin/pub run test
 if [ $? -ne 0 ]; then
- printf "\e[31;1m%s\e[0m\n" 'Unit tests error'
+ printf "\e[31;1m%s\e[0m\n" 'Unit tests failed'
  exit 1
 fi
 
