@@ -5,6 +5,11 @@ import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
 
+///
+/// Rule Class: This is the basic building block, everything starts here.
+/// Refer to https://github.com/ganeshrvel/pub-rules/blob/master/README.md#1-rule-basic-rule for usage examples
+///
+///
 class Rule {
   final String value;
 
@@ -66,8 +71,12 @@ class Rule {
 
   final Map<String, String> customErrors;
 
+  // if the validator fails then the corresponding [_errorTextsDict] key is added to this array.
+  // which will be later used for parsing and outputing error text
   final _errorItemList = <String>[];
 
+  // it holds the error texts; Note: maximum one error text, for now, is held here
+  // this can change in the future
   final _errorList = <String>[];
 
   Map<String, String> get _errorTextsDict => {
@@ -138,6 +147,7 @@ class Rule {
     this.shouldMatch,
     this.shouldNotMatch,
   }) {
+    // throw an error is 'name' parameter is missing
     if (isNullOrEmpty(name)) {
       throw "Rule => \n'name' parameter is required";
     }
@@ -147,11 +157,16 @@ class Rule {
 
   RulesModel get _rulesModel => RulesModel(errorList: _errorList);
 
+  // outputs the error text (string)
   String get error => _rulesModel.error;
 
+  // outputs true if there is a validation error else false.
   bool get hasError => isNotNullOrEmpty(error);
 
+  // starting point
   void _run() {
+    // if any of these values are found to be not null then either [isNumeric] or [isNumericDecimal] is turned on automatically.
+    // if [isNumeric] is false then [isNumericDecimal] will be set
     if (isNotNullExists(
           [
             greaterThan,
@@ -173,45 +188,7 @@ class Rule {
     _processErrors();
   }
 
-  void _processErrors() {
-    if (isNullOrEmpty(_errorItemList)) {
-      return;
-    }
-
-    if (isNotNullOrEmpty(customErrorText)) {
-      _assignErrorValues(customErrorText);
-
-      return;
-    }
-
-    for (final item in _errorItemList) {
-      if (isNotNull(customErrors) && customErrors.containsKey(item)) {
-        final _errorText = customErrors[item];
-
-        _assignErrorValues(_errorText);
-
-        continue;
-      }
-
-      final _errorText = _errorTextsDict[item];
-
-      _assignErrorValues(_errorText);
-    }
-  }
-
-  void _assignErrorValues(String _errorText) {
-    if (isNullOrEmpty(_errorText)) {
-      return;
-    }
-
-    var _replacedErrorText = _errorText.replaceAll('{name}', name);
-
-    _replacedErrorText =
-        _replacedErrorText.replaceAll('{value}', value ?? 'null');
-
-    _errorList.add(_replacedErrorText);
-  }
-
+  // the validation happens here
   void _beginValidation() {
     if (isRequired == true && _isRequiredCheckFailed()) {
       return;
@@ -590,5 +567,46 @@ class Rule {
     }
 
     return false;
+  }
+
+  // process errors from [_errorItemList]
+  void _processErrors() {
+    if (isNullOrEmpty(_errorItemList)) {
+      return;
+    }
+
+    if (isNotNullOrEmpty(customErrorText)) {
+      _assignErrorValues(customErrorText);
+
+      return;
+    }
+
+    for (final item in _errorItemList) {
+      if (isNotNull(customErrors) && customErrors.containsKey(item)) {
+        final _errorText = customErrors[item];
+
+        _assignErrorValues(_errorText);
+
+        continue;
+      }
+
+      final _errorText = _errorTextsDict[item];
+
+      _assignErrorValues(_errorText);
+    }
+  }
+
+  // update [_errorList] if any error is found
+  void _assignErrorValues(String _errorText) {
+    if (isNullOrEmpty(_errorText)) {
+      return;
+    }
+
+    var _replacedErrorText = _errorText.replaceAll('{name}', name);
+
+    _replacedErrorText =
+        _replacedErrorText.replaceAll('{value}', value ?? 'null');
+
+    _errorList.add(_replacedErrorText);
   }
 }

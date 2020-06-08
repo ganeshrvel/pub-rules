@@ -24,7 +24,7 @@ import 'package:rules/rules.dart';
 ```
 
 #### 1. Rule (Basic Rule)
-These are the basic building blocks of the Rules library.
+This is the basic building block, everything starts here.
 
 **Basic example**
 ```dart

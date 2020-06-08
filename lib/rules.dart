@@ -1,5 +1,5 @@
 ///
-/// rules
+/// rules library
 ///
 library rules;
 
