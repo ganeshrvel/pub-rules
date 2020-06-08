@@ -94,15 +94,20 @@ void main() {
           Rule('abc', name: 'name', isRequired: true, isNumeric: true);
       final rule5 = Rule('abc', name: 'name', isRequired: true, isEmail: true);
 
-      final combinedRule = CombinedRule(
-          rules: [rule4, rule5], groupRules: [groupRule1, groupRule2]);
+      final combinedRule = CombinedRule(rules: [
+        rule4,
+        rule5,
+      ], groupRules: [
+        groupRule1,
+        groupRule2,
+      ]);
 
       expect(combinedRule.errorList[0], contains('is not a valid number'));
       expect(
           combinedRule.errorList[1], contains('is not a valid email address'));
       expect(combinedRule.errorList[2], contains('Group 1 error'));
-      expect(combinedRule.errorList[3],
-          contains('is not a valid decimal number'));
+      expect(
+          combinedRule.errorList[3], contains('is not a valid decimal number'));
       expect(combinedRule.hasError, equals(true));
       expect(combinedRule.errorList.length, 4);
     });
@@ -135,8 +140,7 @@ void main() {
       final groupRule2 = GroupRule([rule2, rule3],
           name: 'name', requiredAtleast: 2, customErrorText: 'Group 2 error');
 
-      final rule4 =
-          Rule('10', name: 'name', isRequired: true, isNumeric: true);
+      final rule4 = Rule('10', name: 'name', isRequired: true, isNumeric: true);
       final rule5 =
           Rule('abc@xyz.com', name: 'name', isRequired: true, isEmail: true);
 
