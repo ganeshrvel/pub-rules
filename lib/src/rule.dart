@@ -7,12 +7,14 @@ import 'package:rules/src/models/rules_models.dart';
 
 ///
 /// Rule Class: This is the basic building block, everything starts here.
-/// Refer to https://github.com/ganeshrvel/pub-rules/blob/master/README.md#1-rule-basic-rule for usage examples
+/// Refer https://github.com/ganeshrvel/pub-rules/blob/master/README.md#1-rule-basic-rule for usage details
 ///
 ///
 class Rule {
+  // value for validation
   final String value;
 
+  // placeholder name
   final String name;
 
   final bool isRequired;
@@ -79,6 +81,7 @@ class Rule {
   // this can change in the future
   final _errorList = <String>[];
 
+  // default error text dictionary
   Map<String, String> get _errorTextsDict => {
         'isRequired': '{name} is required',
         'isEmail': '{name} is not a valid email address',
@@ -160,7 +163,7 @@ class Rule {
   // outputs the error text (string)
   String get error => _rulesModel.error;
 
-  // outputs true if there is a validation error else false.
+  // outputs true if there is a validation error else false
   bool get hasError => isNotNullOrEmpty(error);
 
   // starting point

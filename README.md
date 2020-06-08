@@ -12,7 +12,7 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 
 The Rules library has three parts
 - Rule: Basic rule
-- GroupRule: Group together the basic rules
+- GroupRule: Group the basic rules together
 - CombinedRule: Manage basic and group rules
 
 
@@ -803,7 +803,7 @@ print(rule.error);
 ```
 
 #### 2. GroupRule
-Group the Basic Rule together
+Group the basic rules together
 
 **Basic example**
 ```dart
