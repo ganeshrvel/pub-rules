@@ -756,7 +756,7 @@ else {
 ```
 
 ###### Override the default errors
-- To override the error text of a particular option, set 'customErrors' as {'optionName': '<Error Text>'}.
+- To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
 - The 'optionName' key should match with one of the 'Available Options' for overriding the error text.
 - Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
 - To override all the error texts set 'customErrorText'.
