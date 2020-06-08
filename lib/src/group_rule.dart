@@ -6,7 +6,7 @@ import 'package:rules/src/models/rules_models.dart';
 import 'package:rules/src/rule.dart';
 
 ///
-/// GroupRule Class: Group the basic rules together.
+/// GroupRule Class: Group together and validate the basic rules .
 /// Refer https://github.com/ganeshrvel/pub-rules/blob/master/README.md#2-grouprule for usage details
 ///
 ///

@@ -4,7 +4,7 @@ import 'package:rules/src/models/rules_models.dart';
 import 'package:rules/src/rule.dart';
 
 ///
-/// CombinedRule Class: Manage Rules and GroupRules
+/// CombinedRule Class: Validate multiple basic rules and group rules together
 /// Refer https://github.com/ganeshrvel/pub-rules/blob/master/README.md#1-combinedrule for usage details
 ///
 ///

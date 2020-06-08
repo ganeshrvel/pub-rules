@@ -12,8 +12,8 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 
 The Rules library has three parts
 - Rule: Basic rule
-- GroupRule: Group the basic rules together
-- CombinedRule: Manage Rules and GroupRules
+- GroupRule: Group together and validate the basic rules
+- CombinedRule: Validate multiple basic rules and group rules together
 
 
 ### Usage
@@ -803,7 +803,7 @@ print(rule.error);
 ```
 
 #### 2. GroupRule
-Group the basic rules together
+Group together and validate the basic rules 
 
 **Basic example**
 ```dart
@@ -1146,8 +1146,8 @@ print(rule.error);
 ```
 
 
-#### 1. CombinedRule
-Manage Rules and GroupRules
+#### 3. CombinedRule
+Manage multiple Rules and GroupRules
 
 - Both 'Rule' and/or 'GroupRule' are accepted as inputs.
 - Errors of both 'Rule' and 'GroupRule', if any, are combined into a list.
