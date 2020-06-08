@@ -5,7 +5,7 @@ import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
 
-class Rules {
+class Rule {
   final String value;
 
   final String name;
@@ -106,7 +106,7 @@ class Rules {
             '{name} should not be any of these values ${(notInList ?? []).join(', ')}',
       };
 
-  Rules(
+  Rule(
     this.value, {
     @required this.name,
     this.customErrors,
@@ -139,7 +139,7 @@ class Rules {
     this.shouldNotMatch,
   }) {
     if (isNullOrEmpty(name)) {
-      throw "Rules => \n'name' parameter is required";
+      throw "Rule => \n'name' parameter is required";
     }
 
     _run();

@@ -1,12 +1,12 @@
 import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/functs.dart';
-import 'package:rules/src/helpers/group_rules_functs.dart';
+import 'package:rules/src/helpers/group_rule_functs.dart';
 import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rules_models.dart';
-import 'package:rules/src/rules.dart';
+import 'package:rules/src/rule.dart';
 
-class GroupRules {
-  final List<Rules> ruleList;
+class GroupRule {
+  final List<Rule> ruleList;
 
   final String name;
 
@@ -32,7 +32,7 @@ class GroupRules {
             'A maximum of $maxAllowed ${plural('field', value: maxAllowed, verb: true)} allowed in {name}',
       };
 
-  GroupRules(
+  GroupRule(
     this.ruleList, {
     @required this.name,
     this.requiredAll,
@@ -42,11 +42,11 @@ class GroupRules {
     this.customErrors,
   }) {
     if (isNullOrEmpty(name)) {
-      throw "Group Rules => \n'name' parameter is required";
+      throw "Group Rule => \n'name' parameter is required";
     }
 
     if (isNotNull(requiredAtleast) && ruleList.length < requiredAtleast) {
-      throw "Group Rules => \nA minimum of 'requiredAtleast' number of ($requiredAtleast) rules are required";
+      throw "Group Rule => \nA minimum of 'requiredAtleast' number of ($requiredAtleast) rules are required";
     }
 
     _run();

@@ -1,8 +1,8 @@
 ### Introduction
 
-##### Rules - Validation library for Dart and Flutter.
+##### Rule - Validation library for Dart and Flutter.
 
-**Rules** is a simple yet powerful and feature-rich validation library for both dart and flutter. Less boilerplate code, easy to understand and developer-friendly.
+**Rule** is a simple yet powerful and feature-rich validation library for both dart and flutter. Less boilerplate code, easy to understand and developer-friendly.
 
 ### Installation
 
@@ -10,10 +10,10 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 
 ### Concept
 
-The Rules library has three parts
-- Rules: Basic rules
-- GroupRules: Group together the basic rules
-- CombinedRules: Manage basic and group rules
+The Rule library has three parts
+- Rule: Basic rule
+- GroupRule: Group together the basic rules
+- CombinedRule: Manage basic and group rules
 
 
 ### Usage
@@ -23,14 +23,14 @@ The Rules library has three parts
 import 'package:rules/rules.dart';
 ```
 
-#### 1. Rules (Basic Rules)
-These are the basic building blocks of the Rules library.
+#### 1. Rule (Basic Rule)
+These are the basic building blocks of the Rule library.
 
 **Basic example**
 ```dart
 const textFieldValue = 'abc@xyz.com';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue, // value; string and null are accepted
   name: 'Text field' // placeholder value which will be used while displaying errors
 );
@@ -45,7 +45,7 @@ print(rule.hasError);
 ```dart
 const textFieldValue = '';  // or const textFieldValue = null;
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isRequired: true,
@@ -68,7 +68,7 @@ else {
 ```dart
 const textFieldValue = 'abc@xyz';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isRequired: true,
@@ -154,7 +154,7 @@ final Map<String, String> customErrors;
 ```dart
 const textFieldValue = '123';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isRequired: true, // throws an error for value = null or an empty string
@@ -173,7 +173,7 @@ else {
 ```dart
 const textFieldValue = ''; // or null
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isRequired: false,
@@ -188,7 +188,7 @@ print(rule.hasError);
 ```dart
 const textFieldValue = 'abc@xyz.com';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isEmail: true,
@@ -206,7 +206,7 @@ else {
 ```dart
 const textFieldValue = 'http://www.google.com';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isUrl: true,
@@ -226,7 +226,7 @@ else {
 ```dart
 const textFieldValue = '+1-9090909090';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isPhone: true,
@@ -247,7 +247,7 @@ else {
 ```dart
 const textFieldValue = '1.1.1.1';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isIp: true,
@@ -268,7 +268,7 @@ else {
 ```dart
 const textFieldValue = '1'; // '-1', '0'
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isNumeric: true,
@@ -290,7 +290,7 @@ else {
 ```dart
 const textFieldValue = '10.01'; // '-10.01' or '0.001'
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isNumericDecimal: true,
@@ -312,7 +312,7 @@ else {
 ```dart
 const textFieldValue = 'Jane Doe';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isAlphaSpace: true,
@@ -333,7 +333,7 @@ else {
 ```dart
 const textFieldValue = 'username123';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isAlphaNumeric: true,
@@ -354,7 +354,7 @@ else {
 ```dart
 const textFieldValue = 'Bread 20';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isAlphaNumericSpace: true,
@@ -374,7 +374,7 @@ else {
 ```dart
 const textFieldValue = r'^[a-zA-Z0-9\s]+$';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field'
   regex: r'^[a-zA-Z0-9\s]+$',
@@ -394,7 +394,7 @@ else {
 ```dart
 const textFieldValue = '9090909090';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Phone Number'
   length: 10,
@@ -415,7 +415,7 @@ else {
 ```dart
 const textFieldValue = 'abcd12345';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Password',
   minLength: 6,
@@ -435,7 +435,7 @@ else {
 ```dart
 const textFieldValue = 'username12';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Username',
   minLength: 10,
@@ -457,7 +457,7 @@ else {
 ```dart
 const textFieldValue = '10';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   greaterThan: 0,
@@ -479,7 +479,7 @@ else {
 ```dart
 const textFieldValue = '5.1';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   greaterThanEqualTo: 5.0,
@@ -500,7 +500,7 @@ else {
 ```dart
 const textFieldValue = '1';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   lessThan: 2.0,
@@ -522,7 +522,7 @@ else {
 ```dart
 const textFieldValue = '2.0';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   lessThanEqualTo: 2.0,
@@ -544,7 +544,7 @@ else {
 ```dart
 const textFieldValue = '2.0';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   equalTo: 2.0,
@@ -568,7 +568,7 @@ else {
 ```dart
 const textFieldValue = '2.0';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   notEqualTo: 2.0,
@@ -590,7 +590,7 @@ else {
 ```dart
 const textFieldValue = '10';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   equalToInList: [0, 10],
@@ -614,7 +614,7 @@ else {
 ```dart
 const textFieldValue = '10';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   notEqualToInList: [0, 10],
@@ -636,7 +636,7 @@ else {
 ```dart
 const textFieldValue = 'abc';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   shouldMatch: 'abc',
@@ -659,7 +659,7 @@ else {
 ```dart
 const textFieldValue = 'abc';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   shouldNotMatch: 'xyz',
@@ -682,7 +682,7 @@ else {
 ```dart
 const textFieldValue = 'abc';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   inList: ['abc', 'xyz'],
@@ -706,7 +706,7 @@ else {
 ```dart
 const textFieldValue = 'abc';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   notInList: ['abc', 'xyz'],
@@ -765,7 +765,7 @@ else {
 ```dart
 const textFieldValue = ''; // or textFieldValue = 'xyz';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isRequired: true,
@@ -789,7 +789,7 @@ print(rule.error);
 ```dart
 const textFieldValue = '';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue,
   name: 'Text field',
   isRequired: true,
@@ -802,20 +802,20 @@ print(rule.error);
 
 ```
 
-#### 2. GroupRules
-Group the Basic Rules together
+#### 2. GroupRule
+Group the Basic Rule together
 
 **Basic example**
 ```dart
 const textFieldValue = 'abc@xyz.com';
 
-final rule = Rules(
+final rule = Rule(
   textFieldValue, 
   name: 'Text field',
 );
 
-final groupRule = GroupRules(
-  [rule], // value; List of Rules
+final groupRule = GroupRule(
+  [rule], // value; List of Rule
   name: 'Group name', // placeholder value which will be used while displaying errors
 );
 
@@ -837,20 +837,20 @@ else {
 const textFieldValue1 = '';  // or const textFieldValue = null;
 const textFieldValue2 = '';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field 1',
   isRequired: true,
 );
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field 2',
   isEmail: true,
 );
 
-final groupRule = GroupRules(
-  [rule1, rule2], // value; List of Rules
+final groupRule = GroupRule(
+  [rule1, rule2], // value; List of Rule
   name: 'Group name', // placeholder value which will be used while displaying errors
 );
 
@@ -878,24 +878,24 @@ final Map<String, String> customErrors;
 ```
 
 ###### requiredAll: `bool`
-- Checks if all the basic rules have a value in a GroupRule.
+- Checks if all basic rules have a value.
 
 ```dart
 const textFieldValue1 = 'abc';
 const textFieldValue2 = '';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field',
   isRequired: true,
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field',
 ); // Validation OK
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   requiredAll: true,
@@ -906,26 +906,26 @@ print(groupRule.error);
 
 ```
 
-- IMPORTANT: If any of the basic rules have validation errors then GroupRules will throw those errors first.
-- The group validation wouldn't happen until all Rules pass the validation.
+- IMPORTANT: If any of the basic rules have validation errors then GroupRule will throw those errors first.
+- The group validation wouldn't happen until all basic rules pass the validation.
 
 ```dart
 const textFieldValue1 = 'abc';  // or const textFieldValue = null;
 const textFieldValue2 = 'xyz@abc';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field 1',
   isRequired: true,
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field 2',
   isEmail: true,
 ); // Validation FAILED
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name'
 );
@@ -946,7 +946,7 @@ else {
 - IMPORTANT: If the input basic rules list is an empty array or null and 'isRequiredAll' is false or not set then no errors will be thrown for the subsequent constraints.
 
 ```dart
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [],
   name: 'Group name'
 );
@@ -956,7 +956,7 @@ print(groupRule.hasError);
 ```
 
 ###### requiredAtleast: `int`
-- Defines the minimum number of basic rules that should have a value in a GroupRule.
+- Defines the minimum number of basic rules that should have a value.
 - The number of basic rules in a GroupRule should be greater than the 'requiredAtleast' value else it will throw an exception.
 - If the 'requiredAtleast' is 0 then it will pass the validation.
 
@@ -964,17 +964,17 @@ print(groupRule.hasError);
 const textFieldValue1 = 'abc';
 const textFieldValue2 = '';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field',
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field',
 ); // Validation OK
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   requiredAtleast: 2,
@@ -989,17 +989,17 @@ print(groupRule.error);
 const textFieldValue1 = 'abc';
 const textFieldValue2 = 'xyz';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field',
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field',
 ); // Validation OK
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   requiredAtleast: 2,
@@ -1014,23 +1014,23 @@ print(groupRule.hasError);
 ```
 
 ###### maxAllowed: `int`
-- The maximum number of basic rules that are allowed to have a value in a GroupRule.
+- The maximum number of basic rules that are allowed to have a value.
 
 ```dart
 const textFieldValue1 = 'abc';
 const textFieldValue2 = 'xyz';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field',
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field',
 ); // Validation OK
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   maxAllowed: 1,
@@ -1045,17 +1045,17 @@ print(groupRule.error);
 const textFieldValue1 = 'abc';
 const textFieldValue2 = '';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field',
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field',
 ); // Validation OK
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   maxAllowed: 1,
@@ -1093,18 +1093,18 @@ print(groupRule.hasError);
 const textFieldValue1 = 'abc';
 const textFieldValue2 = '';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field',
   isRequired: true,
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field',
 ); // Validation OK
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   requiredAll: true,
@@ -1122,18 +1122,18 @@ print(groupRule.error);
 const textFieldValue1 = 'abc';
 const textFieldValue2 = '';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1,
   name: 'Text field',
   isRequired: true,
 ); // Validation OK
 
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2,
   name: 'Text field',
 ); // Validation OK
 
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   requiredAll: true,
@@ -1146,30 +1146,30 @@ print(rule.error);
 ```
 
 
-#### 1. CombinedRules
+#### 1. CombinedRule
 Manage basic and group rules
 
-- Both 'Rules' and/or 'GroupRules' are accepted as inputs.
-- Errors of both 'Rules' and 'GroupRules', if any, are combined into a list.
-- Order of appearance of error texts in CombinedRules errorList: 
-    1. Rules
-    2. GroupRules
+- Both 'Rule' and/or 'GroupRule' are accepted as inputs.
+- Errors of both 'Rule' and 'GroupRule', if any, are combined into a list.
+- Order of appearance of error texts in CombinedRule errorList: 
+    1. Rule
+    2. GroupRule
 
 **Basic example**
 ```dart
 const textFieldValue1 = '';
 const textFieldValue2 = 'abc@xyz.com';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1, 
   name: 'Text field 1',
 ); // Validation OK
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2, 
   name: 'Text field 2',
   isEmail: true,
 ); // Validation OK
-final groupRule = GroupRules(
+final groupRule = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   requiredAll: true
@@ -1177,14 +1177,14 @@ final groupRule = GroupRules(
 
 
 const textFieldValue3 = '';
-final rule3 = Rules(
+final rule3 = Rule(
   textFieldValue3, 
   name: 'Text field 3',
   isRequired: true,
 );  // Validation FAILED
 
 
-final combinedRule = CombinedRules(
+final combinedRule = CombinedRule(
   rules: [rule3],
   groupRules: [groupRule],
 );
@@ -1205,27 +1205,27 @@ else {
     
 **Available options**
 ```dart
-final List<Rules> rules;
+final List<Rule> rules;
 
-final List<GroupRules> groupRules;
+final List<GroupRule> groupRules;
 ```
     
-###### rules: `List<Rules>`
+###### rules: `List<Rule>`
 ```dart
 const textFieldValue1 = '';
 const textFieldValue2 = 'abc@xyz';
 const textFieldValue3 = '';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1, 
   name: 'Text field 1',
 ); // Validation OK
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2, 
   name: 'Text field 2',
   isEmail: true,
 ); // Validation FAILED
-final rule3 = Rules(
+final rule3 = Rule(
   textFieldValue3, 
   name: 'Text field 3',
   isRequired: true,
@@ -1233,7 +1233,7 @@ final rule3 = Rules(
 ); // Validation FAILED
 
 
-final combinedRule = CombinedRules(
+final combinedRule = CombinedRule(
   rules: [rule1, rule2, rule3],
 );
 
@@ -1244,34 +1244,34 @@ print(combinedRule.hasError);
 // output: true
 ```
 
-###### groupRules: `List<GroupRules>`
+###### groupRules: `List<GroupRule>`
 ```dart
 const textFieldValue1 = '';
 const textFieldValue2 = 'abc@xyz';
 
-final rule1 = Rules(
+final rule1 = Rule(
   textFieldValue1, 
   name: 'Text field 1',
 ); // Validation OK
-final rule2 = Rules(
+final rule2 = Rule(
   textFieldValue2, 
   name: 'Text field 2',
   isEmail: true,
 ); // Validation FAILED
-final groupRule1 = GroupRules(
+final groupRule1 = GroupRule(
   [rule1, rule2],
   name: 'Group name',
   requiredAll: true,
   customErrorText: 'Invalid input',
 ); // Validation FAILED
 
-final groupRule2 = GroupRules(
+final groupRule2 = GroupRule(
   [],
   name: 'Group name',
 ); // Validation OK
 
 
-final combinedRule = CombinedRules(
+final combinedRule = CombinedRule(
   groupRules: [groupRule1, groupRule2],
 );
 
@@ -1299,6 +1299,6 @@ Please feel free to contact me at ganeshrvel@outlook.com
 - Contacts: ganeshrvel@outlook.com
 
 ### License
-Rules | Validation library for Dart and Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
+Rule | Validation library for Dart and Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
 
 Copyright © 2018 - Present Ganesh Rathinavel

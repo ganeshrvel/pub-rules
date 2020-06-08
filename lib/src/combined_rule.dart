@@ -1,16 +1,16 @@
-import 'package:rules/src/group_rules.dart';
+import 'package:rules/src/group_rule.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/models/rules_models.dart';
-import 'package:rules/src/rules.dart';
+import 'package:rules/src/rule.dart';
 
-class CombinedRules {
-  final List<Rules> rules;
+class CombinedRule {
+  final List<Rule> rules;
 
-  final List<GroupRules> groupRules;
+  final List<GroupRule> groupRules;
 
   List<String> _errorList = <String>[];
 
-  CombinedRules({
+  CombinedRule({
     this.rules,
     this.groupRules,
   }) {
