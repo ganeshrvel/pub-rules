@@ -2,7 +2,17 @@
 
 ##### Rules - Powerful and feature-rich validation library for both Dart and Flutter.
 
-**Rules** is a simple yet powerful and feature-rich validation library for both dart and flutter. Less boilerplate code, easy to understand and developer-friendly.
+**Rules** is a simple yet powerful and feature-rich validation library for both dart and flutter.
+
+
+#### Features
+- Highly flexible
+- Easy to understand
+- Less boilerplate code
+- Custom error handling
+- Override individual errors
+- Flutter friendly
+- State management libraries friendly ([Mobx example included](https://github.com/ganeshrvel/pub-rules#flutter-mobx "Mobx example included"))
 
 ### Installation
 
