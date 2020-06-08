@@ -9,10 +9,14 @@ import 'package:rules/src/rule.dart';
 ///
 ///
 class CombinedRule {
-  // Rules list for validation
+  ///
+  /// Rules list for validation
+  ///
   final List<Rule> rules;
 
-  // GroupRules list for validation
+  ///
+  /// GroupRules list for validation
+  ///
   final List<GroupRule> groupRules;
 
   List<String> _errorList = <String>[];
@@ -26,10 +30,14 @@ class CombinedRule {
 
   RulesModel get _rulesModel => RulesModel(errorList: _errorList);
 
-  // outputs the list of error texts
+  ///
+  /// outputs the list of error texts
+  ///
   List<String> get errorList => _rulesModel.errorList;
 
-  // outputs true if there is a validation error else false
+  ///
+  /// outputs true if there is a validation error else false
+  ///
   bool get hasError => isNotNullOrEmpty(errorList);
 
   // starting point

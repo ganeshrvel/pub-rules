@@ -66,10 +66,14 @@ class GroupRule {
 
   RulesModel get _rulesModel => RulesModel(errorList: _errorList);
 
-  // outputs the error text (string)
+  ///
+  /// outputs the error text (string)
+  ///
   String get error => _rulesModel.error;
 
-  // outputs true if there is a validation error else false
+  ///
+  /// outputs true if there is a validation error else false
+  ///
   bool get hasError => isNotNullOrEmpty(error);
 
   // starting point
