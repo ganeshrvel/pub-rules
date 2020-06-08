@@ -14,9 +14,19 @@ void main() {
     });
 
     test('should throw an error', () {
-      final rule1 = Rules('', name: 'name', isRequired: true);
-      final groupRule = GroupRules([rule1], name: 'name', requiredAll: true);
-      final combinedRules = CombinedRules(groupRules: [groupRule]);
+      final rule1 = Rules(
+        '',
+        name: 'name',
+        isRequired: true,
+      );
+      final groupRule = GroupRules(
+        [rule1],
+        name: 'name',
+        requiredAll: true,
+      );
+      final combinedRules = CombinedRules(
+        groupRules: [groupRule],
+      );
 
       expect(combinedRules.hasError, equals(true));
       expect(combinedRules.errorList.length, 1);
@@ -48,7 +58,8 @@ void main() {
       final rule1 = Rules('', name: 'name', isRequired: true);
       final groupRule = GroupRules([rule1],
           name: 'name', maxAllowed: 0, customErrorText: 'Group error');
-      final combinedRules = CombinedRules(rules: [rule1], groupRules: [groupRule]);
+      final combinedRules =
+          CombinedRules(rules: [rule1], groupRules: [groupRule]);
 
       expect(combinedRules.errorList[0], contains('is required'));
       expect(combinedRules.errorList[1], contains('is required'));
@@ -60,7 +71,8 @@ void main() {
       final rule1 = Rules('abc', name: 'name', isRequired: true);
       final groupRule = GroupRules([rule1],
           name: 'name', maxAllowed: 0, customErrorText: 'Group error');
-      final combinedRules = CombinedRules(rules: [rule1], groupRules: [groupRule]);
+      final combinedRules =
+          CombinedRules(rules: [rule1], groupRules: [groupRule]);
 
       expect(combinedRules.errorList[0], contains('Group error'));
       expect(combinedRules.hasError, equals(true));
@@ -86,10 +98,11 @@ void main() {
           rules: [rule4, rule5], groupRules: [groupRule1, groupRule2]);
 
       expect(combinedRules.errorList[0], contains('is not a valid number'));
-      expect(combinedRules.errorList[1], contains('is not a valid email address'));
-      expect(combinedRules.errorList[2], contains('Group 1 error'));
       expect(
-          combinedRules.errorList[3], contains('is not a valid decimal number'));
+          combinedRules.errorList[1], contains('is not a valid email address'));
+      expect(combinedRules.errorList[2], contains('Group 1 error'));
+      expect(combinedRules.errorList[3],
+          contains('is not a valid decimal number'));
       expect(combinedRules.hasError, equals(true));
       expect(combinedRules.errorList.length, 4);
     });
