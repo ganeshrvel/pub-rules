@@ -1286,10 +1286,43 @@ print(combinedRule.hasError);
 
 ```dart
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  Rule emailInputRule;
-  Rule phoneInputRule;
+  String emailInput;
 
-  bool get isContinueBtnAllowed {
+  String phoneInput;
+
+  void _handleEmailTextFieldOnChange(String value) {
+    setState(() {
+      emailInput = value;
+    });
+  }
+
+  void _handlePhoneTextFieldOnChange(String value) {
+    setState(() {
+      phoneInput = value;
+    });
+  }
+
+  Rule get emailInputRule {
+    return Rule(
+      emailInput,
+      name: 'Email',
+      isAlphaSpace: true,
+      isRequired: true,
+      customErrorText: 'Invalid Email',
+    );
+  }
+
+  Rule get phoneInputRule {
+    return Rule(
+      phoneInput,
+      name: 'Phone',
+      isPhone: true,
+      isRequired: true,
+      customErrorText: 'Invalid Phone',
+    );
+  }
+
+  bool get isContinueBtnEnabled {
     final groupRule = GroupRule(
       [emailInputRule, phoneInputRule],
       name: 'Continue Button',
@@ -1297,30 +1330,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
 
     return !groupRule.hasError;
-  }
-
-  void _handleEmailTextFieldOnChange(String value) {
-    setState(() {
-      emailInputRule = Rule(
-        value,
-        name: 'Name',
-        isRequired: false,
-        isAlphaSpace: true,
-        customErrorText: 'Invalid name',
-      );
-    });
-  }
-
-  void _handlePhoneTextFieldOnChange(String value) {
-    setState(() {
-      emailInputRule = Rule(
-        value,
-        name: 'Name',
-        isRequired: false,
-        isAlphaSpace: true,
-        customErrorText: 'Invalid name',
-      );
-    });
   }
 
   Widget build(BuildContext context) {
@@ -1346,7 +1355,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 errorText: phoneInputRule?.error ?? null,
               ),
             ),
-            if (isContinueBtnAllowed)
+            if (isContinueBtnEnabled)
               FlatButton(
                 onPressed: () {
                   // call api
@@ -1361,8 +1370,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     );
   }
 }
-
 ```
+
+#### Flutter Mobx
+
 
 
 ### Buy me a coffee
