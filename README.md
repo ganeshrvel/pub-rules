@@ -13,7 +13,7 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 The Rules library has three parts
 - Rules: Basic rules
 - GroupRules: Grouped rules
-- CombinedRules: Manage Rules and GroupRules
+- CombinedRules: Manage Basic Rules and GroupRules
 
 
 ### Usage
@@ -47,7 +47,7 @@ final textFieldValue = '';  // or final textFieldValue = null;
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isRequired: true,
 );
 
@@ -70,7 +70,7 @@ final textFieldValue = 'abc@xyz';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isRequired: true,
   isEmail: true,
 );
@@ -156,7 +156,7 @@ final textFieldValue = '123';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isRequired: true, // throws an error for value = null or an empty string
 );
 
@@ -175,7 +175,7 @@ final textFieldValue = ''; // or null
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isRequired: false,
   isEmail: true,
 );
@@ -190,7 +190,7 @@ final textFieldValue = 'abc@xyz.com';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isEmail: true,
 );
 
@@ -208,7 +208,7 @@ final textFieldValue = 'http://www.google.com';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isUrl: true,
 );
 
@@ -228,7 +228,7 @@ final textFieldValue = '+1-9090909090';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isPhone: true,
 );
 
@@ -249,7 +249,7 @@ final textFieldValue = '1.1.1.1';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isIp: true,
 );
 
@@ -270,7 +270,7 @@ final textFieldValue = '1'; // '-1', '0'
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isNumeric: true,
 );
 
@@ -292,7 +292,7 @@ final textFieldValue = '10.01'; // '-10.01' or '0.001'
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isNumericDecimal: true,
 );
 
@@ -314,7 +314,7 @@ final textFieldValue = 'Jane Doe';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isAlphaSpace: true,
 );
 
@@ -335,7 +335,7 @@ final textFieldValue = 'username123';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isAlphaNumeric: true,
 );
 
@@ -356,7 +356,7 @@ final textFieldValue = 'Bread 20';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isAlphaNumericSpace: true,
 );
 
@@ -417,7 +417,7 @@ final textFieldValue = 'abcd12345';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Password'
+  name: 'Password',
   minLength: 6,
 );
 
@@ -437,7 +437,7 @@ final textFieldValue = 'username12';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Username'
+  name: 'Username',
   minLength: 10,
 );
 
@@ -459,7 +459,7 @@ final textFieldValue = '10';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   greaterThan: 0,
   isNumeric: true, // optional
 );
@@ -481,7 +481,7 @@ final textFieldValue = '5.1';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   greaterThanEqualTo: 5.0,
 );
 
@@ -502,7 +502,7 @@ final textFieldValue = '1';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   lessThan: 2.0,
   isNumericDecimal: true, // optional
 );
@@ -524,7 +524,7 @@ final textFieldValue = '2.0';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   lessThanEqualTo: 2.0,
 );
 
@@ -546,7 +546,7 @@ final textFieldValue = '2.0';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   equalTo: 2.0,
 );
 
@@ -570,7 +570,7 @@ final textFieldValue = '2.0';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   notEqualTo: 2.0,
 );
 
@@ -592,7 +592,7 @@ final textFieldValue = '10';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   equalToInList: [0, 10],
 );
 
@@ -616,7 +616,7 @@ final textFieldValue = '10';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   notEqualToInList: [0, 10],
 );
 
@@ -638,7 +638,7 @@ final textFieldValue = 'abc';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   shouldMatch: 'abc',
 );
 
@@ -661,7 +661,7 @@ final textFieldValue = 'abc';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   shouldNotMatch: 'xyz',
 );
 
@@ -684,7 +684,7 @@ final textFieldValue = 'abc';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   inList: ['abc', 'xyz'],
 );
 
@@ -708,7 +708,7 @@ final textFieldValue = 'abc';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   notInList: ['abc', 'xyz'],
 );
 
@@ -767,7 +767,7 @@ final textFieldValue = ''; // or textFieldValue = 'xyz';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isRequired: true,
   isEmail: true,
   customErrors: {
@@ -791,7 +791,7 @@ final textFieldValue = '';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isRequired: true,
   isEmail: true,
   customErrorText: 'Invalid email address',
@@ -811,7 +811,7 @@ final textFieldValue = 'abc@xyz.com';
 
 final rule = Rules(
   textFieldValue, 
-  name: 'Text field value' 
+  name: 'Text field value',
 );
 
 final groupRule = GroupRules(
@@ -832,13 +832,13 @@ final textFieldValue2 = '';
 
 final rule1 = Rules(
   textFieldValue1,
-  name: 'Text field value 1'
+  name: 'Text field value 1',
   isRequired: true,
 );
 
 final rule2 = Rules(
   textFieldValue2,
-  name: 'Text field value 2'
+  name: 'Text field value 2',
   isEmail: true,
 );
 
@@ -883,14 +883,14 @@ final textFieldValue = 'abc';
 
 final rule = Rules(
   textFieldValue,
-  name: 'Text field value'
+  name: 'Text field value',
   isRequired: true,
 );
 
 final groupRule = GroupRules(
   [rule],
   name: 'Group name',
-  requiredAll: true  
+  requiredAll: true,
 );
 
 print(groupRule.error);
@@ -907,13 +907,13 @@ final textFieldValue2 = 'xyz@abc';
 
 final rule1 = Rules(
   textFieldValue1,
-  name: 'Text field value 1'
+  name: 'Text field value 1',
   isRequired: true,
 );
 
 final rule2 = Rules(
   textFieldValue2,
-  name: 'Text field value 2'
+  name: 'Text field value 2',
   isEmail: true,
 );
 
@@ -946,6 +946,33 @@ final groupRule = GroupRules(
 print(groupRule.hasError);
 // output: false
 ```
+
+###### requiredAtleast: `int`
+
+```dart
+final textFieldValue = 'abc';
+
+final rule1 = Rules(
+  textFieldValue,
+  name: 'Text field value'
+);
+
+final rule2 = Rules(
+  textFieldValue,
+  name: 'Text field value'
+);
+
+final groupRule = GroupRules(
+  [rule1, rule2],
+  name: 'Group name',
+  requiredAtleast: 2,
+);
+
+print(groupRule.error);
+// output: All fields are mandatory in Group name
+
+```
+
 
 
 ### Buy me a coffee
