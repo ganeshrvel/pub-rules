@@ -3,14 +3,14 @@ import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/models/rules_models.dart';
 import 'package:rules/src/rules.dart';
 
-class MultiRules {
+class CombinedRules {
   final List<Rules> rules;
 
   final List<GroupRules> groupRules;
 
   List<String> _errorList = <String>[];
 
-  MultiRules({
+  CombinedRules({
     this.rules,
     this.groupRules,
   }) {

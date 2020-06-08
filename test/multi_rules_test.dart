@@ -3,68 +3,68 @@ import 'package:rules/src/group_rules.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('MultiRules', () {
+  group('CombinedRules', () {
     test('should throw an error', () {
       final rule1 = Rules('', name: 'name', isRequired: true);
       final rule2 = Rules('', name: 'email', isRequired: true);
-      final multiRules = MultiRules(rules: [rule1, rule2]);
+      final combinedRules = CombinedRules(rules: [rule1, rule2]);
 
-      expect(multiRules.hasError, equals(true));
-      expect(multiRules.errorList.length, 2);
+      expect(combinedRules.hasError, equals(true));
+      expect(combinedRules.errorList.length, 2);
     });
 
     test('should throw an error', () {
       final rule1 = Rules('', name: 'name', isRequired: true);
       final groupRule = GroupRules([rule1], name: 'name', requiredAll: true);
-      final multiRules = MultiRules(groupRules: [groupRule]);
+      final combinedRules = CombinedRules(groupRules: [groupRule]);
 
-      expect(multiRules.hasError, equals(true));
-      expect(multiRules.errorList.length, 1);
+      expect(combinedRules.hasError, equals(true));
+      expect(combinedRules.errorList.length, 1);
     });
 
     test('should throw an error', () {
       final rule1 = Rules('abc', name: 'name', isRequired: false);
       final groupRule = GroupRules([rule1],
           name: 'name', maxAllowed: 0, customErrorText: 'Group error');
-      final multiRules = MultiRules(groupRules: [groupRule]);
+      final combinedRules = CombinedRules(groupRules: [groupRule]);
 
-      expect(multiRules.errorList[0], contains('Group error'));
-      expect(multiRules.hasError, equals(true));
-      expect(multiRules.errorList.length, 1);
+      expect(combinedRules.errorList[0], contains('Group error'));
+      expect(combinedRules.hasError, equals(true));
+      expect(combinedRules.errorList.length, 1);
     });
 
     test('should throw an error', () {
       final rule1 = Rules('', name: 'name', isRequired: true);
       final groupRule = GroupRules([rule1],
           name: 'name', maxAllowed: 0, customErrorText: 'Group error');
-      final multiRules = MultiRules(groupRules: [groupRule]);
+      final combinedRules = CombinedRules(groupRules: [groupRule]);
 
-      expect(multiRules.errorList[0], contains('is required'));
-      expect(multiRules.hasError, equals(true));
-      expect(multiRules.errorList.length, 1);
+      expect(combinedRules.errorList[0], contains('is required'));
+      expect(combinedRules.hasError, equals(true));
+      expect(combinedRules.errorList.length, 1);
     });
 
     test('should throw an error', () {
       final rule1 = Rules('', name: 'name', isRequired: true);
       final groupRule = GroupRules([rule1],
           name: 'name', maxAllowed: 0, customErrorText: 'Group error');
-      final multiRules = MultiRules(rules: [rule1], groupRules: [groupRule]);
+      final combinedRules = CombinedRules(rules: [rule1], groupRules: [groupRule]);
 
-      expect(multiRules.errorList[0], contains('is required'));
-      expect(multiRules.errorList[1], contains('is required'));
-      expect(multiRules.hasError, equals(true));
-      expect(multiRules.errorList.length, 2);
+      expect(combinedRules.errorList[0], contains('is required'));
+      expect(combinedRules.errorList[1], contains('is required'));
+      expect(combinedRules.hasError, equals(true));
+      expect(combinedRules.errorList.length, 2);
     });
 
     test('should throw an error', () {
       final rule1 = Rules('abc', name: 'name', isRequired: true);
       final groupRule = GroupRules([rule1],
           name: 'name', maxAllowed: 0, customErrorText: 'Group error');
-      final multiRules = MultiRules(rules: [rule1], groupRules: [groupRule]);
+      final combinedRules = CombinedRules(rules: [rule1], groupRules: [groupRule]);
 
-      expect(multiRules.errorList[0], contains('Group error'));
-      expect(multiRules.hasError, equals(true));
-      expect(multiRules.errorList.length, 1);
+      expect(combinedRules.errorList[0], contains('Group error'));
+      expect(combinedRules.hasError, equals(true));
+      expect(combinedRules.errorList.length, 1);
     });
 
     test('should throw an error', () {
@@ -82,33 +82,33 @@ void main() {
           Rules('abc', name: 'name', isRequired: true, isNumeric: true);
       final rule5 = Rules('abc', name: 'name', isRequired: true, isEmail: true);
 
-      final multiRules = MultiRules(
+      final combinedRules = CombinedRules(
           rules: [rule4, rule5], groupRules: [groupRule1, groupRule2]);
 
-      expect(multiRules.errorList[0], contains('is not a valid number'));
-      expect(multiRules.errorList[1], contains('is not a valid email address'));
-      expect(multiRules.errorList[2], contains('Group 1 error'));
+      expect(combinedRules.errorList[0], contains('is not a valid number'));
+      expect(combinedRules.errorList[1], contains('is not a valid email address'));
+      expect(combinedRules.errorList[2], contains('Group 1 error'));
       expect(
-          multiRules.errorList[3], contains('is not a valid decimal number'));
-      expect(multiRules.hasError, equals(true));
-      expect(multiRules.errorList.length, 4);
+          combinedRules.errorList[3], contains('is not a valid decimal number'));
+      expect(combinedRules.hasError, equals(true));
+      expect(combinedRules.errorList.length, 4);
     });
 
     test('should NOT throw an error', () {
       final rule1 = Rules('', name: 'name');
       final rule2 = Rules('', name: 'email');
-      final multiRules = MultiRules(rules: [rule1, rule2]);
+      final combinedRules = CombinedRules(rules: [rule1, rule2]);
 
-      expect(multiRules.hasError, equals(false));
-      expect(multiRules.errorList.length, 0);
+      expect(combinedRules.hasError, equals(false));
+      expect(combinedRules.errorList.length, 0);
     });
 
     test('should NOT throw an error', () {
       final groupRule = GroupRules([], name: 'name', requiredAll: true);
-      final multiRules = MultiRules(groupRules: [groupRule]);
+      final combinedRules = CombinedRules(groupRules: [groupRule]);
 
-      expect(multiRules.hasError, equals(false));
-      expect(multiRules.errorList.length, 0);
+      expect(combinedRules.hasError, equals(false));
+      expect(combinedRules.errorList.length, 0);
     });
 
     test('should NOT throw an error', () {
@@ -127,11 +127,11 @@ void main() {
       final rule5 =
           Rules('abc@xyz.com', name: 'name', isRequired: true, isEmail: true);
 
-      final multiRules = MultiRules(
+      final combinedRules = CombinedRules(
           rules: [rule4, rule5], groupRules: [groupRule1, groupRule2]);
 
-      expect(multiRules.hasError, equals(false));
-      expect(multiRules.errorList.length, 0);
+      expect(combinedRules.hasError, equals(false));
+      expect(combinedRules.errorList.length, 0);
     });
   });
 }

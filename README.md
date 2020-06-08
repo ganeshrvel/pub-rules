@@ -13,7 +13,7 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 The Rules library has three parts
 - Rules: Basic rules
 - GroupRules: Grouped rules
-- MultiRules: Manage Rules and GroupRules
+- CombinedRules: Manage Rules and GroupRules
 
 
 ### Usage
@@ -23,8 +23,8 @@ The Rules library has three parts
 import 'package:rules/rules.dart';
 ```
 
-#### 1. Rules
-- These are the basic building blocks of the rules.
+#### 1. Rules (Basic Rules)
+- These are the basic building blocks of the Rules library.
 
 **Basic example**
 ```dart
@@ -57,10 +57,10 @@ print(rule.hasError)
 // output: true
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -81,10 +81,10 @@ print(rule.hasError)
 // output: true
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -161,10 +161,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -195,10 +195,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -213,10 +213,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -233,10 +233,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -254,10 +254,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -275,10 +275,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -297,10 +297,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -319,10 +319,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -340,10 +340,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -361,10 +361,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -381,10 +381,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -401,10 +401,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -422,10 +422,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -442,10 +442,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -465,10 +465,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -486,10 +486,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -508,10 +508,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -529,10 +529,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -551,10 +551,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -575,10 +575,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -597,10 +597,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -621,10 +621,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -643,17 +643,17 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
 
 ###### shouldNotMatch: `String`
 - Checks if the input value matches with the 'shouldNotMatch' value.
-- It will throw an error if there is a value match.
+- It will throw an error if the values match.
 - Note: This is a string comparison.
 
 ```dart
@@ -666,10 +666,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -689,10 +689,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -700,7 +700,7 @@ else {
 
 ###### notInList: `List<String>`
 - Checks if the input value matches with any of the 'notInList' values.
-- It will throw an error if the values match.
+- It will throw an error if there is a value match.
 - Note: This is a string comparison.
 
 ```dart
@@ -713,10 +713,10 @@ final rule = Rules(
 );
 
 if (rule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -757,10 +757,10 @@ else {
 
 ###### Override the default errors
 - To override the error text of a particular option, set 'customErrors' as {'optionName': '<Error Text>'}.
-- The 'optionName' key should match the available options for overriding the error text.
+- The 'optionName' key should match with one of the 'Available Options' for overriding the error text.
 - Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
-- To override the all error texts set 'customErrorText'.
-- 'customErrorText' will override all errors including 'customErrors'
+- To override all the error texts set 'customErrorText'.
+- 'customErrorText' will override all the errors including 'customErrors'
 
 ```dart
 final textFieldValue = ''; // or textFieldValue = 'xyz';
@@ -853,10 +853,10 @@ print(groupRule.hasError)
 // output: true
 
 if (groupRule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
@@ -898,7 +898,7 @@ print(groupRule.error);
 
 ```
 
-- IMPORTANT: If any of Rules that were passed to the GroupRules have validation errore then GroupRules will throw these errors first.
+- IMPORTANT: If any of Basics Rules which were passed to the GroupRules have validation errors then GroupRules will throw those errors first.
 - The group validation wouldn't happen until all Rules pass the validation.
 
 ```dart
@@ -928,10 +928,10 @@ print(groupRule.hasError)
 // output: true
 
 if (groupRule.hasError) {
-	// Some action for error
+	// some action on error
 }
 else {
-	// Some action for success
+	// Some action on success
 }
 ```
 
