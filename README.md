@@ -837,7 +837,7 @@ void main() {
 
 ```dart
 void main() {
-  const textFieldValue = '';
+  const textFieldValue = '123';
 
   final rule = Rule(
     textFieldValue,
@@ -849,6 +849,59 @@ void main() {
 
   print(rule.error);
   // output: Invalid email address
+}
+```
+
+**Rule Extension**
+- Extend and override constraints of a Rule using copyWith method
+
+```dart
+void main() {
+  const textFieldValue = 'abc';
+
+  final rule1 = Rule(
+    textFieldValue,
+    name: 'Text field 1',
+    isAlpha: true,
+    customErrorText: 'Only alphabets allowed',
+  );
+
+  final rule2 = rule1.copyWith(
+    name: 'Text field 2',
+    isEmail: true,
+    customErrorText: 'Invalid email address',
+  );
+
+  print(rule1.error);
+  // output: null
+  print(rule2.error);
+  // output: Invalid email address
+}
+```
+
+- The child rule will default to the constraint values of the parent unless they are explicitly set in the child.
+
+```dart
+void main() {
+  const textFieldValue = '';
+
+  // parent rule
+  final rule1 = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isRequired: true,
+    customErrorText: 'Invalid input',
+  );
+
+  // child rule
+  final rule2 = rule1.copyWith(
+    isRequired: false,
+  );
+
+  print(rule1.error);
+  // output: Invalid input
+  print(rule2.error);
+  // output: null
 }
 ```
 
@@ -1202,6 +1255,83 @@ void main() {
 }
 ```
 
+**GroupRule Extension**
+- Extend and override constraints of a GroupRule using copyWith method
+- The child rule will default to the constraint values of the parent unless they are explicitly set in the child.
+
+```dart
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = '';
+
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+    isRequired: true,
+  ); // Validation OK
+
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
+
+  // parent
+  final groupRule1 = GroupRule(
+    [rule1, rule2],
+    name: 'Group name 1',
+    requiredAll: true,
+    customErrorText: 'Invalid input for Group 1',
+  ); // Validation FAILED
+
+  // child
+  final groupRule2 = groupRule1.copyWith(
+    name: 'Group name 2',
+    requiredAll: false,
+    customErrorText: 'Invalid input for Group 2',
+  ); // Validation OK
+
+  print(groupRule1.error);
+  // output: Invalid input for Group 1
+
+  print(groupRule2.error);
+  // output: null
+}
+```
+
+```dart
+void main() {
+  const textFieldValue1 = 'abc';
+
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+    isRequired: true,
+  ); // Validation OK
+
+  final rule2 = rule1.copyWith(
+    name: 'Text field',
+  ); // Validation OK
+
+  final groupRule1 = GroupRule(
+    [rule1, rule2],
+    name: 'Group name 1',
+    requiredAll: true,
+    customErrorText: 'Invalid input for Group 1',
+  ); // Validation OK
+
+  final groupRule2 = groupRule1.copyWith(
+    name: 'Group name 2',
+    requiredAll: false,
+    customErrorText: 'Invalid input for Group 2',
+  ); // Validation OK
+
+  print(groupRule1.error);
+  // output: null
+
+  print(groupRule2.error);
+  // output: null
+}
+```
 
 #### 3. CombinedRule
 Manage multiple Rules and GroupRules
