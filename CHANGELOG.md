@@ -1,4 +1,4 @@
-## 1.0.2
+## 1.0.2+1
 - Added copyWith extension method for Rule and GroupRule
 
 ## 1.0.1+7

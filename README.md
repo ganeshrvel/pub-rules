@@ -852,8 +852,8 @@ void main() {
 }
 ```
 
-**Rule Extension**
-- Extend and override constraints of a Rule using copyWith method
+**Extension**
+- Extend and override the constraints of a rule using 'copyWith' method
 
 ```dart
 void main() {
@@ -879,7 +879,7 @@ void main() {
 }
 ```
 
-- The child rule will default to the constraint values of the parent unless they are explicitly set in the child.
+- The child rule will default to the constraint values of the parent unless they are set explicitly in the child.
 
 ```dart
 void main() {
@@ -1255,9 +1255,9 @@ void main() {
 }
 ```
 
-**GroupRule Extension**
-- Extend and override constraints of a GroupRule using copyWith method
-- The child rule will default to the constraint values of the parent unless they are explicitly set in the child.
+**Extension**
+- Extend and override the constraints of a group rule using 'copyWith' method.
+- The child rule will default to the constraint values of the parent unless they are set explicitly in the child.
 
 ```dart
 void main() {
@@ -1312,6 +1312,7 @@ void main() {
     name: 'Text field',
   ); // Validation OK
 
+  // parent
   final groupRule1 = GroupRule(
     [rule1, rule2],
     name: 'Group name 1',
@@ -1319,6 +1320,7 @@ void main() {
     customErrorText: 'Invalid input for Group 1',
   ); // Validation OK
 
+  // child
   final groupRule2 = groupRule1.copyWith(
     name: 'Group name 2',
     requiredAll: false,
