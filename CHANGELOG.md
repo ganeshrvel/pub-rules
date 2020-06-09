@@ -1,4 +1,4 @@
-## 1.0.1+6
+## 1.0.1+7
 - Updated and cleaned README"
 
 ## 1.0.1+5

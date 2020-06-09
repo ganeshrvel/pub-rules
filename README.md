@@ -1132,9 +1132,9 @@ void main() {
 - Plurality for 'requiredAtleast' and 'maxAllowed' error texts will be automatically detected.
 
 ```
-'requiredAll': 'All fields are mandatory in {name}',
-'requiredAtleast': 'At least $requiredAtleast field(s) is/are required in {name}',
-'maxAllowed': 'A maximum of $maxAllowed field(s) is/are allowed in {name}',
+'requiredAll': 'All fields are mandatory in {name}'
+'requiredAtleast': 'At least $requiredAtleast field(s) is/are required in {name}'
+'maxAllowed': 'A maximum of $maxAllowed field(s) is/are allowed in {name}'
 ```
 
 ###### Override the default errors
