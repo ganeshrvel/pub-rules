@@ -112,6 +112,45 @@ void main() {
       expect(combinedRule.errorList.length, 4);
     });
 
+    test('should throw an error', () {
+      final rule1 = Rule('abc', name: 'name', isRequired: true);
+      final rule11 =
+          rule1.copyWith(isRequired: false, isEmail: true, name: 'rule11');
+      final groupRule1 = GroupRule(
+        [rule1, rule11],
+        name: 'groupRule1',
+        maxAllowed: 0,
+      );
+
+      final groupRule2 = groupRule1.copyWith(
+        name: 'groupRule2',
+        requiredAtleast: 2,
+        customErrorText: 'Group 2 error',
+      );
+
+      final rule4 =
+          Rule('abc', name: 'name', isRequired: true, isNumeric: true);
+      final rule5 = Rule('abc', name: 'name', isRequired: true, isEmail: true);
+
+      final combinedRule = CombinedRule(rules: [
+        rule4,
+        rule5,
+      ], groupRules: [
+        groupRule1,
+        groupRule2,
+      ]);
+
+      expect(combinedRule.errorList[0], contains('is not a valid number'));
+      expect(
+          combinedRule.errorList[1], contains('is not a valid email address'));
+      expect(
+          combinedRule.errorList[2], contains('is not a valid email address'));
+      expect(combinedRule.errorList[3],
+          contains('rule11 is not a valid email address'));
+      expect(combinedRule.hasError, equals(true));
+      expect(combinedRule.errorList.length, 4);
+    });
+
     test('should NOT throw an error', () {
       Rule rule1;
       Rule rule3;
@@ -197,6 +236,21 @@ void main() {
 
       expect(combinedRule.hasError, equals(false));
       expect(combinedRule.errorList.length, 0);
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rule(
+        'abc',
+        name: 'value',
+        shouldNotMatch: 'xyz',
+      );
+      final rule2 = rule1.copyWith(name: 'value', shouldMatch: 'abc');
+      final groupRule1 = GroupRule([rule1, rule2], name: 'group name');
+      final groupRule2 =
+          groupRule1.copyWith(requiredAll: true, name: 'group name 2');
+
+      expect(groupRule1.hasError, equals(false));
+      expect(groupRule2.hasError, equals(false));
     });
   });
 }

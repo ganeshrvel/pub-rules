@@ -517,6 +517,24 @@ void main() {
 
     test('should throw an error', () {
       final rule1 = Rule(
+        '',
+        name: 'value',
+        shouldNotMatch: 'xyz',
+      );
+      final rule2 = rule1.copyWith(name: 'value', shouldMatch: 'abc');
+      final groupRule1 = GroupRule([rule1, rule2], name: 'group name');
+      final groupRule2 = groupRule1.copyWith(
+          requiredAll: true,
+          name: 'group name 2',
+          customErrorText: 'Group value invalid');
+
+      expect(groupRule1.hasError, equals(false));
+      expect(groupRule2.error, contains('Group value invalid'));
+      expect(groupRule2.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule1 = Rule(
         'abc',
         name: 'value',
         shouldNotMatch: 'xyz',
