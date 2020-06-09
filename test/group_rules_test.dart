@@ -447,4 +447,87 @@ void main() {
       expect(groupRule2.hasError, equals(false));
     });
   });
+
+  group('copyWith', () {
+    test('should throw an error', () {
+      final rule1 = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldNotMatch: 'qwerty123',
+      );
+      final rule2 = Rule(
+        '',
+        name: 'value',
+      );
+      final groupRule1 = GroupRule([rule1, rule2], name: 'group name');
+      final groupRule2 = groupRule1.copyWith(requiredAll: true);
+
+      expect(groupRule1.hasError, equals(true));
+      expect(groupRule2.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldNotMatch: 'xyz',
+      );
+      final rule2 = rule1.copyWith(name: 'value', shouldMatch: 'abc');
+      final groupRule1 = GroupRule([rule1, rule2], name: 'group name');
+      final groupRule2 = groupRule1.copyWith(requiredAll: true);
+
+      expect(groupRule1.error, contains('should be same as'));
+      expect(groupRule1.hasError, equals(true));
+      expect(groupRule2.error, contains('value should be same as abc'));
+      expect(groupRule2.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rule(
+        '',
+        name: 'value',
+        shouldNotMatch: 'xyz',
+      );
+      final rule2 = rule1.copyWith(name: 'value', shouldMatch: 'abc');
+      final groupRule1 = GroupRule([rule1, rule2], name: 'group name');
+      final groupRule2 = groupRule1.copyWith(requiredAll: true);
+
+      expect(groupRule1.hasError, equals(false));
+      expect(
+          groupRule2.error, contains('All fields are mandatory in group name'));
+      expect(groupRule2.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rule(
+        '',
+        name: 'value',
+        shouldNotMatch: 'xyz',
+      );
+      final rule2 = rule1.copyWith(name: 'value', shouldMatch: 'abc');
+      final groupRule1 = GroupRule([rule1, rule2], name: 'group name');
+      final groupRule2 =
+          groupRule1.copyWith(requiredAll: true, name: 'group name 2');
+
+      expect(groupRule1.hasError, equals(false));
+      expect(groupRule2.error,
+          contains('All fields are mandatory in group name 2'));
+      expect(groupRule2.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rule(
+        'abc',
+        name: 'value',
+        shouldNotMatch: 'xyz',
+      );
+      final rule2 = rule1.copyWith(name: 'value', shouldMatch: 'abc');
+      final groupRule1 = GroupRule([rule1, rule2], name: 'group name');
+      final groupRule2 =
+          groupRule1.copyWith(requiredAll: true, name: 'group name 2');
+
+      expect(groupRule1.hasError, equals(false));
+      expect(groupRule2.hasError, equals(false));
+    });
+  });
 }

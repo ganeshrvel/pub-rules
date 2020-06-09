@@ -46,6 +46,7 @@ class GroupRule {
 
   // Extend [GroupRule]
   GroupRule copyWith({
+    String name,
     bool requiredAll,
     int requiredAtleast,
     int maxAllowed,
@@ -54,7 +55,7 @@ class GroupRule {
   }) {
     return GroupRule(
       rulesList,
-      name: name,
+      name: name ?? this.name,
       requiredAll: requiredAll ?? this.requiredAll,
       requiredAtleast: requiredAtleast ?? this.requiredAtleast,
       maxAllowed: maxAllowed ?? this.maxAllowed,
