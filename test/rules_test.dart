@@ -1595,7 +1595,7 @@ void main() {
   });
 
   group('copyWith', () {
-/*    test('should throw an error', () {
+    test('should throw an error', () {
       final rule =
           Rule('qwerty123', name: 'value', shouldNotMatch: 'qwerty123');
 
@@ -1625,7 +1625,7 @@ void main() {
       final rule = Rule('abc ', name: 'value', shouldNotMatch: 'abc');
 
       expect(rule.hasError, equals(false));
-    });*/
+    });
 
     test('should throw an error', () {
       final rule1 = Rule(
@@ -1702,6 +1702,33 @@ void main() {
         name: 'value',
         isRequired: true,
         isAlphaSpace: true,
+        customErrorText: 'invalid value for rule 1',
+      );
+      final rule2 = rule1.copyWith(
+        isRequired: false,
+        isAlphaSpace: false,
+        isNumeric: true,
+        customErrorText: 'invalid value for rule 2',
+      );
+
+      final rule3 = rule1.copyWith(
+        isRequired: false,
+        isNumeric: true,
+      );
+
+      expect(rule1.hasError, equals(true));
+      expect(rule1.error, contains('invalid value for rule 1'));
+      expect(rule2.hasError, equals(false));
+      expect(rule3.hasError, equals(true));
+      expect(rule3.error, contains('invalid value for rule 1'));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rule(
+        '123',
+        name: 'value',
+        isRequired: true,
+        isAlphaSpace: true,
       );
       final rule2 = rule1.copyWith(
         isRequired: false,
@@ -1743,6 +1770,41 @@ void main() {
     });
 
     test('should throw an error', () {
+      final rule1 = Rule(
+        '',
+        name: 'value 1',
+        isRequired: false,
+      );
+      final rule2 = rule1.copyWith(
+        name: 'value 2',
+        isRequired: true,
+      );
+
+      expect(rule1.hasError, equals(false));
+      expect(rule2.error, contains('value 2 is required'));
+      expect(rule2.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule1 = Rule(
+        '123',
+        name: 'value 1',
+        isAlphaSpace: true,
+      );
+      final rule2 = rule1.copyWith(
+        name: 'value 2',
+        isRequired: false,
+        isEmail: true,
+      );
+
+      expect(rule1.error,
+          contains('Only alphabets and spaces are allowed in value 1'));
+      expect(rule1.hasError, equals(true));
+      expect(rule2.error, contains('value 2 is not a valid email address'));
+      expect(rule2.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
       final rule1 = Rule(
         '123',
         name: 'value',

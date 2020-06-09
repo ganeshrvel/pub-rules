@@ -118,6 +118,7 @@ class Rule {
             '{name} should not be any of these values ${(notInList ?? []).join(', ')}',
       };
 
+  // Extend [Rule]
   Rule copyWith({
     String name,
     bool isRequired,

@@ -44,6 +44,25 @@ class GroupRule {
             'A maximum of $maxAllowed ${plural('field', value: maxAllowed, verb: true)} allowed in {name}',
       };
 
+  // Extend [GroupRule]
+  GroupRule copyWith({
+    bool requiredAll,
+    int requiredAtleast,
+    int maxAllowed,
+    String customErrorText,
+    Map<String, String> customErrors,
+  }) {
+    return GroupRule(
+      rulesList,
+      name: name,
+      requiredAll: requiredAll ?? this.requiredAll,
+      requiredAtleast: requiredAtleast ?? this.requiredAtleast,
+      maxAllowed: maxAllowed ?? this.maxAllowed,
+      customErrorText: customErrorText ?? this.customErrorText,
+      customErrors: customErrors ?? this.customErrors,
+    );
+  }
+
   GroupRule(
     this.rulesList, {
     @required this.name,
