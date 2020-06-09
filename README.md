@@ -38,215 +38,213 @@ This is the basic building block, everything starts here.
 
 **Basic example**
 ```dart
-const textFieldValue = 'abc@xyz.com';
+void main() {
+  const textFieldValue = 'abc@xyz.com';
 
-final rule = Rule(
-  textFieldValue, // value; string and null are accepted
-  name: 'Text field' // placeholder value which will be used while displaying errors
-);
+  final rule = Rule(
+    textFieldValue, // value; string and null are accepted
+    name: 'Text field', // placeholder value which will be used while displaying errors
+  );
 
-print(rule.error);
-// output: null
-print(rule.hasError);
-// output: false
+  print(rule.error);
+  // output: null
+  print(rule.hasError);
+  // output: false
+}
 ```
 
 **Example 1**
 ```dart
-const textFieldValue = '';  // or const textFieldValue = null;
+void main() {
+  const textFieldValue = ''; // or const textFieldValue = null;
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isRequired: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isRequired: true,
+  );
 
-print(rule.error);
-// output: 'Text field is required'
-print(rule.hasError);
-// output: true
+  print(rule.error);
+  // output: 'Text field is required'
+  print(rule.hasError);
+  // output: true
 
-if (rule.hasError) {
-// some action on error
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 **Example 2**
 ```dart
-const textFieldValue = 'abc@xyz';
+void main() {
+  const textFieldValue = 'abc@xyz';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isRequired: true,
-  isEmail: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isRequired: true,
+    isEmail: true,
+  );
 
-print(rule.error);
-// output: 'Text field is not a valid email address'
-print(rule.hasError);
-// output: true
+  print(rule.error);
+  // output: 'Text field is not a valid email address'
+  print(rule.hasError);
+  // output: true
 
-if (rule.hasError) {
-// some action on error
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 **Available options**
 ```dart
-final String name; // mandatory
+String name; // mandatory
 
-final bool isRequired;
+bool isRequired;
 
-final bool isEmail;
+bool isEmail;
 
-final bool isUrl;
+bool isUrl;
 
-final bool isPhone;
+bool isPhone;
 
-final bool isIp;
+bool isIp;
 
-final bool isNumeric;
+bool isNumeric;
 
 bool isNumericDecimal;
 
-final bool isAlphaSpace;
+bool isAlphaSpace;
 
-final bool isAlphaNumeric;
+bool isAlphaNumeric;
 
-final bool isAlphaNumericSpace;
+bool isAlphaNumericSpace;
 
-final String regex;
+String regex;
 
-final int length;
+int length;
 
-final int minLength;
+int minLength;
 
-final int maxLength;
+int maxLength;
 
-final double greaterThan;
+double greaterThan;
 
-final double greaterThanEqualTo;
+double greaterThanEqualTo;
 
-final double lessThan;
+double lessThan;
 
-final double lessThanEqualTo;
+double lessThanEqualTo;
 
-final double equalTo;
+double equalTo;
 
-final double notEqualTo;
+double notEqualTo;
 
-final List<double> equalToInList;
+List<double> equalToInList;
 
-final List<double> notEqualToInList;
+List<double> notEqualToInList;
 
-final String shouldMatch;
+String shouldMatch;
 
-final String shouldNotMatch;
+String shouldNotMatch;
 
-final List<String> inList;
+List<String> inList;
 
-final List<String> notInList;
+List<String> notInList;
 
-final String customErrorText;
+String customErrorText;
 
-final Map<String, String> customErrors;
+Map<String, String> customErrors;
 ```
 
 ###### isRequired: `bool`
 
 ```dart
-const textFieldValue = '123';
+void main() {
+  const textFieldValue = '123';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isRequired: true, // throws an error for value = null or an empty string
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isRequired: true, // throws an error for value = null or an empty string
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
 - IMPORTANT: If the value is empty or null and 'isRequired' is false or not set then no errors will be thrown for the subsequent constraints.
 
 ```dart
-const textFieldValue = ''; // or null
+void main() {
+  const textFieldValue = ''; // or null
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isRequired: false,
-  isEmail: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isRequired: false,
+    isEmail: true,
+  );
 
-print(rule.hasError);
-// output: false
+  print(rule.hasError);
+  // output: false
+}
 ```
 
 ###### isEmail: `bool`
 ```dart
-const textFieldValue = 'abc@xyz.com';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isEmail: true,
-);
-
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
-}
 ```
 
 ###### isUrl: `bool`
 ```dart
-const textFieldValue = 'http://www.google.com';
+void main() {
+  const textFieldValue = 'abc@xyz.com';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isUrl: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isEmail: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
 ###### isPhone: `bool`
-- It recognizes phone numbers starting with **+** or **0**, no length limitations and handles `#, x, ext, extension` extension conventions.
+- It recognizes the phone numbers starting with **+** or **0**, no length limitations and handles `#, x, ext, extension` extension conventions.
 
 ```dart
-const textFieldValue = '+1-9090909090';
+void main() {
+  const textFieldValue = '+1-9090909090';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isPhone: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isPhone: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+  // some action on error
+  } else {
+  // Some action on success
+  }
 }
 ```
 
@@ -255,19 +253,20 @@ else {
 
 
 ```dart
-const textFieldValue = '1.1.1.1';
+void main() {
+  const textFieldValue = '1.1.1.1';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isIp: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isIp: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -276,19 +275,20 @@ else {
 
 
 ```dart
-const textFieldValue = '1'; // '-1', '0'
+void main() {
+  const textFieldValue = '1'; // '-1', '0'
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isNumeric: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isNumeric: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -298,19 +298,20 @@ else {
 
 
 ```dart
-const textFieldValue = '10.01'; // '-10.01' or '0.001'
+void main() {
+  const textFieldValue = '10.01'; // '-10.01' or '0.001'
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isNumericDecimal: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isNumericDecimal: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -320,19 +321,20 @@ else {
 
 
 ```dart
-const textFieldValue = 'Jane Doe';
+void main() {
+  const textFieldValue = 'Jane Doe';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isAlphaSpace: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isAlphaSpace: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -341,19 +343,20 @@ else {
 - It accepts alphabets (both upper and lower case) and numbers.
 
 ```dart
-const textFieldValue = 'username123';
+void main() {
+  const textFieldValue = 'username123';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isAlphaNumeric: true,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isAlphaNumeric: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -362,39 +365,27 @@ else {
 - It accepts multiple spaces, alphabets (both upper and lower case) and numbers.
 
 ```dart
-const textFieldValue = 'Bread 20';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isAlphaNumericSpace: true,
-);
-
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
-}
 ```
 
 ###### regex: `String`
 - It accepts a custom regular expression string.
 
 ```dart
-const textFieldValue = r'^[a-zA-Z0-9\s]+$';
+void main() {
+  const textFieldValue = 'Bread 20';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field'
-  regex: r'^[a-zA-Z0-9\s]+$',
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isAlphaNumericSpace: true,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -402,19 +393,20 @@ else {
 - Defines the length of the input string.
 
 ```dart
-const textFieldValue = '9090909090';
+void main() {
+  const textFieldValue = '9090909090';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Phone Number'
-  length: 10,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Phone Number',
+    length: 10,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -423,40 +415,44 @@ else {
 
 
 ```dart
-const textFieldValue = 'abcd12345';
+void main() {
+  const textFieldValue = 'abcd12345';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Password',
-  minLength: 6,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Password',
+    minLength: 6,
+  );
 
-if (rule.hasError) {
-// some action on error
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 ###### maxLength: `int`
 - Defines the maximum length of the input string.
 
 ```dart
-const textFieldValue = 'username12';
+void main() {
+  const textFieldValue = 'username12';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Username',
-  minLength: 10,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Username',
+    minLength: 10,
+  );
 
-if (rule.hasError) {
-// some action on error
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 ###### greaterThan: `double`
@@ -465,20 +461,21 @@ else {
 
 
 ```dart
-const textFieldValue = '10';
+void main() {
+  const textFieldValue = '10';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  greaterThan: 0,
-  isNumeric: true, // optional
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    greaterThan: 0,
+    isNumeric: true, // optional
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -487,20 +484,22 @@ else {
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
-const textFieldValue = '5.1';
+void main() {
+  const textFieldValue = '5.1';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  greaterThanEqualTo: 5.0,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    greaterThanEqualTo: 5.0,
+  );
 
-if (rule.hasError) {
-// some action on error
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 ###### lessThan: `double`
@@ -508,21 +507,23 @@ else {
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
-const textFieldValue = '1';
+void main() {
+  const textFieldValue = '1';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  lessThan: 2.0,
-  isNumericDecimal: true, // optional
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    lessThan: 2.0,
+    isNumericDecimal: true, // optional
+  );
 
-if (rule.hasError) {
-// some action on error
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 ###### lessThanEqualTo: `double`
@@ -530,19 +531,20 @@ else {
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
-const textFieldValue = '2.0';
+void main() {
+  const textFieldValue = '2.0';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  lessThanEqualTo: 2.0,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    lessThanEqualTo: 2.0,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -552,19 +554,20 @@ else {
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
 ```dart
-const textFieldValue = '2.0';
+void main() {
+  const textFieldValue = '2.0';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  equalTo: 2.0,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    equalTo: 2.0,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -576,19 +579,20 @@ else {
 
 
 ```dart
-const textFieldValue = '2.0';
+void main() {
+  const textFieldValue = '2.0';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  notEqualTo: 2.0,
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    notEqualTo: 2.0,
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -598,19 +602,20 @@ else {
 
 
 ```dart
-const textFieldValue = '10';
+void main() {
+  const textFieldValue = '10';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  equalToInList: [0, 10],
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    equalToInList: [0, 10],
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -622,19 +627,20 @@ else {
 
 
 ```dart
-const textFieldValue = '10';
+void main() {
+  const textFieldValue = '10';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  notEqualToInList: [0, 10],
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    notEqualToInList: [0, 10],
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -644,19 +650,20 @@ else {
 - Note: This is a string comparison.
 
 ```dart
-const textFieldValue = 'abc';
+void main() {
+  const textFieldValue = 'abc';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  shouldMatch: 'abc',
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    shouldMatch: 'abc',
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -667,20 +674,22 @@ else {
 - Note: This is a string comparison.
 
 ```dart
-const textFieldValue = 'abc';
+void main() {
+  const textFieldValue = 'abc';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  shouldNotMatch: 'xyz',
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    shouldNotMatch: 'xyz',
+  );
 
-if (rule.hasError) {
-// some action on error
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 
@@ -690,19 +699,20 @@ else {
 - Note: This is a string comparison.
 
 ```dart
-const textFieldValue = 'abc';
+void main() {
+  const textFieldValue = 'abc';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  inList: ['abc', 'xyz'],
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    inList: ['abc', 'xyz'],
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -714,19 +724,20 @@ else {
 - Note: This is a string comparison.
 
 ```dart
-const textFieldValue = 'abc';
+void main() {
+  const textFieldValue = 'abc';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  notInList: ['abc', 'xyz'],
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    notInList: ['abc', 'xyz'],
+  );
 
-if (rule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
@@ -734,35 +745,33 @@ else {
 
 ###### Default errors
 
-```dart
-{
-    'isRequired': '{name} is required',
-    'isEmail': '{name} is not a valid email address',
-    'isPhone': '{name} is not a valid phone number',
-    'isUrl': '{name} is not a valid URL',
-    'isIp': '{name} is not a valid IP address',
-    'isNumeric': '{name} is not a valid number',
-    'isNumericDecimal': '{name} is not a valid decimal number',
-    'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
-    'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
-    'isAlphaNumericSpace': 'Only alphabets, numbers and spaces are allowed in {name}',
-    'regex': '{name} should match the pattern: {value}',
-    'length': '{name} should be $length characters long',
-    'minLength': '{name} should contain at least $minLength characters',
-    'maxLength': '{name} should not exceed more than $maxLength characters',
-    'greaterThan': '{name} should be greater than $greaterThan',
-    'greaterThanEqualTo': '{name} should be greater than or equal to $greaterThanEqualTo',
-    'lessThan': '{name} should be less than $lessThan',
-    'lessThanEqualTo': '{name} should be less than or equal to $lessThanEqualTo',
-    'equalTo': '{name} should be equal to $equalTo',
-    'notEqualTo': '{name} should not be equal to $notEqualTo',
-    'equalToInList': '{name} should be equal to any of these values ${(equalToInList ?? []).join(', ')}',
-    'notEqualToInList': '{name} should not be equal to any of these values ${(notEqualToInList ?? []).join(', ')}',
-    'shouldMatch': '{name} should be same as $shouldMatch',
-    'shouldNotMatch': '{name} should not same as $shouldNotMatch',
-    'inList': '{name} should be any of these values ${(inList ?? []).join(', ')}',
-    'notInList': '{name} should not be any of these values ${(notInList ?? []).join(', ')}',
-}
+```
+'isRequired': '{name} is required'
+'isEmail': '{name} is not a valid email address'
+'isPhone': '{name} is not a valid phone number'
+'isUrl': '{name} is not a valid URL'
+'isIp': '{name} is not a valid IP address'
+'isNumeric': '{name} is not a valid number'
+'isNumericDecimal': '{name} is not a valid decimal number'
+'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}'
+'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}'
+'isAlphaNumericSpace': 'Only alphabets, numbers and spaces are allowed in {name}'
+'regex': '{name} should match the pattern: {value}'
+'length': '{name} should be $length characters long'
+'minLength': '{name} should contain at least $minLength characters'
+'maxLength': '{name} should not exceed more than $maxLength characters'
+'greaterThan': '{name} should be greater than $greaterThan'
+'greaterThanEqualTo': '{name} should be greater than or equal to $greaterThanEqualTo'
+'lessThan': '{name} should be less than $lessThan'
+'lessThanEqualTo': '{name} should be less than or equal to $lessThanEqualTo'
+'equalTo': '{name} should be equal to $equalTo'
+'notEqualTo': '{name} should not be equal to $notEqualTo'
+'equalToInList': '{name} should be equal to any of these values $equalToInList'
+'notEqualToInList': '{name} should not be equal to any of these values $notEqualToInList'
+'shouldMatch': '{name} should be same as $shouldMatch'
+'shouldNotMatch': '{name} should not same as $shouldNotMatch'
+'inList': '{name} should be any of these values $inList'
+'notInList': '{name} should not be any of these values $notInList'
 ```
 
 ###### Override the default errors
@@ -773,43 +782,46 @@ else {
 - Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
 
 ```dart
-const textFieldValue = ''; // or textFieldValue = 'xyz';
+void main() {
+  const textFieldValue = ''; // or textFieldValue = 'xyz';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isRequired: true,
-  isEmail: true,
-  customErrors: {
-                  'isRequired': 'Input is invalid.',
-                  'isEmail': '{value} is an invalid value. Try another {name}.',
-                },
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isRequired: true,
+    isEmail: true,
+    customErrors: {
+      'isRequired': 'Input is invalid.',
+      'isEmail': '{value} is an invalid value. Try another {name}.',
+    },
+  );
 
-// when textFieldValue = '';
-print(rule.error);
-// output: Input is invalid.
+  // when textFieldValue = '';
+  print(rule.error);
+  // output: Input is invalid.
 
-// when textFieldValue = 'xyz';
-print(rule.error);
-// output: xyz is an invalid value. Try another Text field.
+  // when textFieldValue = 'xyz';
+  print(rule.error);
+  // output: xyz is an invalid value. Try another Text field.
+}
 
 ```
 
 ```dart
-const textFieldValue = '';
+void main() {
+  const textFieldValue = '';
 
-final rule = Rule(
-  textFieldValue,
-  name: 'Text field',
-  isRequired: true,
-  isEmail: true,
-  customErrorText: 'Invalid email address',
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isRequired: true,
+    isEmail: true,
+    customErrorText: 'Invalid email address',
+  );
 
-print(rule.error);
-// output: Invalid email address
-
+  print(rule.error);
+  // output: Invalid email address
+}
 ```
 
 #### 2. GroupRule
@@ -817,152 +829,155 @@ Group together and validate the basic rules
 
 **Basic example**
 ```dart
-const textFieldValue = 'abc@xyz.com';
+void main() {
+  const textFieldValue = 'abc@xyz.com';
 
-final rule = Rule(
-  textFieldValue, 
-  name: 'Text field',
-);
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+  );
 
-final groupRule = GroupRule(
-  [rule], // value; List of Rule
-  name: 'Group name', // placeholder value which will be used while displaying errors
-);
+  final groupRule = GroupRule(
+    [rule], // value; List of Rule
+    name: 'Group name', // placeholder value which will be used while displaying errors
+  );
 
-print(groupRule.error);
-// output: null
-print(groupRule.hasError);
-// output: false
+  print(groupRule.error);
+  // output: null
+  print(groupRule.hasError);
+  // output: false
 
-if (groupRule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (groupRule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```
 
 **Example 1**
 ```dart
-const textFieldValue1 = '';  // or const textFieldValue = null;
-const textFieldValue2 = '';
+void main() {
+  const textFieldValue1 = ''; // or const textFieldValue = null;
+  const textFieldValue2 = '';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field 1',
-  isRequired: true,
-);
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field 1',
+    isRequired: true,
+  );
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field 2',
-  isEmail: true,
-);
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field 2',
+    isEmail: true,
+  );
 
-final groupRule = GroupRule(
-  [rule1, rule2], // value; List of Rule
-  name: 'Group name', // placeholder value which will be used while displaying errors
-);
+  final groupRule = GroupRule(
+    [rule1, rule2], // value; List of Rule
+    name: 'Group name', // placeholder value which will be used while displaying errors
+  );
 
-print(groupRule.error);
-// output: 'Text field 1 is required'
-print(groupRule.hasError);
-// output: true
+  print(groupRule.error);
+  // output: 'Text field 1 is required'
+  print(groupRule.hasError);
+  // output: true
+}
 
 ```
 
 **Available options**
 
 ```dart
-final String name; // mandatory
+String name; // mandatory
 
-final bool requiredAll;
+bool requiredAll;
 
-final int requiredAtleast;
+int requiredAtleast;
 
-final int maxAllowed;
+int maxAllowed;
 
-final String customErrorText;
+String customErrorText;
 
-final Map<String, String> customErrors;
+Map<String, String> customErrors;
 ```
 
 ###### requiredAll: `bool`
 - Checks if all basic rules have a value.
 
 ```dart
-const textFieldValue1 = 'abc';
-const textFieldValue2 = '';
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = '';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field',
-  isRequired: true,
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+    isRequired: true,
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field',
-); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  requiredAll: true,
-);
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    requiredAll: true,
+  );
 
-print(groupRule.error);
-// output: All fields are mandatory in Group name
-
+  print(groupRule.error);
+  // output: All fields are mandatory in Group name
+}
 ```
 
 - IMPORTANT: If any of the basic rules have validation errors then GroupRule will throw those errors first.
 - The group validation wouldn't happen until all basic rules pass the validation.
 
 ```dart
-const textFieldValue1 = 'abc';  // or const textFieldValue = null;
-const textFieldValue2 = 'xyz@abc';
+void main() {
+  const textFieldValue1 = 'abc'; // or const textFieldValue = null;
+  const textFieldValue2 = 'xyz@abc';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field 1',
-  isRequired: true,
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field 1',
+    isRequired: true,
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field 2',
-  isEmail: true,
-); // Validation FAILED
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field 2',
+    isEmail: true,
+  ); // Validation FAILED
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name'
-);
+  final groupRule = GroupRule([rule1, rule2], name: 'Group name');
 
-print(groupRule.error);
-// output: 'Text field 2 is not a valid email address'
-print(groupRule.hasError);
-// output: true
+  print(groupRule.error);
+  // output: 'Text field 2 is not a valid email address'
+  print(groupRule.hasError);
+  // output: true
 
-if (groupRule.hasError) {
-// some action on error
+  if (groupRule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
-else {
-// Some action on success
-}
+
 ```
 
 - IMPORTANT: If the input basic rules list is an empty array or null and 'isRequiredAll' is false or not set then no errors will be thrown for the subsequent constraints.
 
 ```dart
-final groupRule = GroupRule(
-  [],
-  name: 'Group name'
-);
+void main() {
+  final groupRule = GroupRule([], name: 'Group name');
 
-print(groupRule.hasError);
-// output: false
+  print(groupRule.hasError);
+  // output: false
+}
+
 ```
 
 ###### requiredAtleast: `int`
@@ -971,112 +986,116 @@ print(groupRule.hasError);
 - If the 'requiredAtleast' is 0 then it will pass the validation.
 
 ```dart
-const textFieldValue1 = 'abc';
-const textFieldValue2 = '';
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = '';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field',
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field',
-); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  requiredAtleast: 2,
-);
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    requiredAtleast: 2,
+  );
 
-print(groupRule.error);
-// output: At least 2 fields are required in Group name
-
+  print(groupRule.error);
+  // output: At least 2 fields are required in Group name
+}
 ```
 
 ```dart
-const textFieldValue1 = 'abc';
-const textFieldValue2 = 'xyz';
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = 'xyz';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field',
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field',
-); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  requiredAtleast: 2,
-);
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    requiredAtleast: 2,
+  );
 
-print(groupRule.error);
-// output: null
+  print(groupRule.error);
+  // output: null
 
-print(groupRule.hasError);
-// output: false
-
+  print(groupRule.hasError);
+  // output: false
+}
 ```
 
 ###### maxAllowed: `int`
 - The maximum number of basic rules that are allowed to have a value.
 
 ```dart
-const textFieldValue1 = 'abc';
-const textFieldValue2 = 'xyz';
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = 'xyz';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field',
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field',
-); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  maxAllowed: 1,
-);
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    maxAllowed: 1,
+  );
 
-print(groupRule.error);
-// output: A maximum of 1 field is allowed in Group name
-
+  print(groupRule.error);
+  // output: A maximum of 1 field is allowed in Group name
+}
 ```
 
 ```dart
-const textFieldValue1 = 'abc';
-const textFieldValue2 = '';
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = '';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field',
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field',
-); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  maxAllowed: 1,
-);
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    maxAllowed: 1,
+  );
 
-print(groupRule.error);
-// output: null
+  print(groupRule.error);
+  // output: null
 
-print(groupRule.hasError);
-// output: false
-
+  print(groupRule.hasError);
+  // output: false
+}
 ```
 
 **Custom Error**
@@ -1084,12 +1103,10 @@ print(groupRule.hasError);
 ###### Default errors
 - Plurality for 'requiredAtleast' and 'maxAllowed' error texts will be automatically detected.
 
-```dart
-{
-  'requiredAll': 'All fields are mandatory in {name}',
-  'requiredAtleast': 'At least $requiredAtleast field(s) is/are required in {name}',
-  'maxAllowed': 'A maximum of $maxAllowed field(s) is/are allowed in {name}',
-}
+```
+'requiredAll': 'All fields are mandatory in {name}',
+'requiredAtleast': 'At least $requiredAtleast field(s) is/are required in {name}',
+'maxAllowed': 'A maximum of $maxAllowed field(s) is/are allowed in {name}',
 ```
 
 ###### Override the default errors
@@ -1100,59 +1117,61 @@ print(groupRule.hasError);
 - Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
 
 ```dart
-const textFieldValue1 = 'abc';
-const textFieldValue2 = '';
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = '';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field',
-  isRequired: true,
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+    isRequired: true,
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field',
-); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  requiredAll: true,
-  customErrors: {
-                  'requiredAll': 'Input is invalid.',
-                },
-);
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    requiredAll: true,
+    customErrors: {
+      'requiredAll': 'Input is invalid.',
+    },
+  );
 
-print(groupRule.error);
-// output: Input is invalid.
-
+  print(groupRule.error);
+  // output: Input is invalid.
+}
 ```
 
 ```dart
-const textFieldValue1 = 'abc';
-const textFieldValue2 = '';
+void main() {
+  const textFieldValue1 = 'abc';
+  const textFieldValue2 = '';
 
-final rule1 = Rule(
-  textFieldValue1,
-  name: 'Text field',
-  isRequired: true,
-); // Validation OK
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field',
+    isRequired: true,
+  ); // Validation OK
 
-final rule2 = Rule(
-  textFieldValue2,
-  name: 'Text field',
-); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field',
+  ); // Validation OK
 
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  requiredAll: true,
-  customErrorText: 'Invalid input.',
-);
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    requiredAll: true,
+    customErrorText: 'Invalid input.',
+  );
 
-print(rule.error);
-// output: Invalid input.
-
+  print(groupRule.error);
+  // output: Invalid input.
+}
 ```
 
 
@@ -1167,129 +1186,127 @@ Manage multiple Rules and GroupRules
 
 **Basic example**
 ```dart
-const textFieldValue1 = '';
-const textFieldValue2 = 'abc@xyz.com';
+void main() {
+  const textFieldValue1 = '';
+  const textFieldValue2 = 'abc@xyz.com';
 
-final rule1 = Rule(
-  textFieldValue1, 
-  name: 'Text field 1',
-); // Validation OK
-final rule2 = Rule(
-  textFieldValue2, 
-  name: 'Text field 2',
-  isEmail: true,
-); // Validation OK
-final groupRule = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  requiredAll: true
-); // Validation FAILED
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field 1',
+  ); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field 2',
+    isEmail: true,
+  ); // Validation OK
+  final groupRule = GroupRule([rule1, rule2],
+      name: 'Group name', requiredAll: true); // Validation FAILED
 
+  const textFieldValue3 = '';
+  final rule3 = Rule(
+    textFieldValue3,
+    name: 'Text field 3',
+    isRequired: true,
+  ); // Validation FAILED
 
-const textFieldValue3 = '';
-final rule3 = Rule(
-  textFieldValue3, 
-  name: 'Text field 3',
-  isRequired: true,
-);  // Validation FAILED
+  final combinedRule = CombinedRule(
+    rules: [rule3],
+    groupRules: [groupRule],
+  );
 
+  print(combinedRule.errorList);
+  // output: ['Text field 3 is required', 'All fields are mandatory in Group name']
 
-final combinedRule = CombinedRule(
-  rules: [rule3],
-  groupRules: [groupRule],
-);
+  print(combinedRule.hasError);
+  // output: true
 
-print(combinedRule.errorList);
-// output: ['Text field 3 is required', 'All fields are mandatory in Group name']
-
-print(combinedRule.hasError);
-// output: true
-
-if (combinedRule.hasError) {
-// some action on error
-}
-else {
-// Some action on success
+  if (combinedRule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
 }
 ```    
     
 **Available options**
 ```dart
-final List<Rule> rules;
+List<Rule> rules;
 
-final List<GroupRule> groupRules;
+List<GroupRule> groupRules;
 ```
     
 ###### rules: `List<Rule>`
 ```dart
-const textFieldValue1 = '';
-const textFieldValue2 = 'abc@xyz';
-const textFieldValue3 = '';
+void main() {
+  const textFieldValue1 = '';
+  const textFieldValue2 = 'abc@xyz';
+  const textFieldValue3 = '';
 
-final rule1 = Rule(
-  textFieldValue1, 
-  name: 'Text field 1',
-); // Validation OK
-final rule2 = Rule(
-  textFieldValue2, 
-  name: 'Text field 2',
-  isEmail: true,
-); // Validation FAILED
-final rule3 = Rule(
-  textFieldValue3, 
-  name: 'Text field 3',
-  isRequired: true,
-  customErrorText: 'Invalid field input',
-); // Validation FAILED
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field 1',
+  ); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field 2',
+    isEmail: true,
+  ); // Validation FAILED
+  final rule3 = Rule(
+    textFieldValue3,
+    name: 'Text field 3',
+    isRequired: true,
+    customErrorText: 'Invalid field input',
+  ); // Validation FAILED
 
+  final combinedRule = CombinedRule(
+    rules: [rule1, rule2, rule3],
+  );
 
-final combinedRule = CombinedRule(
-  rules: [rule1, rule2, rule3],
-);
+  print(combinedRule.errorList);
+  // output: ['Text field 2 is not a valid email address', 'Invalid field input']
 
-print(combinedRule.errorList);
-// output: ['Text field 2 is not a valid email address', 'Invalid field input']
-
-print(combinedRule.hasError);
-// output: true
+  print(combinedRule.hasError);
+  // output: true
+}
 ```
 
 ###### groupRules: `List<GroupRule>`
 ```dart
-const textFieldValue1 = '';
-const textFieldValue2 = 'abc@xyz';
+void main() {
+  const textFieldValue1 = '';
+  const textFieldValue2 = 'abc@xyz';
 
-final rule1 = Rule(
-  textFieldValue1, 
-  name: 'Text field 1',
-); // Validation OK
-final rule2 = Rule(
-  textFieldValue2, 
-  name: 'Text field 2',
-  isEmail: true,
-); // Validation FAILED
-final groupRule1 = GroupRule(
-  [rule1, rule2],
-  name: 'Group name',
-  requiredAll: true,
-  customErrorText: 'Invalid input',
-); // Validation FAILED
+  final rule1 = Rule(
+    textFieldValue1,
+    name: 'Text field 1',
+  ); // Validation OK
+  final rule2 = Rule(
+    textFieldValue2,
+    name: 'Text field 2',
+    isEmail: true,
+  ); // Validation FAILED
+  final groupRule1 = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    requiredAll: true,
+    customErrorText: 'Invalid input',
+  ); // Validation FAILED
 
-final groupRule2 = GroupRule(
-  [],
-  name: 'Group name',
-); // Validation OK
+  final groupRule2 = GroupRule(
+    [],
+    name: 'Group name',
+  ); // Validation OK
 
+  final combinedRule = CombinedRule(
+    groupRules: [groupRule1, groupRule2],
+  );
 
-final combinedRule = CombinedRule(
-  groupRules: [groupRule1, groupRule2],
-);
+  print(combinedRule.errorList);
+  // output: ['Invalid input']
 
-print(combinedRule.errorList);
-// output: ['Invalid input']
-
-print(combinedRule.hasError);
-// output: true
+  print(combinedRule.hasError);
+  // output: true
+}
 ```
 
 #### Flutter
