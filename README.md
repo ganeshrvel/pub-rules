@@ -401,7 +401,7 @@ void main() {
 
 ```dart
 void main() {
-  const textFieldValue = r'^[a-zA-Z0-9\s]+$';
+  const textFieldValue = 'abc123';
 
   final rule = Rule(
     textFieldValue,
