@@ -1,5 +1,5 @@
 ## 1.0.2
-- Added copyWith for Rule and GroupRule
+- Added copyWith extension method for Rule and GroupRule
 
 ## 1.0.1+7
 - Updated and cleaned README
