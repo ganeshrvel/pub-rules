@@ -1,5 +1,5 @@
 ## 1.0.1+6
-- README updated
+- Updated and cleaned README"
 
 ## 1.0.1+5
 - Updates: Now 'customErrors' has higher priority than 'customErrorText'
