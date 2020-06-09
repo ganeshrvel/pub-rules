@@ -379,13 +379,6 @@ void main() {
 - It accepts multiple spaces, alphabets (both upper and lower case) and numbers.
 
 ```dart
-
-```
-
-###### regex: `String`
-- It accepts a custom regular expression string.
-
-```dart
 void main() {
   const textFieldValue = 'Bread 20';
 
@@ -393,6 +386,27 @@ void main() {
     textFieldValue,
     name: 'Text field',
     isAlphaNumericSpace: true,
+  );
+
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
+}
+```
+
+###### regex: `String`
+- It accepts a custom regular expression string.
+
+```dart
+void main() {
+  const textFieldValue = r'^[a-zA-Z0-9\s]+$';
+
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    regex: r'^[a-zA-Z0-9\s]+$',
   );
 
   if (rule.hasError) {
