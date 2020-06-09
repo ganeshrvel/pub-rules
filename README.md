@@ -205,11 +205,6 @@ void main() {
 
 ###### isEmail: `bool`
 ```dart
-
-```
-
-###### isUrl: `bool`
-```dart
 void main() {
   const textFieldValue = 'abc@xyz.com';
 
@@ -217,6 +212,25 @@ void main() {
     textFieldValue,
     name: 'Text field',
     isEmail: true,
+  );
+
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
+}
+```
+
+###### isUrl: `bool`
+```dart
+void main() {
+  const textFieldValue = 'http://www.google.com';
+
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    isUrl: true,
   );
 
   if (rule.hasError) {
