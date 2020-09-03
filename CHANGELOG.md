@@ -1,3 +1,7 @@
+## 1.1.0
+Breaking changes:
+  - `regex` now expects a RegExp object instead of String
+
 ## 1.0.2+1
 - Added copyWith extension method for Rule and GroupRule
 

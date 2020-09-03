@@ -825,31 +825,50 @@ void main() {
 
   group('regex', () {
     test('should throw an error', () {
-      final rule = Rule('123.', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+      final rule = Rule(
+        '123.',
+        name: 'value',
+        regex: RegExp(
+          r'^[a-zA-Z0-9\s]+$',
+          caseSensitive: false,
+        ),
+      );
+
+      expect(
+          rule.error, contains('should match the pattern: ^[a-zA-Z0-9\\s]+\$'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule =
+          Rule('123.', name: 'value', regex: RegExp(r'^[a-zA-Z0-9\s]+$'));
 
       expect(rule.hasError, equals(true));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rule('', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+      final rule = Rule('', name: 'value', regex: RegExp(r'^[a-zA-Z0-9\s]+$'));
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rule(null, name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+      final rule =
+          Rule(null, name: 'value', regex: RegExp(r'^[a-zA-Z0-9\s]+$'));
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rule('abc123', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+      final rule =
+          Rule('abc123', name: 'value', regex: RegExp(r'^[a-zA-Z0-9\s]+$'));
 
       expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
-      final rule = Rule('abc xyz', name: 'value', regex: r'^[a-zA-Z0-9\s]+$');
+      final rule =
+          Rule('abc xyz', name: 'value', regex: RegExp(r'^[a-zA-Z0-9\s]+$'));
 
       expect(rule.hasError, equals(false));
     });

@@ -73,10 +73,8 @@ bool isStringAlphaNumericSpace(String input) {
 }
 
 // Checks whether the given string [input] matches the [regex]
-bool isStringRegexMatch(String input, String regex) {
-  final regExp = RegExp(regex);
-
-  return regExp.hasMatch(input);
+bool isStringRegexMatch(String input, RegExp regex) {
+  return regex.hasMatch(input);
 }
 
 // Match the string length

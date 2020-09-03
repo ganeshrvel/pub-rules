@@ -37,7 +37,7 @@ class Rule {
 
   final bool isAlphaNumericSpace;
 
-  final String regex;
+  final RegExp regex;
 
   final int length;
 
@@ -94,7 +94,8 @@ class Rule {
         'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
         'isAlphaNumericSpace':
             'Only alphabets, numbers and spaces are allowed in {name}',
-        'regex': '{name} should match the pattern: {value}',
+        'regex':
+            '{name} should match the pattern: ${regex != null ? regex.pattern : ''}',
         'length': '{name} should be $length characters long',
         'minLength': '{name} should contain at least $minLength characters',
         'maxLength': '{name} should not exceed more than $maxLength characters',
@@ -131,7 +132,7 @@ class Rule {
     bool isAlphaSpace,
     bool isAlphaNumeric,
     bool isAlphaNumericSpace,
-    String regex,
+    RegExp regex,
     int length,
     int minLength,
     int maxLength,

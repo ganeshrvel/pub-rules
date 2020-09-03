@@ -128,7 +128,7 @@ bool isAlphaNumeric;
 
 bool isAlphaNumericSpace;
 
-String regex;
+RegExp regex;
 
 int length;
 
@@ -396,7 +396,7 @@ void main() {
 }
 ```
 
-###### regex: `String`
+###### regex: `RegExp`
 - It accepts a custom regular expression string.
 
 ```dart
@@ -406,7 +406,10 @@ void main() {
   final rule = Rule(
     textFieldValue,
     name: 'Text field',
-    regex: r'^[a-zA-Z0-9\s]+$',
+    regex: RegExp(
+      r'^[a-zA-Z0-9\s]+$',
+      caseSensitive: false,
+    ),
   );
 
   if (rule.hasError) {
@@ -784,7 +787,7 @@ void main() {
 'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}'
 'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}'
 'isAlphaNumericSpace': 'Only alphabets, numbers and spaces are allowed in {name}'
-'regex': '{name} should match the pattern: {value}'
+'regex': '{name} should match the pattern: {regex.pattern}'
 'length': '{name} should be $length characters long'
 'minLength': '{name} should contain at least $minLength characters'
 'maxLength': '{name} should not exceed more than $maxLength characters'
