@@ -1699,6 +1699,11 @@ class _UpdateUserScreen extends State<UpdateUserScreen> {
 
 ```
 
+### Changelogs
+##### 1.1.0
+Breaking changes:
+  - `regex` now expects a RegExp object instead of String
+
 ### Buy me a coffee
 Help me keep the app FREE and open for all.
 Paypal me: [paypal.me/ganeshrvel](https://paypal.me/ganeshrvel "paypal.me/ganeshrvel")
