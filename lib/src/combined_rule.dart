@@ -1,6 +1,6 @@
 import 'package:rules/src/group_rule.dart';
 import 'package:rules/src/helpers/functs.dart';
-import 'package:rules/src/models/rules_models.dart';
+import 'package:rules/src/models/rule_model.dart';
 import 'package:rules/src/rule.dart';
 
 ///
@@ -28,12 +28,12 @@ class CombinedRule {
     _run();
   }
 
-  RulesModel get _rulesModel => RulesModel(errorList: _errorList);
+  RuleModel get _ruleModel => RuleModel(errorList: _errorList);
 
   ///
   /// outputs the list of error texts
   ///
-  List<String> get errorList => _rulesModel.errorList;
+  List<String> get errorList => _ruleModel.errorList;
 
   ///
   /// outputs true if there is a validation error else false

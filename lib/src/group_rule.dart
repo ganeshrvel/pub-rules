@@ -2,7 +2,7 @@ import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/group_rule_functs.dart';
 import 'package:rules/src/helpers/strings.dart';
-import 'package:rules/src/models/rules_models.dart';
+import 'package:rules/src/models/rule_model.dart';
 import 'package:rules/src/rule.dart';
 
 ///
@@ -84,12 +84,12 @@ class GroupRule {
     _run();
   }
 
-  RulesModel get _rulesModel => RulesModel(errorList: _errorList);
+  RuleModel get _ruleModel => RuleModel(errorList: _errorList);
 
   ///
   /// outputs the error text (string)
   ///
-  String get error => _rulesModel.error;
+  String get error => _ruleModel.error;
 
   ///
   /// outputs true if there is a validation error else false

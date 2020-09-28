@@ -3,7 +3,8 @@ import 'package:rules/src/helpers/array.dart';
 import 'package:rules/src/helpers/math.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/strings.dart';
-import 'package:rules/src/models/rules_models.dart';
+import 'package:rules/src/models/rule_model.dart';
+import 'package:rules/src/models/rule_options.dart';
 
 ///
 /// Rule Class: This is the basic building block, everything starts here.
@@ -12,7 +13,7 @@ import 'package:rules/src/models/rules_models.dart';
 ///
 class Rule {
   // value for validation
-  final String value;
+  String value;
 
   // placeholder name
   final String name;
@@ -72,6 +73,8 @@ class Rule {
   final String customErrorText;
 
   final Map<String, String> customErrors;
+
+  RuleOptions options;
 
   // if the validator fails then the corresponding [_errorTextsDict] key is added to this array.
   // which will be later used for parsing and outputing error text
@@ -150,6 +153,7 @@ class Rule {
     List<String> notInList,
     String customErrorText,
     Map<String, String> customErrors,
+    RuleOptions options,
   }) {
     return Rule(
       value,
@@ -182,6 +186,7 @@ class Rule {
       notInList: notInList ?? this.notInList,
       customErrorText: customErrorText ?? this.customErrorText,
       customErrors: customErrors ?? this.customErrors,
+      options: options ?? this.options,
     );
   }
 
@@ -216,31 +221,59 @@ class Rule {
     this.notInList,
     this.shouldMatch,
     this.shouldNotMatch,
+    this.options,
   }) {
     // throw an error is 'name' parameter is missing
     if (isNullOrEmpty(name)) {
       throw "Rule => \n'name' parameter is required";
     }
 
+    options = options ?? RuleOptions();
+
+    _applyOptions();
     _run();
   }
 
-  RulesModel get _rulesModel => RulesModel(errorList: _errorList);
+  RuleModel get _ruleModel => RuleModel(errorList: _errorList);
 
   ///
   /// outputs the error text (string)
   ///
-  String get error => _rulesModel.error;
+  String get error => _ruleModel.error;
 
   ///
   /// outputs true if there is a validation error else false
   ///
   bool get hasError => isNotNullOrEmpty(error);
 
-  // starting point
+  // apply options
+  void _applyOptions() {
+    // trim [value] if [options.trim] is true
+    if (options.trim == true) {
+      if (isNotNullOrEmpty(value)) {
+        value = value.trim();
+      }
+    }
+
+    // Converts all characters in [value] to lower case if [options.lowerCase] is true
+    if (options.lowerCase == true) {
+      if (isNotNullOrEmpty(value)) {
+        value = value.toLowerCase();
+      }
+    }
+
+    // Converts all characters in [value] to upper case if [options.upperCase] is true
+    if (options.upperCase == true) {
+      if (isNotNullOrEmpty(value)) {
+        value = value.toUpperCase();
+      }
+    }
+  }
+
+  // entry point
   void _run() {
-    // if any of these values are found to be not null then either [isNumeric] or [isNumericDecimal] is turned on automatically.
-    // if [isNumeric] is false then [isNumericDecimal] will be set
+    // if any of these values are found to be not null then either [isNumeric] or [isNumericDecimal] is applied automatically.
+    // if [isNumeric] is false then [isNumericDecimal] will be applied
     if (isNotNullExists(
           [
             greaterThan,
