@@ -1,3 +1,7 @@
+## 1.2.0
+New feature:
+  - Added `trim`, `upperCase` and `lowerCase` rule **options**
+  
 ## 1.1.0
 Breaking changes:
   - `regex` now expects a RegExp object instead of String
