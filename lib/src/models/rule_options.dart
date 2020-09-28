@@ -30,7 +30,7 @@ class RuleOptions {
     lowerCase = lowerCase ?? false;
     upperCase = upperCase ?? false;
 
-    if(lowerCase && upperCase){
+    if (lowerCase && upperCase) {
       throw "Both 'lowerCase' and 'upperCase' in the rule options cannot be true";
     }
   }
