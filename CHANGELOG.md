@@ -1,4 +1,4 @@
-## 1.2.0
+## 1.2.0+1
 New feature:
   - Added `trim`, `upperCase` and `lowerCase` rule **options**
   

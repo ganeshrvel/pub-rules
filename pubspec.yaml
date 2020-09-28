@@ -1,6 +1,6 @@
 name: rules
 description: Rules is a simple yet powerful and feature-rich validation library for both dart and flutter.
-version: 1.2.0
+version: 1.2.0+1
 homepage: https://github.com/ganeshrvel/pub-rules
 
 environment:
