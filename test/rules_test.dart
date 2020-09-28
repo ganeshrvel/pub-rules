@@ -175,7 +175,7 @@ void main() {
       });
     });
 
-    group('uppercase', () {
+    group('upperCase', () {
       test('should throw an error', () {
         final rule = Rule(
           'abc',
@@ -226,7 +226,7 @@ void main() {
       });
     });
 
-    group('lowercase', () {
+    group('lowerCase', () {
       test('should throw an error', () {
         final rule = Rule(
           'ABC',

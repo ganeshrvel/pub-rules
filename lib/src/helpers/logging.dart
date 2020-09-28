@@ -1,4 +1,4 @@
-void log(dynamic message){
+void log(dynamic message) {
   // ignore: avoid_print
   print(message);
 }

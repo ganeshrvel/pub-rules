@@ -74,6 +74,7 @@ class Rule {
 
   final Map<String, String> customErrors;
 
+  // Rule options
   RuleOptions options;
 
   // if the validator fails then the corresponding [_errorTextsDict] key is added to this array.
