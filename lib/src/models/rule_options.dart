@@ -29,5 +29,9 @@ class RuleOptions {
     trim = trim ?? false;
     lowerCase = lowerCase ?? false;
     upperCase = upperCase ?? false;
+
+    if(lowerCase && upperCase){
+      throw "Both 'lowerCase' and 'upperCase' in the rule options cannot be true";
+    }
   }
 }

@@ -276,6 +276,63 @@ void main() {
         expect(rule.hasError, equals(false));
       });
     });
+
+    group('combination of options', () {
+      test('should throw an error', () {
+        try {
+          final rule = Rule(
+            '   ABC@xyz.com    ',
+            name: 'Email',
+            options: RuleOptions(
+              trim: true,
+              upperCase: true,
+              lowerCase: true,
+            ),
+            isEmail: true,
+          );
+
+          expect(
+              rule,
+              contains(
+                  "Both 'lowerCase' and 'upperCase' in the rule options cannot be true"));
+        } catch (e) {
+          expect(
+              e,
+              contains(
+                  "Both 'lowerCase' and 'upperCase' in the rule options cannot be true"));
+        }
+      });
+
+      test('should not throw an error', () {
+        final rule = Rule(
+          '   ABC@xyz.com    ',
+          name: 'Email',
+          options: RuleOptions(
+            trim: true,
+            lowerCase: true,
+          ),
+          isEmail: true,
+        );
+
+        expect(rule.hasError, equals(false));
+        expect(rule.value, equals('abc@xyz.com'));
+      });
+
+      test('should not throw an error', () {
+        final rule = Rule(
+          '   ABC@xyz.com    ',
+          name: 'Email',
+          options: RuleOptions(
+            trim: true,
+            upperCase: true,
+          ),
+          isEmail: true,
+        );
+
+        expect(rule.hasError, equals(false));
+        expect(rule.value, equals('ABC@XYZ.COM'));
+      });
+    });
   });
 
   group('isRequired', () {
