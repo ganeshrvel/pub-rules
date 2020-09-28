@@ -3,6 +3,7 @@
 /// For more examples refer to https://github.com/ganeshrvel/pub-rules/blob/master/README.md
 
 import 'package:rules/rules.dart';
+import 'package:rules/src/helpers/logging.dart';
 
 void rule() {
   const textFieldValue = 'abc@xyz';
@@ -14,9 +15,9 @@ void rule() {
     isEmail: true,
   );
 
-  print(rule.error);
+  log(rule.error);
   // output: 'Text field is not a valid email address'
-  print(rule.hasError);
+  log(rule.hasError);
   // output: true
 
   if (rule.hasError) {
@@ -48,9 +49,9 @@ void groupRule() {
         'Group name', // placeholder value which will be used while displaying errors
   );
 
-  print(groupRule.error);
+  log(groupRule.error);
   // output: 'Text field 1 is required'
-  print(groupRule.hasError);
+  log(groupRule.hasError);
   // output: true
 }
 
@@ -82,10 +83,10 @@ void combinedRule() {
     groupRules: [groupRule],
   );
 
-  print(combinedRule.errorList);
+  log(combinedRule.errorList);
   // output: ['Text field 3 is required', 'All fields are mandatory in Group name']
 
-  print(combinedRule.hasError);
+  log(combinedRule.hasError);
   // output: true
 
   if (combinedRule.hasError) {

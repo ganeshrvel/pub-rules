@@ -104,7 +104,7 @@ void main() {
 
 ```
 
-**Available options**
+**Available rules**
 ```dart
 String name; // mandatory
 
@@ -159,10 +159,24 @@ String shouldNotMatch;
 List<String> inList;
 
 List<String> notInList;
+```
 
+**Available configurations**
+```dart
 String customErrorText;
 
 Map<String, String> customErrors;
+
+RuleOptions options;
+```
+
+**Available options**
+```dart
+bool trim;
+
+bool lowerCase;
+
+bool upperCase;
 ```
 
 ###### isRequired: `bool`
@@ -807,7 +821,7 @@ void main() {
 
 ###### Override the default errors
 - To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
-- The 'optionName' key should match with one of the 'Available Options' for overriding the error text.
+- The 'optionName' key should match with one of the 'Available rules' for overriding the error text.
 - Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
 - To override all default error texts set 'customErrorText'.
 - Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
@@ -970,7 +984,7 @@ void main() {
 
 ```
 
-**Available options**
+**Available rules**
 
 ```dart
 String name; // mandatory
@@ -980,7 +994,10 @@ bool requiredAll;
 int requiredAtleast;
 
 int maxAllowed;
+```
 
+**Available configurations**
+```dart
 String customErrorText;
 
 Map<String, String> customErrors;
@@ -1195,7 +1212,7 @@ void main() {
 
 ###### Override the default errors
 - To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
-- The 'optionName' key should match with one of the 'Available Options' for overriding the error text.
+- The 'optionName' key should match with one of the 'Available rules' for overriding the error text.
 - Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
 - To override all default error texts set 'customErrorText'.
 - Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
@@ -1256,6 +1273,96 @@ void main() {
   print(groupRule.error);
   // output: Invalid input.
 }
+```
+
+**Options**
+
+###### trim: `bool`
+- Removes any leading and trailing whitespace from the input value
+- Use `rule.value` for the trimmed value
+
+```dart
+import 'package:rules/src/models/rule_options.dart';
+
+void main() {
+  final rule1 = Rule(
+    '    ',
+    name: 'Name',
+    isRequired: true,
+    options: RuleOptions(
+      trim: true,
+    ),
+  );
+
+  print(rule1.hasError);
+  // output: true
+
+  print(rule1.value);
+  // output: 
+  
+  final rule2 = Rule(
+    '     abc@xyz.com     ',
+    name: 'Email',
+    isEmail: true,
+    options: RuleOptions(
+      trim: true,
+    ),
+  );
+
+  print(rule2.hasError);
+  // output: false
+  
+  print(rule2.value);
+  // output: abc@xyz.com
+}
+```
+
+###### lowercase: `bool`
+- Converts all characters, in the input string, to lower case
+- Use `rule.value` for the converted value
+
+```dart
+import 'package:rules/src/models/rule_options.dart';
+
+void main() {
+  final rule = Rule(
+    'ABC',
+    name: 'Input field',
+    regex: RegExp('[a-z]'),
+    options: RuleOptions(
+      lowerCase: true,
+    ),
+  );
+
+  print(rule.hasError);
+  // output: false
+
+  print(rule.value);
+  // output: abc
+```
+
+###### upperCase: `bool`
+- Converts all characters, in the input string, to upper case
+- Use `rule.value` for the converted value
+
+```dart
+import 'package:rules/src/models/rule_options.dart';
+
+void main() {
+  final rule = Rule(
+    'xyz',
+    name: 'Input field',
+    regex: RegExp('[A-Z]'),
+    options: RuleOptions(
+      upperCase: true,
+    ),
+  );
+
+  print(rule.hasError);
+  // output: false
+
+  print(rule.value);
+  // output: xyz
 ```
 
 **Extension**
@@ -1391,7 +1498,7 @@ void main() {
 }
 ```    
     
-**Available options**
+**Available fields**
 ```dart
 List<Rule> rules;
 
@@ -1700,6 +1807,10 @@ class _UpdateUserScreen extends State<UpdateUserScreen> {
 ```
 
 ### Changelogs
+##### 1.2.0
+New feature:
+  - Added `trim`, `upperCase` and `lowerCase` rule **options**
+
 ##### 1.1.0
 Breaking changes:
   - `regex` now expects a RegExp object instead of String
