@@ -170,15 +170,6 @@ Map<String, String> customErrors;
 RuleOptions options;
 ```
 
-**Available options**
-```dart
-bool trim;
-
-bool lowerCase;
-
-bool upperCase;
-```
-
 ###### isRequired: `bool`
 
 ```dart
@@ -1276,6 +1267,16 @@ void main() {
 ```
 
 **Options**
+
+
+##### Available options
+```dart
+bool trim;
+
+bool lowerCase;
+
+bool upperCase;
+```
 
 ###### trim: `bool`
 - Removes any leading and trailing whitespace from the input value
