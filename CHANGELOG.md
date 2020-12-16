@@ -1,3 +1,7 @@
+## 1.2.0+3
+Fixes:
+  - Fixed `email` validation
+
 ## 1.2.0+1
 New feature:
   - Added `trim`, `upperCase` and `lowerCase` rule **options**
