@@ -399,6 +399,18 @@ void main() {
       expect(rule.hasError, equals(false));
     });
 
+    test('should throw an error', () {
+      final rule = Rule('abc.....f@xyz', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule('abc...a..f@xyz', name: 'value', isEmail: true);
+
+      expect(rule.hasError, equals(true));
+    });
+
     test('should NOT throw an error', () {
       final rule = Rule('abc@xyz', name: 'value', isEmail: false);
 
