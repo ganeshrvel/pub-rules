@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 // Checks whether the given string [input] is a decimal number
 bool isStringNumeric(String input, {bool allowDecimal = false}) {
   RegExp regExp;
@@ -78,7 +76,7 @@ bool isStringRegexMatch(String input, RegExp regex) {
 }
 
 // Match the string length
-bool isStringLength(String input, int length) {
+bool isStringLength(String input, int? length) {
   return input.length == length;
 }
 
@@ -100,7 +98,7 @@ String capitalize(String input) {
 // add plurality to a string
 String plural(
   String text, {
-  @required int value,
+  required int? value,
   bool verb = false,
 }) {
   if (value == 1) {

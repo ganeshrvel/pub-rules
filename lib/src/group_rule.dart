@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/group_rule_functs.dart';
 import 'package:rules/src/helpers/strings.dart';
@@ -12,20 +11,20 @@ import 'package:rules/src/rule.dart';
 ///
 class GroupRule {
   // Rules list for validation
-  final List<Rule> rulesList;
+  final List<Rule?> rulesList;
 
   // placeholder name
   final String name;
 
-  final bool requiredAll;
+  final bool? requiredAll;
 
-  final int requiredAtleast;
+  final int? requiredAtleast;
 
-  final int maxAllowed;
+  final int? maxAllowed;
 
-  final String customErrorText;
+  final String? customErrorText;
 
-  final Map<String, String> customErrors;
+  final Map<String, String>? customErrors;
 
   // if the validator fails then the corresponding [_errorTextsDict] key is added to this array.
   // which will be later used for parsing and outputing error text
@@ -33,7 +32,7 @@ class GroupRule {
 
   // it holds the error texts; Note: maximum one error text, for now, is held here
   // this can change in the future
-  final _errorList = <String>[];
+  final _errorList = <String?>[];
 
   // default error text dictionary
   Map<String, String> get _errorTextsDict => {
@@ -46,12 +45,12 @@ class GroupRule {
 
   // Extend [GroupRule]
   GroupRule copyWith({
-    String name,
-    bool requiredAll,
-    int requiredAtleast,
-    int maxAllowed,
-    String customErrorText,
-    Map<String, String> customErrors,
+    String? name,
+    bool? requiredAll,
+    int? requiredAtleast,
+    int? maxAllowed,
+    String? customErrorText,
+    Map<String, String>? customErrors,
   }) {
     return GroupRule(
       rulesList,
@@ -66,7 +65,7 @@ class GroupRule {
 
   GroupRule(
     this.rulesList, {
-    @required this.name,
+    required this.name,
     this.requiredAll,
     this.requiredAtleast,
     this.maxAllowed,
@@ -77,7 +76,7 @@ class GroupRule {
       throw "Group Rule => \n'name' parameter is required";
     }
 
-    if (isNotNull(requiredAtleast) && rulesList.length < requiredAtleast) {
+    if (isNotNull(requiredAtleast) && rulesList.length < requiredAtleast!) {
       throw "Group Rule => \nA minimum of 'requiredAtleast' number of ($requiredAtleast) rules are required";
     }
 
@@ -89,7 +88,7 @@ class GroupRule {
   ///
   /// outputs the error text (string)
   ///
-  String get error => _ruleModel.error;
+  String? get error => _ruleModel.error;
 
   ///
   /// outputs true if there is a validation error else false
@@ -139,7 +138,7 @@ class GroupRule {
   }
 
   bool _isRequiredCheckFailed() {
-    if (requiredAll) {
+    if (requiredAll!) {
       if (isEmptyRuleValueExists(rulesList)) {
         _errorItemList.add('requiredAll');
 
@@ -151,10 +150,10 @@ class GroupRule {
   }
 
   bool _isRequiredAtleastCheckFailed() {
-    if (requiredAtleast > 0) {
+    if (requiredAtleast! > 0) {
       final _nonEmptyValues = getAllNonEmptyRules(rulesList);
 
-      if (_nonEmptyValues.length < requiredAtleast) {
+      if (_nonEmptyValues.length < requiredAtleast!) {
         _errorItemList.add('requiredAtleast');
 
         return true;
@@ -167,7 +166,7 @@ class GroupRule {
   bool _isMaxAllowedCheckFailed() {
     final _nonEmptyValues = getAllNonEmptyRules(rulesList);
 
-    if (_nonEmptyValues.length > maxAllowed) {
+    if (_nonEmptyValues.length > maxAllowed!) {
       _errorItemList.add('maxAllowed');
 
       return true;
@@ -183,8 +182,8 @@ class GroupRule {
     }
 
     for (final item in _errorItemList) {
-      if (isNotNull(customErrors) && customErrors.containsKey(item)) {
-        final _errorText = customErrors[item];
+      if (isNotNull(customErrors) && customErrors!.containsKey(item)) {
+        final _errorText = customErrors![item];
 
         _assignErrorValues(_errorText);
 
@@ -204,12 +203,12 @@ class GroupRule {
   }
 
   // update [_errorList] if any error is found
-  void _assignErrorValues(String _errorText) {
+  void _assignErrorValues(String? _errorText) {
     if (isNullOrEmpty(_errorText)) {
       return;
     }
 
-    final _replacedErrorText = _errorText.replaceAll('{name}', name);
+    final _replacedErrorText = _errorText!.replaceAll('{name}', name);
 
     _errorList.add(_replacedErrorText);
   }

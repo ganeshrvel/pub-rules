@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:rules/src/helpers/array.dart';
 import 'package:rules/src/helpers/math.dart';
 import 'package:rules/src/helpers/functs.dart';
@@ -13,7 +12,7 @@ import 'package:rules/src/models/rule_options.dart';
 ///
 class Rule {
   // value for validation
-  String value;
+  String? value;
 
   // placeholder name
   final String name;
@@ -38,44 +37,44 @@ class Rule {
 
   final bool isAlphaNumericSpace;
 
-  final RegExp regex;
+  final RegExp? regex;
 
-  final int length;
+  final int? length;
 
-  final int minLength;
+  final int? minLength;
 
-  final int maxLength;
+  final int? maxLength;
 
-  final double greaterThan;
+  final double? greaterThan;
 
-  final double greaterThanEqualTo;
+  final double? greaterThanEqualTo;
 
-  final double lessThan;
+  final double? lessThan;
 
-  final double lessThanEqualTo;
+  final double? lessThanEqualTo;
 
-  final double equalTo;
+  final double? equalTo;
 
-  final double notEqualTo;
+  final double? notEqualTo;
 
-  final List<double> equalToInList;
+  final List<double>? equalToInList;
 
-  final List<double> notEqualToInList;
+  final List<double>? notEqualToInList;
 
-  final String shouldMatch;
+  final String? shouldMatch;
 
-  final String shouldNotMatch;
+  final String? shouldNotMatch;
 
-  final List<String> inList;
+  final List<String>? inList;
 
-  final List<String> notInList;
+  final List<String>? notInList;
 
-  final String customErrorText;
+  final String? customErrorText;
 
-  final Map<String, String> customErrors;
+  final Map<String, String>? customErrors;
 
   // Rule options
-  RuleOptions options;
+  RuleOptions? options;
 
   // if the validator fails then the corresponding [_errorTextsDict] key is added to this array.
   // which will be later used for parsing and outputing error text
@@ -99,7 +98,7 @@ class Rule {
         'isAlphaNumericSpace':
             'Only alphabets, numbers and spaces are allowed in {name}',
         'regex':
-            '{name} should match the pattern: ${regex != null ? regex.pattern : ''}',
+            '{name} should match the pattern: ${regex != null ? regex!.pattern : ''}',
         'length': '{name} should be $length characters long',
         'minLength': '{name} should contain at least $minLength characters',
         'maxLength': '{name} should not exceed more than $maxLength characters',
@@ -125,36 +124,36 @@ class Rule {
 
   // Extend [Rule]
   Rule copyWith({
-    String name,
-    bool isRequired,
-    bool isEmail,
-    bool isUrl,
-    bool isPhone,
-    bool isIp,
-    bool isNumeric,
-    bool isNumericDecimal,
-    bool isAlphaSpace,
-    bool isAlphaNumeric,
-    bool isAlphaNumericSpace,
-    RegExp regex,
-    int length,
-    int minLength,
-    int maxLength,
-    double greaterThan,
-    double greaterThanEqualTo,
-    double lessThan,
-    double lessThanEqualTo,
-    double equalTo,
-    double notEqualTo,
-    List<double> equalToInList,
-    List<double> notEqualToInList,
-    String shouldMatch,
-    String shouldNotMatch,
-    List<String> inList,
-    List<String> notInList,
-    String customErrorText,
-    Map<String, String> customErrors,
-    RuleOptions options,
+    String? name,
+    bool? isRequired,
+    bool? isEmail,
+    bool? isUrl,
+    bool? isPhone,
+    bool? isIp,
+    bool? isNumeric,
+    bool? isNumericDecimal,
+    bool? isAlphaSpace,
+    bool? isAlphaNumeric,
+    bool? isAlphaNumericSpace,
+    RegExp? regex,
+    int? length,
+    int? minLength,
+    int? maxLength,
+    double? greaterThan,
+    double? greaterThanEqualTo,
+    double? lessThan,
+    double? lessThanEqualTo,
+    double? equalTo,
+    double? notEqualTo,
+    List<double>? equalToInList,
+    List<double>? notEqualToInList,
+    String? shouldMatch,
+    String? shouldNotMatch,
+    List<String>? inList,
+    List<String>? notInList,
+    String? customErrorText,
+    Map<String, String>? customErrors,
+    RuleOptions? options,
   }) {
     return Rule(
       value,
@@ -193,7 +192,7 @@ class Rule {
 
   Rule(
     this.value, {
-    @required this.name,
+    required this.name,
     this.customErrors,
     this.customErrorText,
     this.isEmail = false,
@@ -240,7 +239,7 @@ class Rule {
   ///
   /// outputs the error text (string)
   ///
-  String get error => _ruleModel.error;
+  String? get error => _ruleModel.error;
 
   ///
   /// outputs true if there is a validation error else false
@@ -250,23 +249,23 @@ class Rule {
   // apply options
   void _applyOptions() {
     // trim [value] if [options.trim] is true
-    if (options.trim == true) {
+    if (options!.trim == true) {
       if (isNotNullOrEmpty(value)) {
-        value = value.trim();
+        value = value!.trim();
       }
     }
 
     // Converts all characters in [value] to lower case if [options.lowerCase] is true
-    if (options.lowerCase == true) {
+    if (options!.lowerCase == true) {
       if (isNotNullOrEmpty(value)) {
-        value = value.toLowerCase();
+        value = value!.toLowerCase();
       }
     }
 
     // Converts all characters in [value] to upper case if [options.upperCase] is true
-    if (options.upperCase == true) {
+    if (options!.upperCase == true) {
       if (isNotNullOrEmpty(value)) {
-        value = value.toUpperCase();
+        value = value!.toUpperCase();
       }
     }
   }
@@ -414,7 +413,7 @@ class Rule {
   }
 
   bool _isNumericCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringNumeric(value)) {
+    if (isNotNullOrEmpty(value) && !isStringNumeric(value!)) {
       _errorItemList.add('isNumeric');
 
       return true;
@@ -425,7 +424,7 @@ class Rule {
 
   bool _isNumericDecimalCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isStringNumeric(value, allowDecimal: true)) {
+        !isStringNumeric(value!, allowDecimal: true)) {
       _errorItemList.add('isNumericDecimal');
 
       return true;
@@ -435,7 +434,7 @@ class Rule {
   }
 
   bool _isEmailCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringEmail(value)) {
+    if (isNotNullOrEmpty(value) && !isStringEmail(value!)) {
       _errorItemList.add('isEmail');
 
       return true;
@@ -445,7 +444,7 @@ class Rule {
   }
 
   bool _isPhoneCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringPhone(value)) {
+    if (isNotNullOrEmpty(value) && !isStringPhone(value!)) {
       _errorItemList.add('isPhone');
 
       return true;
@@ -455,7 +454,7 @@ class Rule {
   }
 
   bool _isUrlCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringUrl(value)) {
+    if (isNotNullOrEmpty(value) && !isStringUrl(value!)) {
       _errorItemList.add('isUrl');
 
       return true;
@@ -465,7 +464,7 @@ class Rule {
   }
 
   bool _isIpCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringIp(value)) {
+    if (isNotNullOrEmpty(value) && !isStringIp(value!)) {
       _errorItemList.add('isIp');
 
       return true;
@@ -475,7 +474,7 @@ class Rule {
   }
 
   bool _isAlphaSpaceCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringAlphaSpace(value)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaSpace(value!)) {
       _errorItemList.add('isAlphaSpace');
 
       return true;
@@ -485,7 +484,7 @@ class Rule {
   }
 
   bool _isAlphaNumericCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringAlphaNumeric(value)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaNumeric(value!)) {
       _errorItemList.add('isAlphaNumeric');
 
       return true;
@@ -495,7 +494,7 @@ class Rule {
   }
 
   bool _isAlphaNumericSpaceCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringAlphaNumericSpace(value)) {
+    if (isNotNullOrEmpty(value) && !isStringAlphaNumericSpace(value!)) {
       _errorItemList.add('isAlphaNumericSpace');
 
       return true;
@@ -505,7 +504,7 @@ class Rule {
   }
 
   bool _isRegexCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringRegexMatch(value, regex)) {
+    if (isNotNullOrEmpty(value) && !isStringRegexMatch(value!, regex!)) {
       _errorItemList.add('regex');
 
       return true;
@@ -515,7 +514,7 @@ class Rule {
   }
 
   bool _isLengthCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringLength(value, length)) {
+    if (isNotNullOrEmpty(value) && !isStringLength(value!, length)) {
       _errorItemList.add('length');
 
       return true;
@@ -525,7 +524,7 @@ class Rule {
   }
 
   bool _isMinLengthCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringMinLength(value, minLength)) {
+    if (isNotNullOrEmpty(value) && !isStringMinLength(value!, minLength!)) {
       _errorItemList.add('minLength');
 
       return true;
@@ -535,7 +534,7 @@ class Rule {
   }
 
   bool _isMaxLengthCheckFailed() {
-    if (isNotNullOrEmpty(value) && !isStringMaxLength(value, maxLength)) {
+    if (isNotNullOrEmpty(value) && !isStringMaxLength(value!, maxLength!)) {
       _errorItemList.add('maxLength');
 
       return true;
@@ -546,7 +545,7 @@ class Rule {
 
   bool _isGreaterThanCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isValueGreaterThan(double.tryParse(value), greaterThan)) {
+        !isValueGreaterThan(double.tryParse(value!)!, greaterThan!)) {
       _errorItemList.add('greaterThan');
 
       return true;
@@ -558,7 +557,7 @@ class Rule {
   bool _isGreaterThanEqualToCheckFailed() {
     if (isNotNullOrEmpty(value) &&
         !isValueGreaterThanEqualTo(
-            double.tryParse(value), greaterThanEqualTo)) {
+            double.tryParse(value!)!, greaterThanEqualTo!)) {
       _errorItemList.add('greaterThanEqualTo');
 
       return true;
@@ -569,7 +568,7 @@ class Rule {
 
   bool _isLessThanCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isValueLessThan(double.tryParse(value), lessThan)) {
+        !isValueLessThan(double.tryParse(value!)!, lessThan!)) {
       _errorItemList.add('lessThan');
 
       return true;
@@ -580,7 +579,7 @@ class Rule {
 
   bool _isLessThanEqualToCheckFailed() {
     if (isNotNullOrEmpty(value) &&
-        !isValueLessThanEqualTo(double.tryParse(value), lessThanEqualTo)) {
+        !isValueLessThanEqualTo(double.tryParse(value!)!, lessThanEqualTo!)) {
       _errorItemList.add('lessThanEqualTo');
 
       return true;
@@ -590,7 +589,7 @@ class Rule {
   }
 
   bool _isEqualToCheckFailed() {
-    if (isNotNullOrEmpty(value) && double.tryParse(value) != equalTo) {
+    if (isNotNullOrEmpty(value) && double.tryParse(value!) != equalTo) {
       _errorItemList.add('equalTo');
 
       return true;
@@ -600,7 +599,7 @@ class Rule {
   }
 
   bool _isNotEqualToCheckFailed() {
-    if (isNotNullOrEmpty(value) && double.tryParse(value) == notEqualTo) {
+    if (isNotNullOrEmpty(value) && double.tryParse(value!) == notEqualTo) {
       _errorItemList.add('notEqualTo');
 
       return true;
@@ -611,9 +610,9 @@ class Rule {
 
   bool _isEqualToInListCheckFailed() {
     if (isNotNullOrEmpty(value)) {
-      final _value = double.tryParse(value);
+      final _value = double.tryParse(value!);
 
-      if (!inArray(equalToInList, _value)) {
+      if (!inArray(equalToInList!, _value)) {
         _errorItemList.add('equalToInList');
 
         return true;
@@ -625,9 +624,9 @@ class Rule {
 
   bool _isNotEqualToInListCheckFailed() {
     if (isNotNullOrEmpty(value)) {
-      final _value = double.tryParse(value);
+      final _value = double.tryParse(value!);
 
-      if (inArray(notEqualToInList, _value)) {
+      if (inArray(notEqualToInList!, _value)) {
         _errorItemList.add('notEqualToInList');
 
         return true;
@@ -638,7 +637,7 @@ class Rule {
   }
 
   bool _isInListCheckFailed() {
-    if (isNotNullOrEmpty(value) && !inArray(inList, value)) {
+    if (isNotNullOrEmpty(value) && !inArray(inList!, value)) {
       _errorItemList.add('inList');
 
       return true;
@@ -648,7 +647,7 @@ class Rule {
   }
 
   bool _isNotInListCheckFailed() {
-    if (isNotNullOrEmpty(value) && inArray(notInList, value)) {
+    if (isNotNullOrEmpty(value) && inArray(notInList!, value)) {
       _errorItemList.add('notInList');
 
       return true;
@@ -684,8 +683,8 @@ class Rule {
     }
 
     for (final item in _errorItemList) {
-      if (isNotNull(customErrors) && customErrors.containsKey(item)) {
-        final _errorText = customErrors[item];
+      if (isNotNull(customErrors) && customErrors!.containsKey(item)) {
+        final _errorText = customErrors![item];
 
         _assignErrorValues(_errorText);
 
@@ -705,12 +704,12 @@ class Rule {
   }
 
   // update [_errorList] if any error is found
-  void _assignErrorValues(String _errorText) {
+  void _assignErrorValues(String? _errorText) {
     if (isNullOrEmpty(_errorText)) {
       return;
     }
 
-    var _replacedErrorText = _errorText.replaceAll('{name}', name);
+    var _replacedErrorText = _errorText!.replaceAll('{name}', name);
 
     _replacedErrorText =
         _replacedErrorText.replaceAll('{value}', value ?? 'null');

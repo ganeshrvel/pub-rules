@@ -1,18 +1,18 @@
 class RuleOptions {
   /// Removes any leading and trailing whitespace
-  bool trim;
+  bool? trim;
 
   /// Converts all characters to lower case.
-  bool lowerCase;
+  bool? lowerCase;
 
   /// Converts all characters to upper case.
-  bool upperCase;
+  bool? upperCase;
 
   // Extend [RuleOptions]
   RuleOptions copyWith({
-    bool trim,
-    bool lowerCase,
-    bool upperCase,
+    bool? trim,
+    bool? lowerCase,
+    bool? upperCase,
   }) {
     return RuleOptions(
       trim: this.trim,
@@ -30,7 +30,7 @@ class RuleOptions {
     lowerCase = lowerCase ?? false;
     upperCase = upperCase ?? false;
 
-    if (lowerCase && upperCase) {
+    if (lowerCase! && upperCase!) {
       throw "Both 'lowerCase' and 'upperCase' in the rule options cannot be true";
     }
   }

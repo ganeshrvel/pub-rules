@@ -60,6 +60,6 @@ List<String> getNullValues(Map<String, dynamic> valueList) {
 }
 
 // parse [string] values in the array to [double]
-List<double> getParsedDoubleArray(List<String> valueList) {
+List<double?> getParsedDoubleArray(List<String> valueList) {
   return valueList.map((value) => double.tryParse(value)).toList();
 }

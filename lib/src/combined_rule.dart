@@ -12,14 +12,14 @@ class CombinedRule {
   ///
   /// Rules list for validation
   ///
-  final List<Rule> rules;
+  final List<Rule?>? rules;
 
   ///
   /// GroupRules list for validation
   ///
-  final List<GroupRule> groupRules;
+  final List<GroupRule?>? groupRules;
 
-  List<String> _errorList = <String>[];
+  List<String?> _errorList = <String>[];
 
   CombinedRule({
     this.rules,
@@ -33,7 +33,7 @@ class CombinedRule {
   ///
   /// outputs the list of error texts
   ///
-  List<String> get errorList => _ruleModel.errorList;
+  List<String?> get errorList => _ruleModel.errorList;
 
   ///
   /// outputs true if there is a validation error else false
@@ -49,7 +49,7 @@ class CombinedRule {
   // process [rules] errors
   void _processRulesErrors() {
     for (final rule in rules ?? []) {
-      final _error = rule?.error as String;
+      final _error = rule?.error as String?;
 
       if (isNotNullOrEmpty(_error)) {
         // spread the errors into [_errorList]
@@ -61,7 +61,7 @@ class CombinedRule {
   // process [groupRules] errors
   void _processGroupRulesErrors() {
     for (final rule in groupRules ?? []) {
-      final _error = rule?.error as String;
+      final _error = rule?.error as String?;
 
       if (isNotNullOrEmpty(_error)) {
         // spread the errors into [_errorList]

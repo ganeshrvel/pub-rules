@@ -1,3 +1,7 @@
+## 2.0.0-nullsafety.0
+
+Added nullsafety
+
 ## 1.2.0+3
 Fixes:
   - Fixed `email` validation

@@ -152,10 +152,10 @@ void main() {
     });
 
     test('should NOT throw an error', () {
-      Rule rule1;
-      Rule rule3;
-      GroupRule groupRule1;
-      GroupRule groupRule2;
+      Rule? rule1;
+      Rule? rule3;
+      GroupRule? groupRule1;
+      GroupRule? groupRule2;
 
       final rule2 =
           Rule('1.1', name: 'name', isRequired: true, isNumericDecimal: true);
@@ -220,10 +220,10 @@ void main() {
     });
 
     test('should NOT throw an error', () {
-      Rule rule1;
-      Rule rule3;
-      GroupRule groupRule1;
-      GroupRule groupRule2;
+      Rule? rule1;
+      Rule? rule3;
+      GroupRule? groupRule1;
+      GroupRule? groupRule2;
 
       final rule2 =
           Rule('1.1', name: 'name', isRequired: true, isNumericDecimal: true);
