@@ -156,6 +156,8 @@ String shouldMatch;
 
 String shouldNotMatch;
 
+bool shouldPass(String value);
+
 List<String> inList;
 
 List<String> notInList;
@@ -728,6 +730,29 @@ void main() {
 
 ```
 
+###### shouldPass: `bool Function(String value)`
+- Checks if the input value passes the given function check
+- It will throw an error if the function returns false
+
+```dart
+void main() {
+  const textFieldValue = 'abc';
+
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    shouldPass: (value) => value.contains('a') && value.contains('b')
+  );
+
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
+}
+
+```
+
 
 
 ###### inList: `List<String>`
@@ -806,6 +831,7 @@ void main() {
 'notEqualToInList': '{name} should not be equal to any of these values $notEqualToInList'
 'shouldMatch': '{name} should be same as $shouldMatch'
 'shouldNotMatch': '{name} should not same as $shouldNotMatch'
+'shouldPass': '{name} is invalid'
 'inList': '{name} should be any of these values $inList'
 'notInList': '{name} should not be any of these values $notInList'
 ```
@@ -1340,6 +1366,7 @@ void main() {
 
   print(rule.value);
   // output: abc
+}
 ```
 
 ###### upperCase: `bool`
@@ -1364,6 +1391,7 @@ void main() {
 
   print(rule.value);
   // output: xyz
+}
 ```
 
 **Extension**

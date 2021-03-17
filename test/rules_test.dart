@@ -1833,7 +1833,7 @@ void main() {
     test('should throw an error', () {
       final rule = Rule('xyz', name: 'value', shouldNotMatch: 'xyz');
 
-      expect(rule.error, contains('should not same as xyz'));
+      expect(rule.error, contains('should not be same as xyz'));
       expect(rule.hasError, equals(true));
     });
 
@@ -1862,6 +1862,33 @@ void main() {
     });
   });
 
+  group('shouldPass', () {
+    test('should throw an error', () {
+      final rule =
+          Rule('qwerty123', name: 'value', shouldPass: (value) => false);
+
+      expect(rule.error, equals('value is invalid'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error', () {
+      final rule = Rule('qwerty123',
+          name: 'value',
+          shouldPass: (value) => false,
+          customErrors: {'shouldPass': '{name} is not valid'});
+
+      expect(rule.error, equals('value is not valid'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error', () {
+      final rule =
+          Rule('qwerty123', name: 'value', shouldPass: (value) => true);
+
+      expect(rule.hasError, equals(false));
+    });
+  });
+
   group('copyWith', () {
     test('should throw an error', () {
       final rule =
@@ -1873,7 +1900,7 @@ void main() {
     test('should throw an error', () {
       final rule = Rule('xyz', name: 'value', shouldNotMatch: 'xyz');
 
-      expect(rule.error, contains('should not same as xyz'));
+      expect(rule.error, contains('should not be same as xyz'));
       expect(rule.hasError, equals(true));
     });
 

@@ -1,3 +1,4 @@
+import 'package:rules/src/abstract_rule.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/helpers/group_rule_functs.dart';
 import 'package:rules/src/helpers/strings.dart';
@@ -9,7 +10,7 @@ import 'package:rules/src/rule.dart';
 /// Refer https://github.com/ganeshrvel/pub-rules/blob/master/README.md#2-grouprule for usage details
 ///
 ///
-class GroupRule {
+class GroupRule implements AbstractRule {
   // Rules list for validation
   final List<Rule?> rulesList;
 
@@ -28,11 +29,11 @@ class GroupRule {
 
   // if the validator fails then the corresponding [_errorTextsDict] key is added to this array.
   // which will be later used for parsing and outputing error text
-  final _errorItemList = <String>[];
+  final List<String> _errorItemList = <String>[];
 
   // it holds the error texts; Note: maximum one error text, for now, is held here
   // this can change in the future
-  final _errorList = <String?>[];
+  final List<String> _errorList = <String>[];
 
   // default error text dictionary
   Map<String, String> get _errorTextsDict => {
@@ -90,9 +91,7 @@ class GroupRule {
   ///
   String? get error => _ruleModel.error;
 
-  ///
-  /// outputs true if there is a validation error else false
-  ///
+  @override
   bool get hasError => isNotNullOrEmpty(error);
 
   // starting point
@@ -115,7 +114,7 @@ class GroupRule {
       final error = rule?.error;
 
       if (isNotNullOrEmpty(error)) {
-        _errorList.add(error);
+        _errorList.add(error!);
 
         break;
       }
@@ -123,18 +122,10 @@ class GroupRule {
   }
 
   // the validation happens here
-  void _beginValidation() {
-    if (requiredAll == true && _isRequiredCheckFailed()) {
-      return;
-    }
-
-    if (requiredAtleast != null && _isRequiredAtleastCheckFailed()) {
-      return;
-    }
-
-    if (maxAllowed != null && _isMaxAllowedCheckFailed()) {
-      return;
-    }
+  bool _beginValidation() {
+    return (requiredAll == true && _isRequiredCheckFailed()) ||
+        (requiredAtleast != null && _isRequiredAtleastCheckFailed()) ||
+        (maxAllowed != null && _isMaxAllowedCheckFailed());
   }
 
   bool _isRequiredCheckFailed() {
