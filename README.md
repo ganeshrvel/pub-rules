@@ -21,6 +21,8 @@ Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of 
 *To activate pre-commit hooks*
 ```shell
 $ git config core.hooksPath .githooks/
+$ chmod +x .githooks/pre-commit
+$ chmod +x .githooks/pre-push
 ```
 
 ### Concept
