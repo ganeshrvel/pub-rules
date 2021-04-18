@@ -1,3 +1,4 @@
+import 'package:rules/src/abstract_rule.dart';
 import 'package:rules/src/group_rule.dart';
 import 'package:rules/src/helpers/functs.dart';
 import 'package:rules/src/models/rule_model.dart';
@@ -8,7 +9,7 @@ import 'package:rules/src/rule.dart';
 /// Refer https://github.com/ganeshrvel/pub-rules/blob/master/README.md#1-combinedrule for usage details
 ///
 ///
-class CombinedRule {
+class CombinedRule implements AbstractRule {
   ///
   /// Rules list for validation
   ///
@@ -19,7 +20,7 @@ class CombinedRule {
   ///
   final List<GroupRule?>? groupRules;
 
-  List<String?> _errorList = <String>[];
+  List<String> _errorList = <String>[];
 
   CombinedRule({
     this.rules,
@@ -33,11 +34,9 @@ class CombinedRule {
   ///
   /// outputs the list of error texts
   ///
-  List<String?> get errorList => _ruleModel.errorList;
+  List<String> get errorList => _ruleModel.errorList;
 
-  ///
-  /// outputs true if there is a validation error else false
-  ///
+  @override
   bool get hasError => isNotNullOrEmpty(errorList);
 
   // starting point
@@ -53,7 +52,7 @@ class CombinedRule {
 
       if (isNotNullOrEmpty(_error)) {
         // spread the errors into [_errorList]
-        _errorList = [..._errorList, _error];
+        _errorList = [..._errorList, _error!];
       }
     }
   }
@@ -65,7 +64,7 @@ class CombinedRule {
 
       if (isNotNullOrEmpty(_error)) {
         // spread the errors into [_errorList]
-        _errorList = [..._errorList, _error];
+        _errorList = [..._errorList, _error!];
       }
     }
   }

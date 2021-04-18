@@ -18,6 +18,13 @@
 
 Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of **rules**
 
+*To activate pre-commit hooks*
+```shell
+$ git config core.hooksPath .githooks/
+$ chmod +x .githooks/pre-commit
+$ chmod +x .githooks/pre-push
+```
+
 ### Concept
 
 The Rules library has three parts
@@ -155,6 +162,8 @@ List<double> notEqualToInList;
 String shouldMatch;
 
 String shouldNotMatch;
+
+bool shouldPass(String value);
 
 List<String> inList;
 
@@ -728,6 +737,29 @@ void main() {
 
 ```
 
+###### shouldPass: `bool Function(String value)`
+- Checks if the input value passes the given function check
+- It will throw an error if the function returns false
+
+```dart
+void main() {
+  const textFieldValue = 'abc';
+
+  final rule = Rule(
+    textFieldValue,
+    name: 'Text field',
+    shouldPass: (value) => value.contains('a') && value.contains('b')
+  );
+
+  if (rule.hasError) {
+    // some action on error
+  } else {
+    // Some action on success
+  }
+}
+
+```
+
 
 
 ###### inList: `List<String>`
@@ -806,6 +838,7 @@ void main() {
 'notEqualToInList': '{name} should not be equal to any of these values $notEqualToInList'
 'shouldMatch': '{name} should be same as $shouldMatch'
 'shouldNotMatch': '{name} should not same as $shouldNotMatch'
+'shouldPass': '{name} is invalid'
 'inList': '{name} should be any of these values $inList'
 'notInList': '{name} should not be any of these values $notInList'
 ```
@@ -1340,6 +1373,7 @@ void main() {
 
   print(rule.value);
   // output: abc
+}
 ```
 
 ###### upperCase: `bool`
@@ -1364,6 +1398,7 @@ void main() {
 
   print(rule.value);
   // output: xyz
+}
 ```
 
 **Extension**
@@ -1808,6 +1843,11 @@ class _UpdateUserScreen extends State<UpdateUserScreen> {
 ```
 
 ### Changelogs
+##### 2.0.0
+New feature:
+  - Null safety
+  - Added `shouldPass`
+
 ##### 1.2.0+1
 New feature:
   - Added `trim`, `upperCase` and `lowerCase` rule **options**
