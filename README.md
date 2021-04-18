@@ -18,6 +18,11 @@
 
 Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of **rules**
 
+*To activate pre-commit hooks*
+```shell
+$ git config core.hooksPath .githooks/
+```
+
 ### Concept
 
 The Rules library has three parts
