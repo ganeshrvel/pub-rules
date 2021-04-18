@@ -1815,6 +1815,11 @@ class _UpdateUserScreen extends State<UpdateUserScreen> {
 ```
 
 ### Changelogs
+##### 2.0.0
+New feature:
+  - Null safety
+  - Added `shouldPass`
+
 ##### 1.2.0+1
 New feature:
   - Added `trim`, `upperCase` and `lowerCase` rule **options**
