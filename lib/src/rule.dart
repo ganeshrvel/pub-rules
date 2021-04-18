@@ -1,16 +1,19 @@
+import 'package:rules/src/abstract_rule.dart';
 import 'package:rules/src/helpers/array.dart';
-import 'package:rules/src/helpers/math.dart';
 import 'package:rules/src/helpers/functs.dart';
+import 'package:rules/src/helpers/math.dart';
 import 'package:rules/src/helpers/strings.dart';
 import 'package:rules/src/models/rule_model.dart';
 import 'package:rules/src/models/rule_options.dart';
+
+typedef Validator = bool Function(String value);
 
 ///
 /// Rule Class: This is the basic building block, everything starts here.
 /// Refer https://github.com/ganeshrvel/pub-rules/blob/master/README.md#1-rule-basic-rule for usage details
 ///
 ///
-class Rule {
+class Rule implements AbstractRule {
   // value for validation
   String? value;
 
@@ -65,6 +68,8 @@ class Rule {
 
   final String? shouldNotMatch;
 
+  final Validator? shouldPass;
+
   final List<String>? inList;
 
   final List<String>? notInList;
@@ -78,11 +83,11 @@ class Rule {
 
   // if the validator fails then the corresponding [_errorTextsDict] key is added to this array.
   // which will be later used for parsing and outputing error text
-  final _errorItemList = <String>[];
+  final List<String> _errorItemList = <String>[];
 
   // it holds the error texts; Note: maximum one error text, for now, is held here
   // this can change in the future
-  final _errorList = <String>[];
+  final List<String> _errorList = <String>[];
 
   // default error text dictionary
   Map<String, String> get _errorTextsDict => {
@@ -115,7 +120,8 @@ class Rule {
         'notEqualToInList':
             '{name} should not be equal to any of these values ${(notEqualToInList ?? []).join(', ')}',
         'shouldMatch': '{name} should be same as $shouldMatch',
-        'shouldNotMatch': '{name} should not same as $shouldNotMatch',
+        'shouldNotMatch': '{name} should not be same as $shouldNotMatch',
+        'shouldPass': '{name} is invalid',
         'inList':
             '{name} should be any of these values ${(inList ?? []).join(', ')}',
         'notInList':
@@ -149,6 +155,7 @@ class Rule {
     List<double>? notEqualToInList,
     String? shouldMatch,
     String? shouldNotMatch,
+    Validator? shouldPass,
     List<String>? inList,
     List<String>? notInList,
     String? customErrorText,
@@ -182,6 +189,7 @@ class Rule {
       notEqualToInList: notEqualToInList ?? this.notEqualToInList,
       shouldMatch: shouldMatch ?? this.shouldMatch,
       shouldNotMatch: shouldNotMatch ?? this.shouldNotMatch,
+      shouldPass: shouldPass ?? this.shouldPass,
       inList: inList ?? this.inList,
       notInList: notInList ?? this.notInList,
       customErrorText: customErrorText ?? this.customErrorText,
@@ -221,14 +229,13 @@ class Rule {
     this.notInList,
     this.shouldMatch,
     this.shouldNotMatch,
+    this.shouldPass,
     this.options,
   }) {
     // throw an error is 'name' parameter is missing
     if (isNullOrEmpty(name)) {
       throw "Rule => \n'name' parameter is required";
     }
-
-    options = options ?? RuleOptions();
 
     _applyOptions();
     _run();
@@ -241,13 +248,12 @@ class Rule {
   ///
   String? get error => _ruleModel.error;
 
-  ///
-  /// outputs true if there is a validation error else false
-  ///
+  @override
   bool get hasError => isNotNullOrEmpty(error);
 
-  // apply options
   void _applyOptions() {
+    options ??= RuleOptions();
+
     // trim [value] if [options.trim] is true
     if (options!.trim == true) {
       if (isNotNullOrEmpty(value)) {
@@ -296,110 +302,34 @@ class Rule {
   }
 
   // the validation happens here
-  void _beginValidation() {
-    if (isRequired == true && _isRequiredCheckFailed()) {
-      return;
-    }
-
-    if (isEmail == true && _isEmailCheckFailed()) {
-      return;
-    }
-
-    if (isUrl == true && _isUrlCheckFailed()) {
-      return;
-    }
-
-    if (isPhone == true && _isPhoneCheckFailed()) {
-      return;
-    }
-
-    if (isIp == true && _isIpCheckFailed()) {
-      return;
-    }
-
-    if (isNumeric == true && _isNumericCheckFailed()) {
-      return;
-    }
-
-    if (isNumericDecimal == true && _isNumericDecimalCheckFailed()) {
-      return;
-    }
-
-    if (isAlphaSpace == true && _isAlphaSpaceCheckFailed()) {
-      return;
-    }
-
-    if (isAlphaNumeric == true && _isAlphaNumericCheckFailed()) {
-      return;
-    }
-
-    if (isAlphaNumericSpace == true && _isAlphaNumericSpaceCheckFailed()) {
-      return;
-    }
-
-    if (regex != null && _isRegexCheckFailed()) {
-      return;
-    }
-
-    if (length != null && _isLengthCheckFailed()) {
-      return;
-    }
-
-    if (minLength != null && _isMinLengthCheckFailed()) {
-      return;
-    }
-
-    if (maxLength != null && _isMaxLengthCheckFailed()) {
-      return;
-    }
-
-    if (greaterThan != null && _isGreaterThanCheckFailed()) {
-      return;
-    }
-
-    if (greaterThanEqualTo != null && _isGreaterThanEqualToCheckFailed()) {
-      return;
-    }
-
-    if (lessThan != null && _isLessThanCheckFailed()) {
-      return;
-    }
-
-    if (lessThanEqualTo != null && _isLessThanEqualToCheckFailed()) {
-      return;
-    }
-
-    if (equalTo != null && _isEqualToCheckFailed()) {
-      return;
-    }
-
-    if (notEqualTo != null && _isNotEqualToCheckFailed()) {
-      return;
-    }
-
-    if (equalToInList != null && _isEqualToInListCheckFailed()) {
-      return;
-    }
-
-    if (notEqualToInList != null && _isNotEqualToInListCheckFailed()) {
-      return;
-    }
-
-    if (inList != null && _isInListCheckFailed()) {
-      return;
-    }
-
-    if (notInList != null && _isNotInListCheckFailed()) {
-      return;
-    }
-
-    if (shouldMatch != null && _isShouldMatchCheckFailed()) {
-      return;
-    }
-
-    if (shouldNotMatch != null && _isShouldNotMatchCheckFailed()) {
-      return;
-    }
+  bool _beginValidation() {
+    return (isRequired && _isRequiredCheckFailed()) ||
+        (isEmail && _isEmailCheckFailed()) ||
+        (isUrl && _isUrlCheckFailed()) ||
+        (isPhone && _isPhoneCheckFailed()) ||
+        (isIp && _isIpCheckFailed()) ||
+        (isNumeric && _isNumericCheckFailed()) ||
+        (isNumericDecimal && _isNumericDecimalCheckFailed()) ||
+        (isAlphaSpace && _isAlphaSpaceCheckFailed()) ||
+        (isAlphaNumeric && _isAlphaNumericCheckFailed()) ||
+        (isAlphaNumericSpace && _isAlphaNumericSpaceCheckFailed()) ||
+        (regex != null && _isRegexCheckFailed()) ||
+        (length != null && _isLengthCheckFailed()) ||
+        (minLength != null && _isMinLengthCheckFailed()) ||
+        (maxLength != null && _isMaxLengthCheckFailed()) ||
+        (greaterThan != null && _isGreaterThanCheckFailed()) ||
+        (greaterThanEqualTo != null && _isGreaterThanEqualToCheckFailed()) ||
+        (lessThan != null && _isLessThanCheckFailed()) ||
+        (lessThanEqualTo != null && _isLessThanEqualToCheckFailed()) ||
+        (equalTo != null && _isEqualToCheckFailed()) ||
+        (notEqualTo != null && _isNotEqualToCheckFailed()) ||
+        (equalToInList != null && _isEqualToInListCheckFailed()) ||
+        (notEqualToInList != null && _isNotEqualToInListCheckFailed()) ||
+        (inList != null && _isInListCheckFailed()) ||
+        (notInList != null && _isNotInListCheckFailed()) ||
+        (shouldMatch != null && _isShouldMatchCheckFailed()) ||
+        (shouldNotMatch != null && _isShouldNotMatchCheckFailed()) ||
+        (shouldPass != null && _isShouldPassCheckFailed());
   }
 
   bool _isRequiredCheckFailed() {
@@ -673,6 +603,16 @@ class Rule {
       return true;
     }
 
+    return false;
+  }
+
+  bool _isShouldPassCheckFailed() {
+    if (isNotNullOrEmpty(value) &&
+        shouldPass != null &&
+        shouldPass!(value!) == false) {
+      _errorItemList.add('shouldPass');
+      return true;
+    }
     return false;
   }
 

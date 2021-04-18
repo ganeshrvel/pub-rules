@@ -90,11 +90,6 @@ bool isStringMaxLength(String input, int length) {
   return input.length <= length;
 }
 
-// capitalize a string
-String capitalize(String input) {
-  return input[0].toUpperCase() + input.substring(1);
-}
-
 // add plurality to a string
 String plural(
   String text, {
