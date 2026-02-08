@@ -46,7 +46,7 @@ void groupRule() {
   final groupRule = GroupRule(
     [rule1, rule2], // value; List of Rule
     name:
-        'Group name', // placeholder value which will be used while displaying errors
+    'Group name', // placeholder value which will be used while displaying errors
   );
 
   log(groupRule.error);
@@ -69,7 +69,7 @@ void combinedRule() {
     isEmail: true,
   ); // Validation OK
   final groupRule = GroupRule([rule1, rule2],
-      name: 'Group name', requiredAll: true); // Validation FAILED
+    name: 'Group name', requiredAll: true,); // Validation FAILED
 
   const textFieldValue3 = '';
   final rule3 = Rule(

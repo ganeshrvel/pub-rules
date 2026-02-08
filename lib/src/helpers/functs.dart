@@ -7,7 +7,7 @@ bool isNullOrEmpty(dynamic x) {
       x is List ||
       x is Map ||
       x is HashMap ||
-      x is Set);
+      x is Set, );
 
   if (x == null) {
     return true;
@@ -43,7 +43,7 @@ bool isNotNullOrEmpty(dynamic x) {
       x is List ||
       x is Map ||
       x is HashMap ||
-      x is Set);
+      x is Set, );
 
   if (x == null) {
     return false;

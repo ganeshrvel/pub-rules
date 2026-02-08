@@ -90,7 +90,8 @@ class Rule implements AbstractRule {
   final List<String> _errorList = <String>[];
 
   // default error text dictionary
-  Map<String, String> get _errorTextsDict => {
+  Map<String, String> get _errorTextsDict =>
+      {
         'isRequired': '{name} is required',
         'isEmail': '{name} is not a valid email address',
         'isPhone': '{name} is not a valid phone number',
@@ -101,31 +102,36 @@ class Rule implements AbstractRule {
         'isAlphaSpace': 'Only alphabets and spaces are allowed in {name}',
         'isAlphaNumeric': 'Only alphabets and numbers are allowed in {name}',
         'isAlphaNumericSpace':
-            'Only alphabets, numbers and spaces are allowed in {name}',
+        'Only alphabets, numbers and spaces are allowed in {name}',
         'regex':
-            '{name} should match the pattern: ${regex != null ? regex!.pattern : ''}',
+        '{name} should match the pattern: ${regex != null
+            ? regex!.pattern
+            : ''}',
         'length': '{name} should be $length characters long',
         'minLength': '{name} should contain at least $minLength characters',
         'maxLength': '{name} should not exceed more than $maxLength characters',
         'greaterThan': '{name} should be greater than $greaterThan',
         'greaterThanEqualTo':
-            '{name} should be greater than or equal to $greaterThanEqualTo',
+        '{name} should be greater than or equal to $greaterThanEqualTo',
         'lessThan': '{name} should be less than $lessThan',
         'lessThanEqualTo':
-            '{name} should be less than or equal to $lessThanEqualTo',
+        '{name} should be less than or equal to $lessThanEqualTo',
         'equalTo': '{name} should be equal to $equalTo',
         'notEqualTo': '{name} should not be equal to $notEqualTo',
         'equalToInList':
-            '{name} should be equal to any of these values ${(equalToInList ?? []).join(', ')}',
+        '{name} should be equal to any of these values ${(equalToInList ?? [])
+            .join(', ')}',
         'notEqualToInList':
-            '{name} should not be equal to any of these values ${(notEqualToInList ?? []).join(', ')}',
+        '{name} should not be equal to any of these values ${(notEqualToInList ??
+            []).join(', ')}',
         'shouldMatch': '{name} should be same as $shouldMatch',
         'shouldNotMatch': '{name} should not be same as $shouldNotMatch',
         'shouldPass': '{name} is invalid',
         'inList':
-            '{name} should be any of these values ${(inList ?? []).join(', ')}',
+        '{name} should be any of these values ${(inList ?? []).join(', ')}',
         'notInList':
-            '{name} should not be any of these values ${(notInList ?? []).join(', ')}',
+        '{name} should not be any of these values ${(notInList ?? []).join(
+          ', ',)}',
       };
 
   // Extend [Rule]
@@ -198,8 +204,7 @@ class Rule implements AbstractRule {
     );
   }
 
-  Rule(
-    this.value, {
+  Rule(this.value, {
     required this.name,
     this.customErrors,
     this.customErrorText,
@@ -281,17 +286,17 @@ class Rule implements AbstractRule {
     // if any of these values are found to be not null then either [isNumeric] or [isNumericDecimal] is applied automatically.
     // if [isNumeric] is false then [isNumericDecimal] will be applied
     if (isNotNullExists(
-          [
-            greaterThan,
-            greaterThanEqualTo,
-            lessThan,
-            lessThanEqualTo,
-            equalTo,
-            notEqualTo,
-            equalToInList,
-            notEqualToInList,
-          ],
-        ) &&
+      [
+        greaterThan,
+        greaterThanEqualTo,
+        lessThan,
+        lessThanEqualTo,
+        equalTo,
+        notEqualTo,
+        equalToInList,
+        notEqualToInList,
+      ],
+    ) &&
         isNumeric != true) {
       isNumericDecimal = true;
     }
@@ -487,7 +492,7 @@ class Rule implements AbstractRule {
   bool _isGreaterThanEqualToCheckFailed() {
     if (isNotNullOrEmpty(value) &&
         !isValueGreaterThanEqualTo(
-            double.tryParse(value!)!, greaterThanEqualTo!)) {
+          double.tryParse(value!)!, greaterThanEqualTo!,)) {
       _errorItemList.add('greaterThanEqualTo');
 
       return true;
