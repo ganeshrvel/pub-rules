@@ -1,4 +1,7 @@
 #!/bin/zsh
 
-dartdoc ./lib
-pub publish --dry-run
+# Generates documentation
+dart doc .
+
+# Checks if the package is ready to publish without actually uploading it
+dart pub publish --dry-run

@@ -1,4 +1,7 @@
 #!/bin/zsh
 
-dartdoc ./lib
-pub publish
+# Generates documentation
+dart doc .
+
+# Publishes the package
+dart pub publish
