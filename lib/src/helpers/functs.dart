@@ -2,12 +2,14 @@ import 'dart:collection';
 
 // check if the value is null or empty
 bool isNullOrEmpty(dynamic x) {
-  assert(x == null ||
-      x is String ||
-      x is List ||
-      x is Map ||
-      x is HashMap ||
-      x is Set, );
+  assert(
+    x == null ||
+        x is String ||
+        x is List ||
+        x is Map ||
+        x is HashMap ||
+        x is Set,
+  );
 
   if (x == null) {
     return true;
@@ -38,12 +40,14 @@ bool isNullOrEmpty(dynamic x) {
 
 // check if the value is not null or not empty
 bool isNotNullOrEmpty(dynamic x) {
-  assert(x == null ||
-      x is String ||
-      x is List ||
-      x is Map ||
-      x is HashMap ||
-      x is Set, );
+  assert(
+    x == null ||
+        x is String ||
+        x is List ||
+        x is Map ||
+        x is HashMap ||
+        x is Set,
+  );
 
   if (x == null) {
     return false;
