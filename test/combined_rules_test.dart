@@ -1,5 +1,4 @@
 import 'package:rules/rules.dart';
-import 'package:rules/src/group_rule.dart';
 import 'package:test/test.dart';
 
 void main() {

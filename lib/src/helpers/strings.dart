@@ -32,12 +32,33 @@ bool isStringPhone(String input) {
 }
 
 // Checks whether the given string [input] is a valid URL
-bool isStringUrl(String input) {
-  const regex =
-      r'(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})';
-  final regExp = RegExp(regex);
+bool isStringUrl(String value) {
+  // For localhost and IPs: require protocol
+  // For domains: protocol is optional
 
-  return regExp.hasMatch(input);
+  final localhostOrIpWithProtocol = RegExp(
+    r'^(?:https?:\/\/)' // Protocol REQUIRED
+    '(?:'
+    'localhost|' // Localhost
+    r'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}' // IPv4
+    '(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)'
+    ')'
+    r'(?::\d{1,5})?' // Port (Optional)
+    r'(?:\/[^\s]*)?$', // Path (Optional)
+    caseSensitive: false,
+  );
+
+  final domainWithOptionalProtocol = RegExp(
+    r'^(?:https?:\/\/)?' // Protocol OPTIONAL
+    r'(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+' // Subdomain(s)
+    '[a-zA-Z]{2,}' // TLD
+    r'(?::\d{1,5})?' // Port (Optional)
+    r'(?:\/[^\s]*)?$', // Path (Optional)
+    caseSensitive: false,
+  );
+
+  return localhostOrIpWithProtocol.hasMatch(value) ||
+      domainWithOptionalProtocol.hasMatch(value);
 }
 
 // Checks whether the given string [input] is a valid phone IP

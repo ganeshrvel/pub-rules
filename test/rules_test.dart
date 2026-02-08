@@ -1,5 +1,4 @@
 import 'package:rules/rules.dart';
-import 'package:rules/src/models/rule_options.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -488,9 +487,15 @@ void main() {
     });
 
     test('should throw an error', () {
+      final rule = Rule('https://www.com', name: 'value', isUrl: true);
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should throw an error', () {
       final rule = Rule('www.com', name: 'value', isUrl: true);
 
-      expect(rule.hasError, equals(true));
+      expect(rule.hasError, equals(false));
     });
 
     test('should NOT throw an error', () {
@@ -570,6 +575,139 @@ void main() {
     test('should NOT throw an error', () {
       final rule = Rule('+', name: 'value', isUrl: false);
 
+      expect(rule.hasError, equals(false));
+    });
+
+    // Localhost tests - INVALID without protocol
+    test('should throw an error - localhost without protocol', () {
+      final rule = Rule('localhost', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(true)); // ERROR - needs protocol
+    });
+
+    test('should throw an error - localhost:8080 without protocol', () {
+      final rule = Rule('localhost:8080', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(true)); // ERROR - needs protocol
+    });
+
+    // Localhost tests - VALID with protocol
+    test('should NOT throw an error - http://localhost', () {
+      final rule = Rule('http://localhost', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://localhost', () {
+      final rule = Rule('https://localhost', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://localhost:8080', () {
+      final rule = Rule('http://localhost:8080', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://localhost:8080', () {
+      final rule = Rule('https://localhost:8080', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://localhost:8087', () {
+      final rule = Rule('http://localhost:8087', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://localhost:8087', () {
+      final rule = Rule('https://localhost:8087', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://localhost:3000/api/users', () {
+      final rule =
+          Rule('http://localhost:3000/api/users', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://localhost:4200/dashboard', () {
+      final rule =
+          Rule('https://localhost:4200/dashboard', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    // IP address tests - INVALID without protocol
+    test('should throw an error - IP 127.0.0.1 without protocol', () {
+      final rule = Rule('127.0.0.1', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(true)); // ERROR - needs protocol
+    });
+
+    test('should throw an error - IP 192.168.1.1 without protocol', () {
+      final rule = Rule('192.168.1.1', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(true)); // ERROR - needs protocol
+    });
+
+    test('should throw an error - IP 127.0.0.1:8080 without protocol', () {
+      final rule = Rule('127.0.0.1:8080', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(true)); // ERROR - needs protocol
+    });
+
+    // IP address tests - VALID with protocol
+    test('should NOT throw an error - http://127.0.0.1', () {
+      final rule = Rule('http://127.0.0.1', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://127.0.0.1', () {
+      final rule = Rule('https://127.0.0.1', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://127.0.0.1:8080', () {
+      final rule = Rule('http://127.0.0.1:8080', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://127.0.0.1:8080', () {
+      final rule = Rule('https://127.0.0.1:8080', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://192.168.1.1', () {
+      final rule = Rule('http://192.168.1.1', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://192.168.1.1', () {
+      final rule = Rule('https://192.168.1.1', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://192.168.1.1:3000', () {
+      final rule = Rule('http://192.168.1.1:3000', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://192.168.1.1:3000', () {
+      final rule = Rule('https://192.168.1.1:3000', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://192.168.1.1:8080/api', () {
+      final rule =
+          Rule('http://192.168.1.1:8080/api', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://192.168.1.1:8080/api', () {
+      final rule =
+          Rule('https://192.168.1.1:8080/api', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - http://10.0.0.1:5000', () {
+      final rule = Rule('http://10.0.0.1:5000', name: 'value', isUrl: true);
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error - https://10.0.0.1:5000', () {
+      final rule = Rule('https://10.0.0.1:5000', name: 'value', isUrl: true);
       expect(rule.hasError, equals(false));
     });
   });

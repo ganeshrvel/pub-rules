@@ -22,10 +22,7 @@ class CombinedRule implements AbstractRule {
 
   List<String> _errorList = <String>[];
 
-  CombinedRule({
-    this.rules,
-    this.groupRules,
-  }) {
+  CombinedRule({this.rules, this.groupRules}) {
     _run();
   }
 
@@ -48,6 +45,7 @@ class CombinedRule implements AbstractRule {
   // process [rules] errors
   void _processRulesErrors() {
     for (final rule in rules ?? []) {
+      // ignore: avoid_dynamic_calls
       final _error = rule?.error as String?;
 
       if (isNotNullOrEmpty(_error)) {
@@ -60,6 +58,7 @@ class CombinedRule implements AbstractRule {
   // process [groupRules] errors
   void _processGroupRulesErrors() {
     for (final rule in groupRules ?? []) {
+      // ignore: avoid_dynamic_calls
       final _error = rule?.error as String?;
 
       if (isNotNullOrEmpty(_error)) {

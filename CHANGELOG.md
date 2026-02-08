@@ -1,3 +1,9 @@
+## 2.1.0
+
+New feature:
+
+- Improved `isUrl` check to correctly validate https?://localhost and https?://<ip>
+
 ## 2.0.0
 
 New feature:
