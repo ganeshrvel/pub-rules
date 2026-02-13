@@ -31,34 +31,47 @@ bool isStringPhone(String input) {
   return regExp.hasMatch(input);
 }
 
-// Checks whether the given string [input] is a valid URL
+/// Validates URLs according to RFC 3986 with practical considerations.
+///
+/// Rules:
+/// - Localhost and IP addresses REQUIRE protocol (http:// or https://)
+/// - Domain names allow optional protocol
+/// - Supports credentials in URLs (user:pass@host or publickey@host)
+/// - Empty strings and null values are considered valid (no error)
+///
+/// Examples:
+/// - Valid: https://key@tld.io/123, http://localhost:8080, www.example.com
+/// - Invalid: localhost, 192.168.1.1, qwerty123
 bool isStringUrl(String value) {
-  // For localhost and IPs: require protocol
-  // For domains: protocol is optional
+  // Empty or null is valid (no error)
+  if (value.isEmpty) return true;
 
-  final localhostOrIpWithProtocol = RegExp(
-    r'^(?:https?:\/\/)' // Protocol REQUIRED
-    '(?:'
+  // Localhost and IP addresses: REQUIRE protocol
+  final localhostOrIpPattern = RegExp(
+    r'^(https?):\/\/' // Protocol REQUIRED (http or https)
+    r'(?:[a-zA-Z0-9._~:/?#\[\]@!$&()*+,;=%-]*@)?' // Optional credentials (RFC 3986)
+    '(?:' // Start host alternatives
     'localhost|' // Localhost
-    r'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}' // IPv4
-    '(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)'
-    ')'
-    r'(?::\d{1,5})?' // Port (Optional)
-    r'(?:\/[^\s]*)?$', // Path (Optional)
+    r'(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}' // IPv4 (0-255)
+    '(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)' // IPv4 last octet
+    ')' // End host alternatives
+    r'(?::\d{1,5})?' // Optional port (1-65535)
+    r'(?:\/[^\s]*)?$', // Optional path
     caseSensitive: false,
   );
 
-  final domainWithOptionalProtocol = RegExp(
-    r'^(?:https?:\/\/)?' // Protocol OPTIONAL
-    r'(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+' // Subdomain(s)
-    '[a-zA-Z]{2,}' // TLD
-    r'(?::\d{1,5})?' // Port (Optional)
-    r'(?:\/[^\s]*)?$', // Path (Optional)
+  // Domain names: Protocol OPTIONAL
+  final domainPattern = RegExp(
+    r'^(?:(https?):\/\/)?' // Protocol OPTIONAL
+    r'(?:[a-zA-Z0-9._~:/?#\[\]@!$&()*+,;=%-]*@)?' // Optional credentials (RFC 3986)
+    r'(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+' // Subdomain(s) + domain
+    '[a-zA-Z]{2,}' // TLD (minimum 2 chars)
+    r'(?::\d{1,5})?' // Optional port
+    r'(?:\/[^\s]*)?$', // Optional path
     caseSensitive: false,
   );
 
-  return localhostOrIpWithProtocol.hasMatch(value) ||
-      domainWithOptionalProtocol.hasMatch(value);
+  return localhostOrIpPattern.hasMatch(value) || domainPattern.hasMatch(value);
 }
 
 // Checks whether the given string [input] is a valid phone IP
