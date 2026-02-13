@@ -703,8 +703,8 @@ void main() {
       expect(rule.hasError, equals(false));
     });
 
-    // URL with credentials tests (Sentry DSN format)
-    test('should NOT throw an error - Sentry DSN with public key', () {
+    // URL with credentials tests - WITH protocol
+    test('should NOT throw an error - URL with public key credential', () {
       final rule = Rule(
         'https://abc123@o123456.ingest.sentry.io/7890123',
         name: 'value',
@@ -757,6 +757,138 @@ void main() {
         isUrl: true,
       );
       expect(rule.hasError, equals(false));
+    });
+
+    // Single credential (no password) without protocol - INVALID for localhost/IP
+    test(
+        'should throw an error - single credential on localhost without protocol',
+        () {
+      final rule = Rule(
+        'secret@localhost',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(rule.hasError, equals(true)); // ERROR - localhost needs protocol
+    });
+
+    test('should throw an error - single credential on IP without protocol',
+        () {
+      final rule = Rule(
+        'token@192.168.1.1',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(rule.hasError, equals(true)); // ERROR - IP needs protocol
+    });
+
+    // Single credential (no password) without protocol - VALID for domains
+    test(
+        'should NOT throw an error - single credential on domain without protocol',
+        () {
+      final rule = Rule(
+        'secret@api.example.com',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(
+          rule.hasError, equals(false)); // OK - domain allows optional protocol
+    });
+
+    test(
+        'should NOT throw an error - single credential on subdomain without protocol',
+        () {
+      final rule = Rule(
+        'publickey@org.ingest.sentry.io',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(
+          rule.hasError, equals(false)); // OK - domain allows optional protocol
+    });
+
+    // User:pass credentials without protocol - INVALID for localhost/IP
+    test('should throw an error - user:pass on localhost without protocol', () {
+      final rule = Rule(
+        'admin:secret@localhost',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(rule.hasError, equals(true)); // ERROR - localhost needs protocol
+    });
+
+    test('should throw an error - user:pass on localhost:port without protocol',
+        () {
+      final rule = Rule(
+        'admin:secret@localhost:8080/api',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(rule.hasError, equals(true)); // ERROR - localhost needs protocol
+    });
+
+    test(
+        'should throw an error - user:pass on localhost with path without protocol',
+        () {
+      final rule = Rule(
+        'admin:secret@localhost/api',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(rule.hasError, equals(true)); // ERROR - localhost needs protocol
+    });
+
+    test('should throw an error - user:pass on IP without protocol', () {
+      final rule = Rule(
+        'user:pass@192.168.1.1:3000/admin',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(rule.hasError, equals(true)); // ERROR - IP needs protocol
+    });
+
+    test('should throw an error - user:pass on IP without protocol or port',
+        () {
+      final rule = Rule(
+        'user:pass@127.0.0.1',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(rule.hasError, equals(true)); // ERROR - IP needs protocol
+    });
+
+    // User:pass credentials without protocol - VALID for domains
+    test('should NOT throw an error - user:pass on domain without protocol',
+        () {
+      final rule = Rule(
+        'user:password@example.com/path',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(
+          rule.hasError, equals(false)); // OK - domain allows optional protocol
+    });
+
+    test('should NOT throw an error - user:pass on subdomain without protocol',
+        () {
+      final rule = Rule(
+        'admin:secret@api.example.com/endpoint',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(
+          rule.hasError, equals(false)); // OK - domain allows optional protocol
+    });
+
+    test(
+        'should NOT throw an error - user:pass on domain with port without protocol',
+        () {
+      final rule = Rule(
+        'user:pass@example.com:8080',
+        name: 'value',
+        isUrl: true,
+      );
+      expect(
+          rule.hasError, equals(false)); // OK - domain allows optional protocol
     });
 
     // Edge cases

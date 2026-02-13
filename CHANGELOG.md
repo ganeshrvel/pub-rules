@@ -1,3 +1,9 @@
+## 2.1.2
+
+Bug fix:
+
+- Test fixes
+
 ## 2.1.1
 
 New feature:
