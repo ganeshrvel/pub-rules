@@ -4,21 +4,23 @@
 
 **Rules** is a simple yet powerful and feature-rich validation library for both dart and flutter.
 
-
 #### Features
+
 - Highly flexible
 - Easy to understand
 - Less boilerplate code
 - Custom error handling
 - Override individual errors
 - Flutter friendly
-- State management libraries friendly ([Mobx example included](https://github.com/ganeshrvel/pub-rules#flutter-mobx "Mobx example included"))
+- State management libraries
+  friendly ([Mobx example included](https://github.com/ganeshrvel/pub-rules#flutter-mobx "Mobx example included"))
 
 ### Installation
 
 Go to https://pub.dev/packages/rules#-installing-tab- for the latest version of **rules**
 
 *To activate pre-commit hooks*
+
 ```shell
 $ git config core.hooksPath .githooks/
 $ chmod +x .githooks/pre-commit
@@ -28,22 +30,25 @@ $ chmod +x .githooks/pre-push
 ### Concept
 
 The Rules library has three parts
+
 - Rule: Basic rule
 - GroupRule: Group together and validate the basic rules
 - CombinedRule: Validate multiple basic rules and group rules together
 
-
 ### Usage
 
 **Import the library**
+
 ```dart
 import 'package:rules/rules.dart';
 ```
 
 #### 1. Rule (Basic Rule)
+
 This is the basic building block, everything starts here.
 
 **Basic example**
+
 ```dart
 void main() {
   const textFieldValue = 'abc@xyz.com';
@@ -61,6 +66,7 @@ void main() {
 ```
 
 **Example 1**
+
 ```dart
 void main() {
   const textFieldValue = ''; // or const textFieldValue = null;
@@ -86,6 +92,7 @@ void main() {
 ```
 
 **Example 2**
+
 ```dart
 void main() {
   const textFieldValue = 'abc@xyz';
@@ -112,6 +119,7 @@ void main() {
 ```
 
 **Available rules**
+
 ```dart
 String name; // mandatory
 
@@ -171,6 +179,7 @@ List<String> notInList;
 ```
 
 **Available configurations**
+
 ```dart
 String customErrorText;
 
@@ -199,7 +208,8 @@ void main() {
 }
 ```
 
-- IMPORTANT: If the value is empty or null and 'isRequired' is false or not set then no errors will be thrown for the subsequent constraints.
+- IMPORTANT: If the value is empty or null and 'isRequired' is false or not set then no errors will
+  be thrown for the subsequent constraints.
 
 ```dart
 void main() {
@@ -218,6 +228,7 @@ void main() {
 ```
 
 ###### isEmail: `bool`
+
 ```dart
 void main() {
   const textFieldValue = 'abc@xyz.com';
@@ -237,6 +248,7 @@ void main() {
 ```
 
 ###### isUrl: `bool`
+
 ```dart
 void main() {
   const textFieldValue = 'http://www.google.com';
@@ -256,7 +268,9 @@ void main() {
 ```
 
 ###### isPhone: `bool`
-- It recognizes the phone numbers starting with **+** or **0**, no length limitations and handles `#, x, ext, extension` extension conventions.
+
+- It recognizes the phone numbers starting with **+** or **0**, no length limitations and handles
+  `#, x, ext, extension` extension conventions.
 
 ```dart
 void main() {
@@ -269,16 +283,16 @@ void main() {
   );
 
   if (rule.hasError) {
-  // some action on error
+    // some action on error
   } else {
-  // Some action on success
+    // Some action on success
   }
 }
 ```
 
 ###### isIp: `bool`
-- It accepts both IPv4 and IPv6 addresses.
 
+- It accepts both IPv4 and IPv6 addresses.
 
 ```dart
 void main() {
@@ -299,8 +313,8 @@ void main() {
 ```
 
 ###### isNumeric: `bool`
-- It accepts both 0, positive and negative integers. Decimals are not allowed.
 
+- It accepts both 0, positive and negative integers. Decimals are not allowed.
 
 ```dart
 void main() {
@@ -320,10 +334,9 @@ void main() {
 }
 ```
 
-
 ###### isNumericDecimal: `bool`
-- It accepts 0, postive and negative integers and decimals numbers.
 
+- It accepts 0, postive and negative integers and decimals numbers.
 
 ```dart
 void main() {
@@ -343,10 +356,9 @@ void main() {
 }
 ```
 
-
 ###### isAlphaSpace: `bool`
-- It accepts multiple spaces and alphabets (both upper and lower case).
 
+- It accepts multiple spaces and alphabets (both upper and lower case).
 
 ```dart
 void main() {
@@ -366,8 +378,8 @@ void main() {
 }
 ```
 
-
 ###### isAlphaNumeric: `bool`
+
 - It accepts alphabets (both upper and lower case) and numbers.
 
 ```dart
@@ -388,8 +400,8 @@ void main() {
 }
 ```
 
-
 ###### isAlphaNumericSpace: `bool`
+
 - It accepts multiple spaces, alphabets (both upper and lower case) and numbers.
 
 ```dart
@@ -411,6 +423,7 @@ void main() {
 ```
 
 ###### regex: `RegExp`
+
 - It accepts a custom regular expression string.
 
 ```dart
@@ -435,6 +448,7 @@ void main() {
 ```
 
 ###### length: `int`
+
 - Defines the length of the input string.
 
 ```dart
@@ -456,8 +470,8 @@ void main() {
 ```
 
 ###### minLength: `int`
-- Defines the minimum length of the input string.
 
+- Defines the minimum length of the input string.
 
 ```dart
 void main() {
@@ -479,6 +493,7 @@ void main() {
 ```
 
 ###### maxLength: `int`
+
 - Defines the maximum length of the input string.
 
 ```dart
@@ -501,9 +516,9 @@ void main() {
 ```
 
 ###### greaterThan: `double`
+
 - Checks if the input value is greater than the 'greaterThan' value.
 - if 'isNumeric' is not set then the 'isNumericDecimal' constraint will be applied automatically.
-
 
 ```dart
 void main() {
@@ -525,6 +540,7 @@ void main() {
 ```
 
 ###### greaterThanEqualTo: `double`
+
 - Checks if the input value is greater than or equal to the 'greaterThanEqualTo' value.
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
@@ -548,6 +564,7 @@ void main() {
 ```
 
 ###### lessThan: `double`
+
 - Checks if the input value is greater than or equal to the 'lessThan' value.
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
@@ -572,6 +589,7 @@ void main() {
 ```
 
 ###### lessThanEqualTo: `double`
+
 - Checks if the input value is greater than or equal to the 'lessThanEqualTo' value.
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
@@ -593,8 +611,8 @@ void main() {
 }
 ```
 
-
 ###### equalTo: `double`
+
 - Checks if the input value is equal to the 'equalTo' value.
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
 
@@ -616,12 +634,11 @@ void main() {
 }
 ```
 
-
 ###### notEqualTo: `double`
-- Checks if the input value is equal to the 'notEqualTo' value. 
+
+- Checks if the input value is equal to the 'notEqualTo' value.
 - It will throw an error if the values match.
 - if 'isNumeric' is not set then 'isNumericDecimal' constraint will be applied automatically.
-
 
 ```dart
 void main() {
@@ -642,9 +659,9 @@ void main() {
 ```
 
 ###### equalToInList: `List<double>`
+
 - Checks if the input value matches with any of the 'equalToInList' values.
 - Note: This is a float comparison. 10.00 == 10 will be true.
-
 
 ```dart
 void main() {
@@ -664,12 +681,11 @@ void main() {
 }
 ```
 
-
 ###### notEqualToInList: `List<double>`
+
 - Checks if the input value matches with any of the 'notEqualToInList' values.
 - It will throw an error if there is a value match.
 - Note: This is a float comparison. 10.00 == 10 will be true.
-
 
 ```dart
 void main() {
@@ -689,8 +705,8 @@ void main() {
 }
 ```
 
-
 ###### shouldMatch: `String`
+
 - Checks if the input value matches with the 'shouldMatch' value.
 - Note: This is a string comparison.
 
@@ -712,8 +728,8 @@ void main() {
 }
 ```
 
-
 ###### shouldNotMatch: `String`
+
 - Checks if the input value matches with the 'shouldNotMatch' value.
 - It will throw an error if the values match.
 - Note: This is a string comparison.
@@ -738,6 +754,7 @@ void main() {
 ```
 
 ###### shouldPass: `bool Function(String value)`
+
 - Checks if the input value passes the given function check
 - It will throw an error if the function returns false
 
@@ -746,9 +763,9 @@ void main() {
   const textFieldValue = 'abc';
 
   final rule = Rule(
-    textFieldValue,
-    name: 'Text field',
-    shouldPass: (value) => value.contains('a') && value.contains('b')
+      textFieldValue,
+      name: 'Text field',
+      shouldPass: (value) => value.contains('a') && value.contains('b')
   );
 
   if (rule.hasError) {
@@ -760,7 +777,78 @@ void main() {
 
 ```
 
+###### shouldPassOrCustomError: `ValidatorOrCustomError`
 
+- Like `shouldPass` but the callback returns the error string directly on failure, or `null` on
+  success.
+- The returned string is used verbatim as the error text, bypassing `customErrors` and
+  `customErrorText` for this slot.
+- Use this when the same function that determines *whether* validation failed also knows *why*, it
+  avoids calling the function twice.
+- Supports `{name}` and `{value}` template variables in the returned string.
+- Can be used alongside `shouldPass`.
+
+```dart
+void main() {
+  const fileName = 'my<file>.txt';
+
+  final rule = Rule(
+    fileName,
+    name: 'File name',
+    isRequired: true,
+    shouldPassOrCustomError: (value) {
+      final invalidChars =
+      value.split('').where((c) => '<>:"/\\|?*'.contains(c)).toList();
+
+      if (invalidChars.isEmpty) {
+        return null;
+      }
+
+      return 'File name contains unsupported characters: ${invalidChars.join(', ')}';
+    },
+    customErrors: {
+      'isRequired': 'A file name is required',
+    },
+  );
+
+  print(rule.error);
+  // output: 'File name contains unsupported characters: <, >'
+  print(rule.hasError);
+  // output: true
+}
+```
+
+```dart
+void main() {
+  const fileName = 'my<file>.txt';
+
+  final rule = Rule(
+    fileName,
+    name: 'File name',
+    isRequired: true,
+    shouldPassOrCustomError: (value) {
+      final invalidChars =
+          value.split('').where((c) => '<>:"/\\|?*'.contains(c)).toList();
+
+      if (invalidChars.isEmpty) {
+        return null;
+      }
+
+      return '{name} "{value}" contains unsupported characters: ${invalidChars.join(', ')}';
+    },
+    customErrors: {
+      'isRequired': 'A file name is required',
+    },
+  );
+
+  print(rule.error);
+  // output: 'File name "my<file>.txt" contains unsupported characters: <, >'
+  print(rule.hasError);
+  // output: true
+}
+```
+
+**Default error text**: n/a — the string returned by the callback is always used directly.
 
 ###### inList: `List<String>`
 - Checks if the input value matches with any of the 'inList' values.
@@ -784,9 +872,8 @@ void main() {
 }
 ```
 
-
-
 ###### notInList: `List<String>`
+
 - Checks if the input value matches with any of the 'notInList' values.
 - It will throw an error if there is a value match.
 - Note: This is a string comparison.
@@ -844,11 +931,15 @@ void main() {
 ```
 
 ###### Override the default errors
-- To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
+
+- To override the error text of a particular option, set 'customErrors' as
+  `{'optionName': '<Error Text>'`}.
 - The 'optionName' key should match with one of the 'Available rules' for overriding the error text.
-- Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
+- Use {value} and {name} template variables in the 'customErrors' to display the input name and
+  value respectively.
 - To override all default error texts set 'customErrorText'.
-- Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
+- Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the
+  highest priority.
 
 ```dart
 void main() {
@@ -894,6 +985,7 @@ void main() {
 ```
 
 **Extension**
+
 - Extend and override the constraints of a rule using 'copyWith' method
 
 ```dart
@@ -920,7 +1012,8 @@ void main() {
 }
 ```
 
-- The child rule will default to the constraint values of the parent unless they are set explicitly in the child.
+- The child rule will default to the constraint values of the parent unless they are set explicitly
+  in the child.
 
 ```dart
 void main() {
@@ -947,9 +1040,11 @@ void main() {
 ```
 
 #### 2. GroupRule
-Group together and validate the basic rules 
+
+Group together and validate the basic rules
 
 **Basic example**
+
 ```dart
 void main() {
   const textFieldValue = 'abc@xyz.com';
@@ -978,6 +1073,7 @@ void main() {
 ```
 
 **Example 1**
+
 ```dart
 void main() {
   const textFieldValue1 = ''; // or const textFieldValue = null;
@@ -1021,6 +1117,7 @@ int maxAllowed;
 ```
 
 **Available configurations**
+
 ```dart
 String customErrorText;
 
@@ -1028,6 +1125,7 @@ Map<String, String> customErrors;
 ```
 
 ###### requiredAll: `bool`
+
 - Checks if all basic rules have a value.
 
 ```dart
@@ -1057,7 +1155,8 @@ void main() {
 }
 ```
 
-- IMPORTANT: If any of the basic rules have validation errors then GroupRule will throw those errors first.
+- IMPORTANT: If any of the basic rules have validation errors then GroupRule will throw those errors
+  first.
 - The group validation wouldn't happen until all basic rules pass the validation.
 
 ```dart
@@ -1093,7 +1192,8 @@ void main() {
 
 ```
 
-- IMPORTANT: If the input basic rules list is an empty array or null and 'isRequiredAll' is false or not set then no errors will be thrown for the subsequent constraints.
+- IMPORTANT: If the input basic rules list is an empty array or null and 'isRequiredAll' is false or
+  not set then no errors will be thrown for the subsequent constraints.
 
 ```dart
 void main() {
@@ -1106,8 +1206,10 @@ void main() {
 ```
 
 ###### requiredAtleast: `int`
+
 - Defines the minimum number of basic rules that should have a value.
-- The number of basic rules in a GroupRule should be greater than the 'requiredAtleast' value else it will throw an exception.
+- The number of basic rules in a GroupRule should be greater than the 'requiredAtleast' value else
+  it will throw an exception.
 - If the 'requiredAtleast' is 0 then it will pass the validation.
 
 ```dart
@@ -1166,6 +1268,7 @@ void main() {
 ```
 
 ###### maxAllowed: `int`
+
 - The maximum number of basic rules that are allowed to have a value.
 
 ```dart
@@ -1226,6 +1329,7 @@ void main() {
 **Custom Error**
 
 ###### Default errors
+
 - Plurality for 'requiredAtleast' and 'maxAllowed' error texts will be automatically detected.
 
 ```
@@ -1235,11 +1339,15 @@ void main() {
 ```
 
 ###### Override the default errors
-- To override the error text of a particular option, set 'customErrors' as `{'optionName': '<Error Text>'`}.
+
+- To override the error text of a particular option, set 'customErrors' as
+  `{'optionName': '<Error Text>'`}.
 - The 'optionName' key should match with one of the 'Available rules' for overriding the error text.
-- Use {value} and {name} template variables in the 'customErrors' to display the input name and value respectively.
+- Use {value} and {name} template variables in the 'customErrors' to display the input name and
+  value respectively.
 - To override all default error texts set 'customErrorText'.
-- Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the highest priority.
+- Note: 'customErrorText' will only override the default errors. 'customErrors' will be given the
+  highest priority.
 
 ```dart
 void main() {
@@ -1301,8 +1409,8 @@ void main() {
 
 **Options**
 
-
 ##### Available options
+
 ```dart
 bool trim;
 
@@ -1312,6 +1420,7 @@ bool upperCase;
 ```
 
 ###### trim: `bool`
+
 - Removes any leading and trailing whitespace from the input value
 - Use `rule.value` for the trimmed value
 
@@ -1333,7 +1442,7 @@ void main() {
 
   print(rule1.value);
   // output: 
-  
+
   final rule2 = Rule(
     '     abc@xyz.com     ',
     name: 'Email',
@@ -1345,13 +1454,14 @@ void main() {
 
   print(rule2.hasError);
   // output: false
-  
+
   print(rule2.value);
   // output: abc@xyz.com
 }
 ```
 
 ###### lowercase: `bool`
+
 - Converts all characters, in the input string, to lower case
 - Use `rule.value` for the converted value
 
@@ -1377,6 +1487,7 @@ void main() {
 ```
 
 ###### upperCase: `bool`
+
 - Converts all characters, in the input string, to upper case
 - Use `rule.value` for the converted value
 
@@ -1402,8 +1513,10 @@ void main() {
 ```
 
 **Extension**
+
 - Extend and override the constraints of a group rule using 'copyWith' method.
-- The child rule will default to the constraint values of the parent unless they are set explicitly in the child.
+- The child rule will default to the constraint values of the parent unless they are set explicitly
+  in the child.
 
 ```dart
 void main() {
@@ -1482,15 +1595,17 @@ void main() {
 ```
 
 #### 3. CombinedRule
+
 Manage multiple Rules and GroupRules
 
 - Both 'Rule' and/or 'GroupRule' are accepted as inputs.
 - Errors of both 'Rule' and 'GroupRule', if any, are combined into a list.
-- Order of appearance of error texts in CombinedRule errorList: 
+- Order of appearance of error texts in CombinedRule errorList:
     1. Rule
     2. GroupRule
 
 **Basic example**
+
 ```dart
 void main() {
   const textFieldValue1 = '';
@@ -1533,15 +1648,17 @@ void main() {
   }
 }
 ```    
-    
+
 **Available fields**
+
 ```dart
 List<Rule> rules;
 
 List<GroupRule> groupRules;
 ```
-    
+
 ###### rules: `List<Rule>`
+
 ```dart
 void main() {
   const textFieldValue1 = '';
@@ -1577,6 +1694,7 @@ void main() {
 ```
 
 ###### groupRules: `List<GroupRule>`
+
 ```dart
 void main() {
   const textFieldValue1 = '';
@@ -1708,9 +1826,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 #### Flutter Mobx
 
 Mobx Store
+
 ```dart
-class UpdateUserStore = _UpdateUserStoreBase
-    with _$UpdateUserStore;
+class UpdateUserStore = _UpdateUserStoreBase with _$UpdateUserStore;
 
 abstract class _UpdateUserStoreBase with Store {
   @observable
@@ -1769,6 +1887,7 @@ abstract class _UpdateUserStoreBase with Store {
 ```
 
 Widget
+
 ```dart
 class _UpdateUserScreen extends State<UpdateUserScreen> {
   UpdateUserStore _updateUserStore = UpdateUserStore();
@@ -1843,35 +1962,48 @@ class _UpdateUserScreen extends State<UpdateUserScreen> {
 ```
 
 ### Changelogs
+
 ##### 2.0.0
+
 New feature:
-  - Null safety
-  - Added `shouldPass`
+
+- Null safety
+- Added `shouldPass`
 
 ##### 1.2.0+1
+
 New feature:
-  - Added `trim`, `upperCase` and `lowerCase` rule **options**
+
+- Added `trim`, `upperCase` and `lowerCase` rule **options**
 
 ##### 1.1.0
+
 Breaking changes:
-  - `regex` now expects a RegExp object instead of String
+
+- `regex` now expects a RegExp object instead of String
 
 ### Buy me a coffee
+
 Help me keep the app FREE and open for all.
 Paypal me: [paypal.me/ganeshrvel](https://paypal.me/ganeshrvel "paypal.me/ganeshrvel")
 
 ### Contacts
+
 Please feel free to contact me at ganeshrvel@outlook.com
 
 ### About
 
 - Author: [Ganesh Rathinavel](https://www.linkedin.com/in/ganeshrvel "Ganesh Rathinavel")
 - License: [MIT](https://github.com/ganeshrvel/openmtp/blob/master/LICENSE "MIT")
-- Package URL: [https://pub.dev/packages/rules](https://pub.dev/packages/rules "https://pub.dev/packages/rules")
-- Repo URL: [https://github.com/ganeshrvel/pub-rules](https://github.com/ganeshrvel/pub-rules/ "https://github.com/ganeshrvel/pub-rules")
+- Package
+  URL: [https://pub.dev/packages/rules](https://pub.dev/packages/rules "https://pub.dev/packages/rules")
+- Repo
+  URL: [https://github.com/ganeshrvel/pub-rules](https://github.com/ganeshrvel/pub-rules/ "https://github.com/ganeshrvel/pub-rules")
 - Contacts: ganeshrvel@outlook.com
 
 ### License
-Rules | Powerful and feature-rich validation library for both Dart and Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
+
+Rules | Powerful and feature-rich validation library for both Dart and
+Flutter. [MIT License](https://github.com/ganeshrvel/pub-rules/blob/master/LICENSE "MIT License").
 
 Copyright © 2018 - Present Ganesh Rathinavel

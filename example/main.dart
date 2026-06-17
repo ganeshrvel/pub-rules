@@ -28,7 +28,7 @@ void rule() {
 }
 
 void groupRule() {
-  const textFieldValue1 = ''; // or const textFieldValue = null;
+  const textFieldValue1 = '';
   const textFieldValue2 = '';
 
   final rule1 = Rule(
@@ -46,7 +46,7 @@ void groupRule() {
   final groupRule = GroupRule(
     [rule1, rule2], // value; List of Rule
     name:
-    'Group name', // placeholder value which will be used while displaying errors
+        'Group name', // placeholder value which will be used while displaying errors
   );
 
   log(groupRule.error);
@@ -68,8 +68,11 @@ void combinedRule() {
     name: 'Text field 2',
     isEmail: true,
   ); // Validation OK
-  final groupRule = GroupRule([rule1, rule2],
-    name: 'Group name', requiredAll: true,); // Validation FAILED
+  final groupRule = GroupRule(
+    [rule1, rule2],
+    name: 'Group name',
+    requiredAll: true,
+  ); // Validation FAILED
 
   const textFieldValue3 = '';
   final rule3 = Rule(
@@ -94,4 +97,32 @@ void combinedRule() {
   } else {
     // Some action on success
   }
+}
+
+void shouldPassOrCustomErrorExample() {
+  const fileName = 'my<file>.txt';
+
+  final rule = Rule(
+    fileName,
+    name: 'File name',
+    isRequired: true,
+    shouldPassOrCustomError: (value) {
+      final invalidChars =
+          value.split('').where((c) => '<>:"/\\|?*'.contains(c)).toList();
+
+      if (invalidChars.isEmpty) {
+        return null;
+      }
+
+      return 'File name contains unsupported characters: ${invalidChars.join(', ')}';
+    },
+    customErrors: {
+      'isRequired': 'A file name is required',
+    },
+  );
+
+  log(rule.error);
+  // output: 'File name contains unsupported characters: <, >'
+  log(rule.hasError);
+  // output: true
 }

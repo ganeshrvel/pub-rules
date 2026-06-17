@@ -2701,5 +2701,31 @@ void main() {
       expect(rule1.hasError, equals(true));
       expect(rule2.hasError, equals(false));
     });
+
+    test(
+        'should throw an error and support both {name} and {value} in the returned string',
+        () {
+      final rule = Rule(
+        'my<file>.txt',
+        name: 'File name',
+        shouldPassOrCustomError: (value) {
+          final invalidChars =
+              value.split('').where((c) => '<>:"/\\|?*'.contains(c)).toList();
+
+          if (invalidChars.isEmpty) {
+            return null;
+          }
+
+          return '{name} "{value}" contains unsupported characters: ${invalidChars.join(', ')}';
+        },
+      );
+
+      expect(
+        rule.error,
+        equals(
+            'File name "my<file>.txt" contains unsupported characters: <, >'),
+      );
+      expect(rule.hasError, equals(true));
+    });
   });
 }
