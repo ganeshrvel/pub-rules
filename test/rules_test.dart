@@ -2517,4 +2517,189 @@ void main() {
       expect(rule2.hasError, equals(false));
     });
   });
+
+  group('shouldPassOrCustomError', () {
+    test('should throw an error with the returned error string', () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (value) => 'custom error from validator',
+      );
+
+      expect(rule.error, equals('custom error from validator'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error and support {name} in the returned string', () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (value) => '{name} failed custom validation',
+      );
+
+      expect(rule.error, equals('value failed custom validation'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error and support {value} in the returned string',
+        () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (v) => 'input {value} is not allowed',
+      );
+
+      expect(rule.error, equals('input qwerty123 is not allowed'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should throw an error with the exact string from the callback', () {
+      final rule = Rule(
+        'bad',
+        name: 'value',
+        shouldPassOrCustomError: (v) {
+          final invalid = v.split('').where((c) => c == 'b').toList();
+          return 'contains forbidden chars: ${invalid.join(', ')}';
+        },
+      );
+
+      expect(rule.error, equals('contains forbidden chars: b'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('should NOT throw an error when callback returns null', () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (value) => null,
+      );
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error for empty value', () {
+      final rule = Rule(
+        '',
+        name: 'value',
+        shouldPassOrCustomError: (value) => 'this should not be reached',
+      );
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('should NOT throw an error for null value', () {
+      final rule = Rule(
+        null,
+        name: 'value',
+        shouldPassOrCustomError: (value) => 'this should not be reached',
+      );
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('shouldPassOrCustomError error bypasses customErrors map', () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (value) => 'direct error from callback',
+        customErrors: {
+          'shouldPassOrCustomError': 'this should be ignored',
+        },
+      );
+
+      expect(rule.error, equals('direct error from callback'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('shouldPassOrCustomError error bypasses customErrorText', () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (value) => 'direct error from callback',
+        customErrorText: 'this should be ignored',
+      );
+
+      expect(rule.error, equals('direct error from callback'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('isRequired fires before shouldPassOrCustomError for empty value', () {
+      final rule = Rule(
+        '',
+        name: 'value',
+        isRequired: true,
+        shouldPassOrCustomError: (value) => 'this should not be reached',
+      );
+
+      expect(rule.error, equals('value is required'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('can be used alongside shouldPass with both passing', () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPass: (value) => true,
+        shouldPassOrCustomError: (value) => null,
+      );
+
+      expect(rule.hasError, equals(false));
+    });
+
+    test('shouldPass fires first and short-circuits shouldPassOrCustomError',
+        () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPass: (value) => false,
+        shouldPassOrCustomError: (value) => 'this should not be reached',
+      );
+
+      expect(rule.error, equals('value is invalid'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('shouldPassOrCustomError fires when shouldPass passes', () {
+      final rule = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPass: (value) => true,
+        shouldPassOrCustomError: (value) => 'error from second validator',
+      );
+
+      expect(rule.error, equals('error from second validator'));
+      expect(rule.hasError, equals(true));
+    });
+
+    test('copyWith inherits shouldPassOrCustomError from parent', () {
+      final rule1 = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (value) => 'inherited error',
+      );
+      final rule2 = rule1.copyWith(
+        name: 'value2',
+      );
+
+      expect(rule1.error, equals('inherited error'));
+      expect(rule1.hasError, equals(true));
+      expect(rule2.error, equals('inherited error'));
+      expect(rule2.hasError, equals(true));
+    });
+
+    test('copyWith can override shouldPassOrCustomError', () {
+      final rule1 = Rule(
+        'qwerty123',
+        name: 'value',
+        shouldPassOrCustomError: (value) => 'error from rule 1',
+      );
+      final rule2 = rule1.copyWith(
+        shouldPassOrCustomError: (value) => null,
+      );
+
+      expect(rule1.error, equals('error from rule 1'));
+      expect(rule1.hasError, equals(true));
+      expect(rule2.hasError, equals(false));
+    });
+  });
 }

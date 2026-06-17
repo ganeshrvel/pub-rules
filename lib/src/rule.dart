@@ -8,6 +8,9 @@ import 'package:rules/src/models/rule_options.dart';
 
 typedef Validator = bool Function(String value);
 
+// Returns null on success, or a non-null error string on failure.
+typedef ValidatorOrCustomError = String? Function(String value);
+
 ///
 /// Rule Class: This is the basic building block, everything starts here.
 /// Refer https://github.com/ganeshrvel/pub-rules/blob/master/README.md#1-rule-basic-rule for usage details
@@ -70,6 +73,11 @@ class Rule implements AbstractRule {
 
   final Validator? shouldPass;
 
+  // Like [shouldPass] but the callback returns a custom error string on
+  // failure, or null on success. The returned string is used verbatim as the
+  // error text, bypassing [customErrors] and [customErrorText] for this slot.
+  final ValidatorOrCustomError? shouldPassOrCustomError;
+
   final List<String>? inList;
 
   final List<String>? notInList;
@@ -88,6 +96,11 @@ class Rule implements AbstractRule {
   // it holds the error texts; Note: maximum one error text, for now, is held here
   // this can change in the future
   final List<String> _errorList = <String>[];
+
+  // Stores the verbatim error string returned by [shouldPassOrCustomError] when
+  // it fails. Keyed by the error-item name so [_processErrors] can retrieve it
+  // without going through the static dict or custom-error maps.
+  final Map<String, String> _directErrors = {};
 
   // default error text dictionary
   Map<String, String> get _errorTextsDict => {
@@ -158,6 +171,7 @@ class Rule implements AbstractRule {
     String? shouldMatch,
     String? shouldNotMatch,
     Validator? shouldPass,
+    ValidatorOrCustomError? shouldPassOrCustomError,
     List<String>? inList,
     List<String>? notInList,
     String? customErrorText,
@@ -192,6 +206,8 @@ class Rule implements AbstractRule {
       shouldMatch: shouldMatch ?? this.shouldMatch,
       shouldNotMatch: shouldNotMatch ?? this.shouldNotMatch,
       shouldPass: shouldPass ?? this.shouldPass,
+      shouldPassOrCustomError:
+          shouldPassOrCustomError ?? this.shouldPassOrCustomError,
       inList: inList ?? this.inList,
       notInList: notInList ?? this.notInList,
       customErrorText: customErrorText ?? this.customErrorText,
@@ -232,6 +248,7 @@ class Rule implements AbstractRule {
     this.shouldMatch,
     this.shouldNotMatch,
     this.shouldPass,
+    this.shouldPassOrCustomError,
     this.options,
   }) {
     // throw an error is 'name' parameter is missing
@@ -331,7 +348,9 @@ class Rule implements AbstractRule {
         (notInList != null && _isNotInListCheckFailed()) ||
         (shouldMatch != null && _isShouldMatchCheckFailed()) ||
         (shouldNotMatch != null && _isShouldNotMatchCheckFailed()) ||
-        (shouldPass != null && _isShouldPassCheckFailed());
+        (shouldPass != null && _isShouldPassCheckFailed()) ||
+        (shouldPassOrCustomError != null &&
+            _isShouldPassOrCustomErrorCheckFailed());
   }
 
   bool _isRequiredCheckFailed() {
@@ -615,8 +634,30 @@ class Rule implements AbstractRule {
         shouldPass != null &&
         shouldPass!(value!) == false) {
       _errorItemList.add('shouldPass');
+
       return true;
     }
+
+    return false;
+  }
+
+  // Invokes [shouldPassOrCustomError] and stores the returned error string in
+  // [_directErrors] so [_processErrors] can emit it verbatim without going
+  // through the static dict or custom-error maps.
+  bool _isShouldPassOrCustomErrorCheckFailed() {
+    if (isNullOrEmpty(value) || shouldPassOrCustomError == null) {
+      return false;
+    }
+
+    final errorText = shouldPassOrCustomError!(value!);
+
+    if (errorText != null) {
+      _directErrors['shouldPassOrCustomError'] = errorText;
+      _errorItemList.add('shouldPassOrCustomError');
+
+      return true;
+    }
+
     return false;
   }
 
@@ -627,6 +668,14 @@ class Rule implements AbstractRule {
     }
 
     for (final item in _errorItemList) {
+      // verbatim error from [shouldPassOrCustomError] bypasses all other error
+      // resolution paths and is emitted as-is
+      if (_directErrors.containsKey(item)) {
+        _assignErrorValues(_directErrors[item]);
+
+        continue;
+      }
+
       if (isNotNull(customErrors) && customErrors!.containsKey(item)) {
         final _errorText = customErrors![item];
 

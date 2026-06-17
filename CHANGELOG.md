@@ -1,3 +1,9 @@
+## 2.2.0
+
+New feature:
+
+- Added `shouldPassOrCustomError`
+
 ## 2.1.2
 
 Bug fix:
@@ -8,7 +14,8 @@ Bug fix:
 
 New feature:
 
-- Added support for URLs with credentials (RFC 3986 compliant) to handle authentication in URLs (e.g., `https://user@example.com` or `https://user:pass@example.com/path`)
+- Added support for URLs with credentials (RFC 3986 compliant) to handle authentication in URLs (
+  e.g., `https://user@example.com` or `https://user:pass@example.com/path`)
 
 ## 2.1.0
 
