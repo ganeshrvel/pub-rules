@@ -248,113 +248,97 @@ void main() {
 
   group('numeric comparisons on strings', () {
     test('greaterThan passes for larger whole numbers', () {
-      final r = Rule.string(name: 'v').greaterThan('5').parse('10');
+      final r = Rule.string(name: 'v').greaterThan(5).parse('10');
       expect(r.ok, isTrue);
     });
 
     test('greaterThan fails for smaller whole numbers', () {
-      final r = Rule.string(name: 'v').greaterThan('10').parse('5');
+      final r = Rule.string(name: 'v').greaterThan(10).parse('5');
       expect(r.error?.message, equals('v should be greater than 10'));
     });
 
     test('greaterThan compares numerically, not lexicographically', () {
-      final r = Rule.string(name: 'v').greaterThan('9').parse('10');
+      final r = Rule.string(name: 'v').greaterThan(9).parse('10');
       expect(r.ok, isTrue);
     });
 
     test('greaterThanOrEqualTo passes at the boundary', () {
-      final r = Rule.string(name: 'v').greaterThanOrEqualTo('5').parse('5');
+      final r = Rule.string(name: 'v').greaterThanOrEqualTo(5).parse('5');
       expect(r.ok, isTrue);
     });
 
     test('lessThan passes for smaller whole numbers', () {
-      final r = Rule.string(name: 'v').lessThan('10').parse('5');
+      final r = Rule.string(name: 'v').lessThan(10).parse('5');
       expect(r.ok, isTrue);
     });
 
     test('lessThan compares numerically, not lexicographically', () {
-      final r = Rule.string(name: 'v').lessThan('10').parse('9');
+      final r = Rule.string(name: 'v').lessThan(10).parse('9');
       expect(r.ok, isTrue);
     });
 
     test('lessThanOrEqualTo passes at the boundary', () {
-      final r = Rule.string(name: 'v').lessThanOrEqualTo('5').parse('5');
+      final r = Rule.string(name: 'v').lessThanOrEqualTo(5).parse('5');
       expect(r.ok, isTrue);
     });
 
     test('greaterThan passes for decimal values', () {
-      final r = Rule.string(name: 'v').greaterThan('5.5').parse('5.6');
+      final r = Rule.string(name: 'v').greaterThan(5.5).parse('5.6');
       expect(r.ok, isTrue);
     });
 
     test('greaterThan fails for smaller decimal values', () {
-      final r = Rule.string(name: 'v').greaterThan('5.5').parse('5.4');
+      final r = Rule.string(name: 'v').greaterThan(5.5).parse('5.4');
       expect(r.error?.message, equals('v should be greater than 5.5'));
     });
 
     test('lessThanOrEqualTo passes for an exact decimal boundary', () {
-      final r = Rule.string(name: 'v').lessThanOrEqualTo('9.99').parse('9.99');
+      final r = Rule.string(name: 'v').lessThanOrEqualTo(9.99).parse('9.99');
       expect(r.ok, isTrue);
     });
 
     test('greaterThan handles negative numbers correctly', () {
-      final r = Rule.string(name: 'v').greaterThan('-10').parse('-5');
+      final r = Rule.string(name: 'v').greaterThan(-10).parse('-5');
       expect(r.ok, isTrue);
     });
 
     test('lessThan handles negative decimal numbers correctly', () {
-      final r = Rule.string(name: 'v').lessThan('-1.5').parse('-2.5');
+      final r = Rule.string(name: 'v').lessThan(-1.5).parse('-2.5');
       expect(r.ok, isTrue);
     });
   });
 
   group('numeric comparisons reject non-numeric input', () {
     test('greaterThan fails when the value is not numeric', () {
-      final r = Rule.string(name: 'v').greaterThan('5').parse('abc');
+      final r = Rule.string(name: 'v').greaterThan(5).parse('abc');
       expect(r.error?.message, equals('v is not a valid number'));
     });
 
     test('lessThan fails when the value is not numeric', () {
-      final r = Rule.string(name: 'v').lessThan('5').parse('abc');
+      final r = Rule.string(name: 'v').lessThan(5).parse('abc');
       expect(r.error?.message, equals('v is not a valid number'));
     });
 
     test('greaterThanOrEqualTo fails when the value is not numeric', () {
-      final r = Rule.string(name: 'v').greaterThanOrEqualTo('5').parse('abc');
+      final r = Rule.string(name: 'v').greaterThanOrEqualTo(5).parse('abc');
       expect(r.error?.message, equals('v is not a valid number'));
     });
 
     test('lessThanOrEqualTo fails when the value is not numeric', () {
-      final r = Rule.string(name: 'v').lessThanOrEqualTo('5').parse('abc');
-      expect(r.error?.message, equals('v is not a valid number'));
-    });
-
-    test('greaterThan fails when the comparison target itself is not numeric',
-        () {
-      final r = Rule.string(name: 'v').greaterThan('abc').parse('5');
-      expect(r.error?.message, equals('v is not a valid number'));
-    });
-
-    test('greaterThan fails when both value and target are non-numeric', () {
-      final r = Rule.string(name: 'v').greaterThan('xyz').parse('abc');
-      expect(r.error?.message, equals('v is not a valid number'));
-    });
-
-    test('greaterThan fails for an empty target string', () {
-      final r = Rule.string(name: 'v').greaterThan('').parse('5');
+      final r = Rule.string(name: 'v').lessThanOrEqualTo(5).parse('abc');
       expect(r.error?.message, equals('v is not a valid number'));
     });
 
     test('custom error overrides the not-a-number message', () {
       final r = Rule.string(name: 'v')
-          .greaterThan('5', error: 'Enter digits only - invalid {value}')
+          .greaterThan(5, error: 'Enter digits only - invalid {value}')
           .parse('abc');
       expect(r.error?.message, equals('Enter digits only - invalid abc'));
     });
 
     test('custom error also overrides the failed-comparison message', () {
       final r =
-          Rule.string(name: 'v').lessThan('5', error: 'Too big').parse('10');
+          Rule.string(name: 'v').lessThan(5, error: 'Too big').parse('10');
       expect(r.error?.message, equals('Too big'));
     });
   });
@@ -1042,18 +1026,6 @@ void main() {
       final r =
           Rule.string(name: 'v').length(4, error: 'Must be 4').parse('abc');
       expect(r.error?.message, equals('Must be 4'));
-    });
-
-    test('greaterThan custom error', () {
-      final r =
-          Rule.string(name: 'v').greaterThan('b', error: 'Too low').parse('a');
-      expect(r.error?.message, equals('Too low'));
-    });
-
-    test('lessThan custom error', () {
-      final r =
-          Rule.string(name: 'v').lessThan('b', error: 'Too high').parse('c');
-      expect(r.error?.message, equals('Too high'));
     });
 
     test('equalTo custom error', () {

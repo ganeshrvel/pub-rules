@@ -3,48 +3,14 @@ import 'package:rules/src/core/rule_check.dart';
 import 'package:rules/src/core/schema.dart';
 import 'package:rules/src/validators/string_validators.dart';
 
-/// The numeric form of a comparison check's two operands, or the reason
-/// parsing failed.
-///
-/// Both [value] and [than] are populated only when both strings passed the
-/// numeric check used to parse them. If either one failed, both are null and
-/// [isValid] is false — callers should check [isValid] before reading either
-/// field.
-final class _NumericComparisonOperands {
-  const _NumericComparisonOperands._({this.value, this.than});
-
-  /// The parsed value being validated, or null if parsing failed.
-  final double? value;
-
-  /// The parsed comparison target, or null if parsing failed.
-  final double? than;
-
-  /// Whether both operands parsed successfully.
-  bool get isValid => value != null && than != null;
-}
-
-_NumericComparisonOperands _parseNumericOperands(
-  String value,
-  String than, {
-  required bool allowDecimal,
-}) {
-  final valueIsNumeric = StringValidators.isNumeric(
-    value,
-    allowDecimal: allowDecimal,
-  );
-  final thanIsNumeric = StringValidators.isNumeric(
-    than,
-    allowDecimal: allowDecimal,
-  );
-
-  if (!valueIsNumeric || !thanIsNumeric) {
-    return const _NumericComparisonOperands._();
+/// The numeric form of the value being validated, or null if it didn't
+/// parse as a number.
+double? _parseNumericValue(String value) {
+  if (!StringValidators.isNumeric(value, allowDecimal: true)) {
+    return null;
   }
 
-  return _NumericComparisonOperands._(
-    value: double.parse(value),
-    than: double.parse(than),
-  );
+  return double.parse(value);
 }
 
 const String _notANumberTemplate = '{name} is not a valid number';
@@ -326,22 +292,18 @@ final class StringSchema extends Schema<String> {
   }
 
   /// Requires the value, parsed as a number, to be greater than [than].
-  StringSchema greaterThan(String than, {String? error}) {
+  StringSchema greaterThan(num than, {String? error}) {
     return _add(
       Check<String>(
         kind: StringCheck.greaterThan,
         evaluate: (value) {
-          final operands = _parseNumericOperands(
-            value,
-            than,
-            allowDecimal: true,
-          );
+          final parsedValue = _parseNumericValue(value);
 
-          if (!operands.isValid) {
+          if (parsedValue == null) {
             return _notANumberTemplate;
           }
 
-          return operands.value! > operands.than!
+          return parsedValue > than
               ? null
               : '{name} should be greater than $than';
         },
@@ -352,22 +314,18 @@ final class StringSchema extends Schema<String> {
 
   /// Requires the value, parsed as a number, to be greater than or equal to
   /// [than].
-  StringSchema greaterThanOrEqualTo(String than, {String? error}) {
+  StringSchema greaterThanOrEqualTo(num than, {String? error}) {
     return _add(
       Check<String>(
         kind: StringCheck.greaterThanOrEqualTo,
         evaluate: (value) {
-          final operands = _parseNumericOperands(
-            value,
-            than,
-            allowDecimal: true,
-          );
+          final parsedValue = _parseNumericValue(value);
 
-          if (!operands.isValid) {
+          if (parsedValue == null) {
             return _notANumberTemplate;
           }
 
-          return operands.value! >= operands.than!
+          return parsedValue >= than
               ? null
               : '{name} should be greater than or equal to $than';
         },
@@ -377,24 +335,18 @@ final class StringSchema extends Schema<String> {
   }
 
   /// Requires the value, parsed as a number, to be less than [than].
-  StringSchema lessThan(String than, {String? error}) {
+  StringSchema lessThan(num than, {String? error}) {
     return _add(
       Check<String>(
         kind: StringCheck.lessThan,
         evaluate: (value) {
-          final operands = _parseNumericOperands(
-            value,
-            than,
-            allowDecimal: true,
-          );
+          final parsedValue = _parseNumericValue(value);
 
-          if (!operands.isValid) {
+          if (parsedValue == null) {
             return _notANumberTemplate;
           }
 
-          return operands.value! < operands.than!
-              ? null
-              : '{name} should be less than $than';
+          return parsedValue < than ? null : '{name} should be less than $than';
         },
         customError: error,
       ),
@@ -403,22 +355,18 @@ final class StringSchema extends Schema<String> {
 
   /// Requires the value, parsed as a number, to be less than or equal to
   /// [than].
-  StringSchema lessThanOrEqualTo(String than, {String? error}) {
+  StringSchema lessThanOrEqualTo(num than, {String? error}) {
     return _add(
       Check<String>(
         kind: StringCheck.lessThanOrEqualTo,
         evaluate: (value) {
-          final operands = _parseNumericOperands(
-            value,
-            than,
-            allowDecimal: true,
-          );
+          final parsedValue = _parseNumericValue(value);
 
-          if (!operands.isValid) {
+          if (parsedValue == null) {
             return _notANumberTemplate;
           }
 
-          return operands.value! <= operands.than!
+          return parsedValue <= than
               ? null
               : '{name} should be less than or equal to $than';
         },

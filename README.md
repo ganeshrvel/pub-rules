@@ -396,18 +396,18 @@ StringSchema regex(RegExp pattern, {String? error})
 ### Numeric Comparison
 
 ```dart
-StringSchema greaterThan(String than, {String? error})
-StringSchema greaterThanOrEqualTo(String than, {String? error})
-StringSchema lessThan(String than, {String? error})
-StringSchema lessThanOrEqualTo(String than, {String? error})
+StringSchema greaterThan(num than, {String? error})
+StringSchema greaterThanOrEqualTo(num than, {String? error})
+StringSchema lessThan(num than, {String? error})
+StringSchema lessThanOrEqualTo(num than, {String? error})
 ```
 
-These parse both the value and the comparison target as numbers first, then compare them, so '9' is treated as greater than '8', decimals and all.
+The value being validated is parsed as a number, then compared against the typed `than` operand. Pass the bound as a number directly, not a string.
 
 ```dart
 final passResult = Rule.string(
   name: 'Price',
-).greaterThan('99.5').parse('100');
+).greaterThan(99.5).parse('100');
 
 print(passResult.ok);
 ```
@@ -421,7 +421,7 @@ true
 ```dart
 final failResult = Rule.string(
   name: 'Price',
-).greaterThan('99.5').parse('9');
+).greaterThan(99.5).parse('9');
 
 print(failResult.error?.message);
 ```
@@ -1541,11 +1541,11 @@ length(int equals, {String? error})
 minLength(int characters, {String? error})
 maxLength(int characters, {String? error})
 
-greaterThan(String than, {String? error})
-greaterThanOrEqualTo(String than, {String? error})
+greaterThan(num than, {String? error})
+greaterThanOrEqualTo(num than, {String? error})
 
-lessThan(String than, {String? error})
-lessThanOrEqualTo(String than, {String? error})
+lessThan(num than, {String? error})
+lessThanOrEqualTo(num than, {String? error})
 
 equalTo(String to, {String? error})
 notEqualTo(String to, {String? error})
