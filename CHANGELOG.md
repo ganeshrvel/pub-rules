@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.5.0
+
+### Breaking changes
+
+- `StringSchema` numeric comparison methods (`greaterThan`, `greaterThanOrEqualTo`,
+  `lessThan`, `lessThanOrEqualTo`) now take a typed `num than` instead of `String than`.
+  Pass the bound as a number directly: `.greaterThan(18)` instead of `.greaterThan('18')`.
+  Only the value under validation is parsed; the comparison target is no longer string-parsed
+
 ## 3.0.0
 
 This is a complete, ground-up rewrite of the library. Everything is breaking since the 2.x line.

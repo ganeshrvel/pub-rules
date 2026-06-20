@@ -99,21 +99,21 @@ void stringValidationExamples() {
     maxLengthRule.parse('this_username_is_way_too_long').error?.message,
   ); // Username should not exceed more than 16 characters
 
-  final greaterThanRule = Rule.string(name: 'Price').greaterThan('50');
+  final greaterThanRule = Rule.string(name: 'Price').greaterThan(50);
   print(greaterThanRule.parse('100').ok); // true
   print(
     greaterThanRule.parse('10').error?.message,
   ); // Price should be greater than 50
 
   final greaterThanOrEqualRule =
-      Rule.string(name: 'Score').greaterThanOrEqualTo('50');
+      Rule.string(name: 'Score').greaterThanOrEqualTo(50);
   print(greaterThanOrEqualRule.parse('50').ok); // true
 
-  final lessThanRule = Rule.string(name: 'Discount').lessThan('100');
+  final lessThanRule = Rule.string(name: 'Discount').lessThan(100);
   print(lessThanRule.parse('99').ok); // true
 
   final lessThanOrEqualRule =
-      Rule.string(name: 'Discount').lessThanOrEqualTo('100');
+      Rule.string(name: 'Discount').lessThanOrEqualTo(100);
   print(lessThanOrEqualRule.parse('100').ok); // true
 
   final equalToRule = Rule.string(name: 'Status').equalTo('active');
