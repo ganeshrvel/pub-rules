@@ -9,7 +9,7 @@ final emailRule = Rule.string(
   name: 'Email',
 ).isRequired().isEmail();
 
-final result = emailRule.parse('john@example.com');
+final result = emailRule.validate('john@example.com');
 
 print(result.ok); // true
 ```
@@ -97,7 +97,7 @@ final emailRule = Rule.string(
     .isRequired()
     .isEmail();
 
-final result = emailRule.parse(
+final result = emailRule.validate(
   '  JOHN@EXAMPLE.COM  ',
 );
 
@@ -116,61 +116,61 @@ john@example.com
 
 ## Available Schema Types
 
-Rules ships with four strongly typed schema builders. Each one is created with a Rule factory and validated with parse(), which accepts a value of the matching type and returns a RuleResult.
+Rules ships with four strongly typed schema builders. Each one is created with a Rule factory and validated with validate(), which accepts a value of the matching type and returns a RuleResult.
 
 ### String
 
 ```dart
 StringSchema Rule.string({required String name})
-RuleResult<String> StringSchema.parse(String? value)
+RuleResult<String> StringSchema.validate(String? value)
 ```
 
 ```dart
 final rule = Rule.string(name: 'Name');
 
-final result = rule.parse('John');
+final result = rule.validate('John');
 ```
 
 ### Integer
 
 ```dart
 IntSchema Rule.integer({required String name})
-RuleResult<int> IntSchema.parse(int? value)
+RuleResult<int> IntSchema.validate(int? value)
 ```
 
 ```dart
 final rule = Rule.integer(name: 'Age');
 
-final result = rule.parse(25);
+final result = rule.validate(25);
 ```
 
 ### Double (Float)
 
 ```dart
 DoubleSchema Rule.double({required String name})
-RuleResult<double> DoubleSchema.parse(double? value)
+RuleResult<double> DoubleSchema.validate(double? value)
 ```
 
 ```dart
 final rule = Rule.double(name: 'Price');
 
-final result = rule.parse(9.99);
+final result = rule.validate(9.99);
 ```
 
 ### Boolean
 
 ```dart
 BoolSchema Rule.boolean({required String name})
-RuleResult<bool> BoolSchema.parse(bool? value)
+RuleResult<bool> BoolSchema.validate(bool? value)
 ```
 
 ```dart
 final rule = Rule.boolean(name: 'Terms');
 
-final result = rule.parse(true);
+final result = rule.validate(true);
 ```
 
-Each schema's parse() only accepts its own value type, so passing the wrong type is a compile error, not a runtime surprise.
+Each schema's validate() only accepts its own value type, so passing the wrong type is a compile error, not a runtime surprise.
 
 ---
 
@@ -184,7 +184,7 @@ final result = Rule.string(
 )
     .isRequired()
     .isEmail()
-    .parse('john@example.com');
+    .validate('john@example.com');
 ```
 
 Common properties:
@@ -237,7 +237,7 @@ Rule.integer(
 ```dart
 final rule = Rule.integer(name: 'Age').greaterThan(18, error: '{name} must be over 18, got {value}');
 
-print(rule.parse(10).error?.message);
+print(rule.validate(10).error?.message);
 ```
 
 Output:
@@ -301,7 +301,7 @@ final result = Rule.string(
     .trim()
     .toLowerCase()
     .isEmail()
-    .parse('  JOHN@EXAMPLE.COM  ');
+    .validate('  JOHN@EXAMPLE.COM  ');
 
 print(result.validatedValue);
 ```
@@ -330,7 +330,7 @@ final result = Rule.string(
   name: 'Website',
 )
     .isUrl()
-    .parse('https://example.com');
+    .validate('https://example.com');
 
 print(result.ok);
 ```
@@ -346,7 +346,7 @@ final result = Rule.string(
   name: 'Website',
 )
     .isUrl()
-    .parse('not a url');
+    .validate('not a url');
 
 print(result.error?.message);
 ```
@@ -373,7 +373,7 @@ final result = Rule.string(
 )
     .minLength(8)
     .maxLength(32)
-    .parse('abc');
+    .validate('abc');
 
 print(result.error?.message);
 ```
@@ -407,7 +407,7 @@ The value being validated is parsed as a number, then compared against the typed
 ```dart
 final passResult = Rule.string(
   name: 'Price',
-).greaterThan(99.5).parse('100');
+).greaterThan(99.5).validate('100');
 
 print(passResult.ok);
 ```
@@ -421,7 +421,7 @@ true
 ```dart
 final failResult = Rule.string(
   name: 'Price',
-).greaterThan(99.5).parse('9');
+).greaterThan(99.5).validate('9');
 
 print(failResult.error?.message);
 ```
@@ -437,7 +437,7 @@ Price should be greater than 99.5
 ```dart
 final result = Rule.string(
   name: 'Price',
-).lessThanOrEqualTo('10').parse('abc');
+).lessThanOrEqualTo('10').validate('abc');
 
 print(result.error?.message);
 ```
@@ -462,7 +462,7 @@ These compare the string exactly as written. No number parsing is involved, so t
 ```dart
 final result = Rule.string(
   name: 'Status',
-).equalTo('active').parse('active');
+).equalTo('active').validate('active');
 
 print(result.ok);
 ```
@@ -476,7 +476,7 @@ true
 ```dart
 final result = Rule.string(
   name: 'Status',
-).equalTo('100').parse('100.0');
+).equalTo('100').validate('100.0');
 
 print(result.error?.message);
 ```
@@ -518,7 +518,7 @@ final rule = Rule.string(
   error: '{name} must start with USR',
 );
 
-print(rule.parse('ABC123').error?.message);
+print(rule.validate('ABC123').error?.message);
 ```
 
 Output:
@@ -540,7 +540,7 @@ final rule = Rule.string(
   },
 );
 
-print(rule.parse('ABC123').error?.message);
+print(rule.validate('ABC123').error?.message);
 ```
 
 Output:
@@ -591,7 +591,7 @@ final ageRule = Rule.integer(
     .isRequired()
     .greaterThanOrEqualTo(18);
 
-print(ageRule.parse(15).error?.message);
+print(ageRule.validate(15).error?.message);
 ```
 
 Output:
@@ -645,7 +645,7 @@ final priceRule = Rule.double(
 )
     .greaterThan(0);
 
-print(priceRule.parse(-5.0).error?.message);
+print(priceRule.validate(-5.0).error?.message);
 ```
 
 Output:
@@ -690,7 +690,7 @@ final termsRule = Rule.boolean(
     .isRequired()
     .isTrue();
 
-print(termsRule.parse(false).error?.message);
+print(termsRule.validate(false).error?.message);
 ```
 
 Output:
@@ -708,7 +708,7 @@ final termsRule = Rule.boolean(
     .isRequired()
     .equalTo(true);
 
-print(termsRule.parse(false).error?.message);
+print(termsRule.validate(false).error?.message);
 ```
 
 Output:
@@ -745,7 +745,7 @@ The inner ok.fold then tells you whether a value was actually provided (onValida
 error inside onError is not just a string. It is the same RuleFailure you would get from result.error anywhere else, so error.message is only the most common thing to pull out of it. You also get error.name (the field name) and error.check (the enum identifying which validator failed).
 
 ```dart
-final message = Rule.string(name: 'Email').isEmail().parse('notanemail').fold(
+final message = Rule.string(name: 'Email').isEmail().validate('notanemail').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => value,
     onNull: () => '',
@@ -764,7 +764,7 @@ An error occurred: Email is not a valid email address
 ```
 
 ```dart
-final message = Rule.string(name: 'Email').isEmail().parse('notanemail').fold(
+final message = Rule.string(name: 'Email').isEmail().validate('notanemail').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => value,
     onNull: () => '',
@@ -791,7 +791,7 @@ Whatever onError returns is exactly what fold hands back to the caller. There is
 onOk does not have to call ok.fold at all. If you only care about the field name, or you want to ignore the present or absent distinction entirely, you can return straight from onOk:
 
 ```dart
-final fieldName = Rule.string(name: 'Email').isRequired().parse('hello').fold(
+final fieldName = Rule.string(name: 'Email').isRequired().validate('hello').fold(
   onOk: (ok, {required name}) => name,
   onError: ({required name, required error}) => name,
 );
@@ -806,7 +806,7 @@ Email
 You can also switch on ok instead of calling ok.fold, if a pattern match reads better at the call site:
 
 ```dart
-final message = Rule.string(name: 'Bio').parse('   ').fold(
+final message = Rule.string(name: 'Bio').validate('   ').fold(
   onOk: (ok, {required name}) => switch (ok) {
     OkValidatedValue(:final value) => '$name: $value',
     OkNull() => '$name not provided',
@@ -830,7 +830,7 @@ onNull does not just mean the caller passed null. It also fires when a transform
 A value is present and passes. This line is promoted because the value is present and every check passed, so onValidatedValue fires:
 
 ```dart
-final message = Rule.string(name: 'Email').isRequired().isEmail().parse('a@b.com').fold(
+final message = Rule.string(name: 'Email').isRequired().isEmail().validate('a@b.com').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -848,7 +848,7 @@ Email: a@b.com
 A value is present but fails a check. This line is promoted because isEmail failed, so onError fires and ok.fold is never reached:
 
 ```dart
-final message = Rule.string(name: 'Email').isRequired().isEmail().parse('notanemail').fold(
+final message = Rule.string(name: 'Email').isRequired().isEmail().validate('notanemail').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -869,7 +869,7 @@ Invalid: Email is not a valid email address
 An empty string on a required field. This line is promoted because isRequired fails before the field is ever checked for absence, so onError fires, not onNull:
 
 ```dart
-final message = Rule.string(name: 'Email').isRequired().parse('').fold(
+final message = Rule.string(name: 'Email').isRequired().validate('').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -887,7 +887,7 @@ Email is required
 The same empty string on an optional field. This line is promoted because there is no isRequired to fail, so the empty string is simply treated as absent and onNull fires:
 
 ```dart
-final message = Rule.string(name: 'Email').parse('').fold(
+final message = Rule.string(name: 'Email').validate('').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -905,7 +905,7 @@ Email not provided
 null on an optional field. This line is promoted for the same reason as the empty string above, since null and an empty string are both treated as absent:
 
 ```dart
-final message = Rule.string(name: 'Email').parse(null).fold(
+final message = Rule.string(name: 'Email').validate(null).fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -926,7 +926,7 @@ Email not provided
 A string of only spaces, with no trim() chained. This line is promoted because the spaces make the string non-empty, so the field counts as present and onValidatedValue fires with the spaces intact:
 
 ```dart
-final message = Rule.string(name: 'Bio').parse('   ').fold(
+final message = Rule.string(name: 'Bio').validate('   ').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: "$value"',
     onNull: () => '$name not provided',
@@ -944,7 +944,7 @@ Bio: "   "
 The same input with trim() chained. This is the case worth remembering: trim collapses the spaces to an empty string before the absence check runs, so what looked like a present value a moment ago is now promoted through onNull instead:
 
 ```dart
-final message = Rule.string(name: 'Bio').trim().parse('   ').fold(
+final message = Rule.string(name: 'Bio').trim().validate('   ').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: "$value"',
     onNull: () => '$name not provided',
@@ -962,7 +962,7 @@ Bio not provided
 The same trimmed field, but now required. This line is promoted because the post-trim emptiness fails isRequired, so onError fires instead of onNull:
 
 ```dart
-final message = Rule.string(name: 'Bio').isRequired().trim().parse('   ').fold(
+final message = Rule.string(name: 'Bio').isRequired().trim().validate('   ').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: "$value"',
     onNull: () => '$name not provided',
@@ -983,7 +983,7 @@ Bio is required
 Transforms applied together. This line is promoted because trim and toLowerCase both run before isEmail, so the value handed to onValidatedValue is already cleaned up:
 
 ```dart
-final message = Rule.string(name: 'Email').trim().toLowerCase().isEmail().parse('  A@B.COM  ').fold(
+final message = Rule.string(name: 'Email').trim().toLowerCase().isEmail().validate('  A@B.COM  ').fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -1001,7 +1001,7 @@ Email: a@b.com
 0 and false as real values. Both of these lines are promoted through onValidatedValue, because zero and false are real present values, not absence:
 
 ```dart
-final scoreMessage = Rule.integer(name: 'Score').parse(0).fold(
+final scoreMessage = Rule.integer(name: 'Score').validate(0).fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -1009,7 +1009,7 @@ final scoreMessage = Rule.integer(name: 'Score').parse(0).fold(
   onError: ({required name, required error}) => error.message,
 );
 
-final newsletterMessage = Rule.boolean(name: 'Newsletter').parse(false).fold(
+final newsletterMessage = Rule.boolean(name: 'Newsletter').validate(false).fold(
   onOk: (ok, {required name}) => ok.fold(
     onValidatedValue: ({required value}) => '$name: $value',
     onNull: () => '$name not provided',
@@ -1052,7 +1052,7 @@ Within a single schema, checks run in this order and stop at the first failure:
 ```dart
 final result = Rule.string(
   name: 'Password',
-).isRequired().refine((v) => 'unreachable').parse(null);
+).isRequired().refine((v) => 'unreachable').validate(null);
 
 print(result.error?.message);
 ```
@@ -1089,7 +1089,7 @@ final rule = Rule.integer(
       error: '{name} must be even',
     );
 
-print(rule.parse(3).error?.message);
+print(rule.validate(3).error?.message);
 ```
 
 Output:
@@ -1123,7 +1123,7 @@ final rule = Rule.integer(
       },
     );
 
-print(rule.parse(15).error?.message);
+print(rule.validate(15).error?.message);
 ```
 
 Output:
@@ -1153,7 +1153,7 @@ final result = Rule.string(
   name: 'Email',
 )
     .isEmail()
-    .parse('invalid');
+    .validate('invalid');
 
 print(result.error?.message);
 print(result.error?.check);
@@ -1401,13 +1401,13 @@ class _SignupFormState extends State<SignupForm> {
         TextField(
           onChanged: (value) => setState(() => email = value),
           decoration: InputDecoration(
-            errorText: emailRule.parse(email).error?.message,
+            errorText: emailRule.validate(email).error?.message,
           ),
         ),
         TextField(
           onChanged: (value) => setState(() => phone = value),
           decoration: InputDecoration(
-            errorText: phoneRule.parse(phone).error?.message,
+            errorText: phoneRule.validate(phone).error?.message,
           ),
         ),
         ElevatedButton(
@@ -1432,7 +1432,7 @@ ValueListenableBuilder(
     return TextField(
       onChanged: (v) => email.value = v,
       decoration: InputDecoration(
-        errorText: emailRule.parse(value).error?.message,
+        errorText: emailRule.validate(value).error?.message,
       ),
     );
   },
@@ -1455,10 +1455,10 @@ abstract class _SignupStoreBase with Store {
   final phoneRule = Rule.string(name: 'Phone').isRequired().isPhone();
 
   @computed
-  String? get emailError => emailRule.parse(email).error?.message;
+  String? get emailError => emailRule.validate(email).error?.message;
 
   @computed
-  String? get phoneError => phoneRule.parse(phone).error?.message;
+  String? get phoneError => phoneRule.validate(phone).error?.message;
 
   @computed
   bool get canContinue {
@@ -1496,7 +1496,7 @@ Observer(
 final email = signal('');
 final emailRule = Rule.string(name: 'Email').isRequired().isEmail();
 
-final emailError = computed(() => emailRule.parse(email.value).error?.message);
+final emailError = computed(() => emailRule.validate(email.value).error?.message);
 ```
 
 ```dart
@@ -1508,7 +1508,7 @@ Watch((context) {
 });
 ```
 
-In every case the pattern is the same: keep the schema itself outside of your reactive state, since it does not change, and only re-run parse() on the current value when you need a fresh result.
+In every case the pattern is the same: keep the schema itself outside of your reactive state, since it does not change, and only re-run validate() on the current value when you need a fresh result.
 
 ---
 

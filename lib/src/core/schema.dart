@@ -9,7 +9,7 @@ import 'package:rules/src/core/rule_result.dart';
 ///
 /// A schema is an immutable definition: it holds a field [name], an ordered
 /// list of [checks], and the required configuration, but no value. Calling
-/// [parse] runs the definition against a supplied value and yields a typed
+/// [validate] runs the definition against a supplied value and yields a typed
 /// [RuleResult]. Builder methods on concrete subclasses return new schema
 /// instances rather than mutating in place, so a schema is safe to reuse
 /// across many values.
@@ -17,9 +17,9 @@ import 'package:rules/src/core/rule_result.dart';
 /// ```dart
 /// final schema = Rule.string(name: 'Email').isRequired().isEmail();
 ///
-/// final r1 = schema.parse('abc@xyz.com'); // Valid
-/// final r2 = schema.parse('');            // Invalid — required
-/// final r3 = schema.parse('notanemail');  // Invalid — isEmail
+/// final r1 = schema.validate('abc@xyz.com'); // Valid
+/// final r2 = schema.validate('');            // Invalid — required
+/// final r3 = schema.validate('notanemail');  // Invalid — isEmail
 /// ```
 abstract base class Schema<T extends Object> {
   const Schema({
@@ -54,7 +54,7 @@ abstract base class Schema<T extends Object> {
   T? prepare(T? value) => value;
 
   /// Validates [value] against this schema.
-  RuleResult<T> parse(T? value) {
+  RuleResult<T> validate(T? value) {
     final prepared = prepare(value);
 
     if (isAbsent(prepared)) {

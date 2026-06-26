@@ -29,7 +29,7 @@ final class RuleField<T extends Object> implements Validatable {
   final T? value;
 
   /// The cached validation outcome for the bound value.
-  late final RuleResult<T> result = schema.parse(value);
+  late final RuleResult<T> result = schema.validate(value);
 
   @override
   String get name => schema.name;

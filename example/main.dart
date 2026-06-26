@@ -26,124 +26,124 @@ void stringValidationExamples() {
 
   final emailRule = Rule.string(name: 'Email').isRequired().isEmail();
 
-  final validEmail = emailRule.parse('john@example.com');
+  final validEmail = emailRule.validate('john@example.com');
   print(validEmail.ok); // true
   print(validEmail.validatedValue); // john@example.com
 
-  final missingEmail = emailRule.parse('');
+  final missingEmail = emailRule.validate('');
   print(missingEmail.hasError); // true
   print(missingEmail.error?.message); // Email is required
 
-  final badEmail = emailRule.parse('notanemail');
+  final badEmail = emailRule.validate('notanemail');
   print(badEmail.hasError); // true
   print(badEmail.error?.message); // Email is not a valid email address
 
   final urlRule = Rule.string(name: 'Website').isUrl();
-  print(urlRule.parse('https://example.com').ok); // true
+  print(urlRule.validate('https://example.com').ok); // true
   print(
-    urlRule.parse('not a url').error?.message,
+    urlRule.validate('not a url').error?.message,
   ); // Website is not a valid URL
 
   final phoneRule = Rule.string(name: 'Phone').isPhone();
-  print(phoneRule.parse('+1-9090909090').ok); // true
+  print(phoneRule.validate('+1-9090909090').ok); // true
 
   final ipRule = Rule.string(name: 'IP Address').isIp();
-  print(ipRule.parse('1.1.1.1').ok); // true
+  print(ipRule.validate('1.1.1.1').ok); // true
   print(
-    ipRule.parse('999.999.999.999').error?.message,
+    ipRule.validate('999.999.999.999').error?.message,
   ); // IP Address is not a valid IP address
 
   final numericRule = Rule.string(name: 'Quantity').isNumeric();
-  print(numericRule.parse('42').ok); // true
+  print(numericRule.validate('42').ok); // true
   print(
-    numericRule.parse('4.2').error?.message,
+    numericRule.validate('4.2').error?.message,
   ); // Quantity is not a valid number
 
   final decimalRule = Rule.string(name: 'Price').isNumericDecimal();
-  print(decimalRule.parse('19.99').ok); // true
+  print(decimalRule.validate('19.99').ok); // true
 
   final alphaSpaceRule = Rule.string(name: 'Full Name').isAlphaSpace();
-  print(alphaSpaceRule.parse('Jane Doe').ok); // true
+  print(alphaSpaceRule.validate('Jane Doe').ok); // true
   print(
-    alphaSpaceRule.parse('Jane123').error?.message,
+    alphaSpaceRule.validate('Jane123').error?.message,
   ); // Only alphabets and spaces are allowed in Full Name
 
   final alphaNumericRule = Rule.string(name: 'Username').isAlphaNumeric();
-  print(alphaNumericRule.parse('user123').ok); // true
+  print(alphaNumericRule.validate('user123').ok); // true
 
   final alphaNumericSpaceRule =
       Rule.string(name: 'Title').isAlphaNumericSpace();
-  print(alphaNumericSpaceRule.parse('Bread 20').ok); // true
+  print(alphaNumericSpaceRule.validate('Bread 20').ok); // true
 
   final regexRule =
       Rule.string(name: 'Code').regex(RegExp(r'^[A-Z]{3}-\d{4}$'));
-  print(regexRule.parse('ABC-1234').ok); // true
+  print(regexRule.validate('ABC-1234').ok); // true
   print(
-    regexRule.parse('abc-1234').error?.message,
+    regexRule.validate('abc-1234').error?.message,
   ); // Code should match the pattern: ^[A-Z]{3}-\d{4}$
 
   final lengthRule = Rule.string(name: 'PIN').length(4);
-  print(lengthRule.parse('1234').ok); // true
+  print(lengthRule.validate('1234').ok); // true
   print(
-    lengthRule.parse('123').error?.message,
+    lengthRule.validate('123').error?.message,
   ); // PIN should be 4 characters long
 
   final minLengthRule = Rule.string(name: 'Password').minLength(8);
-  print(minLengthRule.parse('abcd1234').ok); // true
+  print(minLengthRule.validate('abcd1234').ok); // true
   print(
-    minLengthRule.parse('abc').error?.message,
+    minLengthRule.validate('abc').error?.message,
   ); // Password should contain at least 8 characters
 
   final maxLengthRule = Rule.string(name: 'Username').maxLength(16);
   print(
-    maxLengthRule.parse('this_username_is_way_too_long').error?.message,
+    maxLengthRule.validate('this_username_is_way_too_long').error?.message,
   ); // Username should not exceed more than 16 characters
 
   final greaterThanRule = Rule.string(name: 'Price').greaterThan(50);
-  print(greaterThanRule.parse('100').ok); // true
+  print(greaterThanRule.validate('100').ok); // true
   print(
-    greaterThanRule.parse('10').error?.message,
+    greaterThanRule.validate('10').error?.message,
   ); // Price should be greater than 50
 
   final greaterThanOrEqualRule =
       Rule.string(name: 'Score').greaterThanOrEqualTo(50);
-  print(greaterThanOrEqualRule.parse('50').ok); // true
+  print(greaterThanOrEqualRule.validate('50').ok); // true
 
   final lessThanRule = Rule.string(name: 'Discount').lessThan(100);
-  print(lessThanRule.parse('99').ok); // true
+  print(lessThanRule.validate('99').ok); // true
 
   final lessThanOrEqualRule =
       Rule.string(name: 'Discount').lessThanOrEqualTo(100);
-  print(lessThanOrEqualRule.parse('100').ok); // true
+  print(lessThanOrEqualRule.validate('100').ok); // true
 
   final equalToRule = Rule.string(name: 'Status').equalTo('active');
-  print(equalToRule.parse('active').ok); // true
+  print(equalToRule.validate('active').ok); // true
   print(
-    equalToRule.parse('inactive').error?.message,
+    equalToRule.validate('inactive').error?.message,
   ); // Status should be equal to active
 
   final notEqualToRule = Rule.string(name: 'Status').notEqualTo('blocked');
-  print(notEqualToRule.parse('pending').ok); // true
+  print(notEqualToRule.validate('pending').ok); // true
 
   final inListRule = Rule.string(name: 'Role').inList(['admin', 'user']);
-  print(inListRule.parse('admin').ok); // true
+  print(inListRule.validate('admin').ok); // true
   print(
-    inListRule.parse('guest').error?.message,
+    inListRule.validate('guest').error?.message,
   ); // Role should be any of these values admin, user
 
   final notInListRule = Rule.string(name: 'Role').notInList(['blocked']);
-  print(notInListRule.parse('admin').ok); // true
+  print(notInListRule.validate('admin').ok); // true
 
   final shouldMatchRule =
       Rule.string(name: 'Confirm Password').shouldMatch('abc123');
-  print(shouldMatchRule.parse('abc123').ok); // true
+  print(shouldMatchRule.validate('abc123').ok); // true
   print(
-    shouldMatchRule.parse('xyz789').error?.message,
+    shouldMatchRule.validate('xyz789').error?.message,
   ); // Confirm Password should be same as abc123
 
   final shouldNotMatchRule =
       Rule.string(name: 'New Password').shouldNotMatch('oldPassword');
-  print(shouldNotMatchRule.parse('newPassword').ok); // true
+  print(shouldNotMatchRule.validate('newPassword').ok); // true
 
   print('');
 }
@@ -153,41 +153,41 @@ void integerValidationExamples() {
 
   final ageRule =
       Rule.integer(name: 'Age').isRequired().greaterThanOrEqualTo(18);
-  print(ageRule.parse(25).ok); // true
+  print(ageRule.validate(25).ok); // true
   print(
-    ageRule.parse(15).error?.message,
+    ageRule.validate(15).error?.message,
   ); // Age should be greater than or equal to 18
-  print(ageRule.parse(null).error?.message); // Age is required
+  print(ageRule.validate(null).error?.message); // Age is required
 
   print(
-    Rule.integer(name: 'Score').parse(0).hasValidatedValue,
+    Rule.integer(name: 'Score').validate(0).hasValidatedValue,
   ); // true, zero is present
 
   final greaterThanRule = Rule.integer(name: 'Quantity').greaterThan(0);
-  print(greaterThanRule.parse(5).ok); // true
+  print(greaterThanRule.validate(5).ok); // true
   print(
-    greaterThanRule.parse(0).error?.message,
+    greaterThanRule.validate(0).error?.message,
   ); // Quantity should be greater than 0
 
   final lessThanRule = Rule.integer(name: 'Attempts').lessThan(3);
-  print(lessThanRule.parse(2).ok); // true
+  print(lessThanRule.validate(2).ok); // true
 
   final equalToRule = Rule.integer(name: 'Lives').equalTo(3);
-  print(equalToRule.parse(3).ok); // true
+  print(equalToRule.validate(3).ok); // true
 
   final notEqualToRule = Rule.integer(name: 'Code').notEqualTo(0);
-  print(notEqualToRule.parse(1).ok); // true
+  print(notEqualToRule.validate(1).ok); // true
 
   final inListRule = Rule.integer(name: 'Rating').inList([1, 2, 3, 4, 5]);
-  print(inListRule.parse(3).ok); // true
+  print(inListRule.validate(3).ok); // true
   print(
-    inListRule.parse(10).error?.message,
+    inListRule.validate(10).error?.message,
   ); // Rating should be any of these values 1, 2, 3, 4, 5
 
   final evenRule = Rule.integer(name: 'Number')
       .check((v) => v.isEven, error: '{name} must be even');
-  print(evenRule.parse(4).ok); // true
-  print(evenRule.parse(3).error?.message); // Number must be even
+  print(evenRule.validate(4).ok); // true
+  print(evenRule.validate(3).error?.message); // Number must be even
 
   print('');
 }
@@ -196,32 +196,32 @@ void doubleValidationExamples() {
   print('--- Double Validation (Float) ---');
 
   final priceRule = Rule.double(name: 'Price').isRequired().greaterThan(0);
-  print(priceRule.parse(9.99).ok); // true
+  print(priceRule.validate(9.99).ok); // true
   print(
-    priceRule.parse(-5.0).error?.message,
+    priceRule.validate(-5.0).error?.message,
   ); // Price should be greater than 0.0
 
   print(
-    Rule.double(name: 'Balance').parse(0.0).hasValidatedValue,
+    Rule.double(name: 'Balance').validate(0.0).hasValidatedValue,
   ); // true, zero is present
 
   final integerOnlyRule = Rule.double(name: 'Quantity').isInteger();
-  print(integerOnlyRule.parse(5.0).ok); // true
+  print(integerOnlyRule.validate(5.0).ok); // true
   print(
-    integerOnlyRule.parse(5.5).error?.message,
+    integerOnlyRule.validate(5.5).error?.message,
   ); // Quantity should be a whole number
 
   final rangeRule = Rule.double(name: 'Discount')
       .greaterThanOrEqualTo(0)
       .lessThanOrEqualTo(100);
-  print(rangeRule.parse(50.0).ok); // true
+  print(rangeRule.validate(50.0).ok); // true
   print(
-    rangeRule.parse(150.0).error?.message,
+    rangeRule.validate(150.0).error?.message,
   ); // Discount should be less than or equal to 100.0
 
   final equalToRule = Rule.double(name: 'Total').equalTo(10.0);
   print(
-    equalToRule.parse(10.0).ok,
+    equalToRule.validate(10.0).ok,
   ); // true, 10.0 and 10 compare equal as doubles
 
   print('');
@@ -231,20 +231,20 @@ void booleanValidationExamples() {
   print('--- Boolean Validation ---');
 
   final termsRule = Rule.boolean(name: 'Terms').isRequired().isTrue();
-  print(termsRule.parse(true).ok); // true
-  print(termsRule.parse(false).error?.message); // Terms must be true
-  print(termsRule.parse(null).error?.message); // Terms is required
+  print(termsRule.validate(true).ok); // true
+  print(termsRule.validate(false).error?.message); // Terms must be true
+  print(termsRule.validate(null).error?.message); // Terms is required
 
   print(
-    Rule.boolean(name: 'Newsletter').parse(false).hasValidatedValue,
+    Rule.boolean(name: 'Newsletter').validate(false).hasValidatedValue,
   ); // true, false is present
 
   final hiddenRule = Rule.boolean(name: 'Hidden').isFalse();
-  print(hiddenRule.parse(false).ok); // true
+  print(hiddenRule.validate(false).ok); // true
 
   final equalToRule = Rule.boolean(name: 'Subscribed').equalTo(true);
   print(
-    equalToRule.parse(false).error?.message,
+    equalToRule.validate(false).error?.message,
   ); // Subscribed should be equal to true
 
   print('');
@@ -254,18 +254,18 @@ void transformExamples() {
   print('--- Transforms ---');
 
   final emailRule = Rule.string(name: 'Email').trim().toLowerCase().isEmail();
-  final transformed = emailRule.parse('  JOHN@EXAMPLE.COM  ');
+  final transformed = emailRule.validate('  JOHN@EXAMPLE.COM  ');
   print(transformed.validatedValue); // john@example.com
 
   final upperRule = Rule.string(name: 'Code').toUpperCase();
-  print(upperRule.parse('abc123').validatedValue); // ABC123
+  print(upperRule.validate('abc123').validatedValue); // ABC123
 
-  final trimOnlyRule = Rule.string(name: 'Bio').parse('   ');
+  final trimOnlyRule = Rule.string(name: 'Bio').validate('   ');
   print(
     trimOnlyRule.hasValidatedValue,
   ); // true, spaces are non-empty without trim()
 
-  final trimmedRule = Rule.string(name: 'Bio').trim().parse('   ');
+  final trimmedRule = Rule.string(name: 'Bio').trim().validate('   ');
   print(trimmedRule.hasValidatedValue); // false, trim collapses to empty
 
   print('');
@@ -276,11 +276,12 @@ void customErrorExamples() {
 
   final rule =
       Rule.string(name: 'Email').isEmail(error: 'Please enter a valid email');
-  print(rule.parse('bad').error?.message); // Please enter a valid email
+  print(rule.validate('bad').error?.message); // Please enter a valid email
 
   final templatedRule = Rule.integer(name: 'Age')
       .greaterThan(18, error: '{name} must be over 18, got {value}');
-  print(templatedRule.parse(10).error?.message); // Age must be over 18, got 10
+  print(
+      templatedRule.validate(10).error?.message); // Age must be over 18, got 10
 
   print('');
 }
@@ -293,7 +294,7 @@ void checkAndRefineExamples() {
     error: '{name} must start with USR',
   );
   print(
-    checkRule.parse('ABC123').error?.message,
+    checkRule.validate('ABC123').error?.message,
   ); // User ID must start with USR
 
   final refineRule = Rule.integer(name: 'Age').refine((value) {
@@ -303,8 +304,11 @@ void checkAndRefineExamples() {
 
     return '{name} must be at least 18, got {value}';
   });
-  print(refineRule.parse(15).error?.message); // Age must be at least 18, got 15
-  print(refineRule.parse(21).ok); // true
+  print(refineRule
+      .validate(15)
+      .error
+      ?.message); // Age must be at least 18, got 15
+  print(refineRule.validate(21).ok); // true
 
   print('');
 }
@@ -313,7 +317,7 @@ void foldExamples() {
   print('--- Fold ---');
 
   final result =
-      Rule.string(name: 'Email').isRequired().isEmail().parse('a@b.com');
+      Rule.string(name: 'Email').isRequired().isEmail().validate('a@b.com');
 
   final message = result.fold(
     onOk: (ok, {required name}) => ok.fold(
@@ -327,7 +331,8 @@ void foldExamples() {
   );
   print(message); // Email: a@b.com
 
-  final errorResult = Rule.string(name: 'Email').isEmail().parse('notanemail');
+  final errorResult =
+      Rule.string(name: 'Email').isEmail().validate('notanemail');
   final errorMessage = errorResult.fold(
     onOk: (ok, {required name}) => ok.fold(
       onValidatedValue: ({required value}) => value,
@@ -351,7 +356,7 @@ void patternMatchingExample() {
   print('--- Pattern Matching ---');
 
   final result =
-      Rule.string(name: 'Email').isRequired().isEmail().parse('a@b.com');
+      Rule.string(name: 'Email').isRequired().isEmail().validate('a@b.com');
 
   switch (result) {
     case Valid(:final value):

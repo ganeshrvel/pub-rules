@@ -7,7 +7,7 @@ import 'package:rules/src/schemas/string_schema.dart';
 ///
 /// Each factory returns an empty, immutable schema for a field named `name`.
 /// Constraints are added with chained builder methods, and the schema is run
-/// against a value with `parse`.
+/// against a value with `validate`.
 abstract final class Rule {
   /// Creates a [StringSchema] for a field named [name].
   static StringSchema string({required String name}) {

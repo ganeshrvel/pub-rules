@@ -7,7 +7,7 @@
 /// schema, so a schema can be defined once and safely reused across many
 /// values.
 ///
-/// Running [Schema.parse] against a value yields a sealed [RuleResult]: either
+/// Running [Schema.validate] against a value yields a sealed [RuleResult]: either
 /// [Valid], carrying the accepted value, or [Invalid], carrying a
 /// [RuleFailure]. A result can be inspected through [RuleResult.ok],
 /// [RuleResult.hasValidatedValue], [RuleResult.hasError], [RuleResult.validatedValue] and
@@ -19,7 +19,7 @@
 /// final result = Rule.string(name: 'Email')
 ///     .isRequired()
 ///     .isEmail()
-///     .parse('user@example.com');
+///     .validate('user@example.com');
 ///
 /// if (result.hasError) {
 ///   print(result.error?.message);
@@ -37,7 +37,7 @@
 /// ```dart
 /// import 'package:rules/rules.dart' as R;
 ///
-/// final age = R.Rule.integer(name: 'Age').isRequired().parse(21);
+/// final age = R.Rule.integer(name: 'Age').isRequired().validate(21);
 /// ```
 library;
 

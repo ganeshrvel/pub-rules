@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.7.0
+
+### Breaking changes
+
+- `Schema.parse` renamed to `Schema.validate`. Update every call site:
+  `.parse(value)` → `.validate(value)`.
+
 ## 3.5.0
 
 ### Breaking changes
